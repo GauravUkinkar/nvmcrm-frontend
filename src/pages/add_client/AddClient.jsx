@@ -2,8 +2,43 @@ import React from "react";
 import "./AddClient.scss";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
+import UseForm from "../../UseForm";
 
 const AddClient = () => {
+  const formObj = {
+    clientName: "",
+    projectName: "",
+    projectSubtitle: "",
+    dob: "",
+    address: "",
+    phoneNumber: "",
+    marketingExecutive: "",
+    alternateMobNo: "",
+    clientEmail: "",
+    proffession: "",
+    panNo: "",
+    aadharNo: "",
+    comments: "",
+    brokerName: "",
+  };
+
+  const addClient = () => {
+    try {
+        
+    } catch (error) {
+        
+    }
+  };
+
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    values,
+    setValues,
+    errors,
+    setErrors,
+  } = UseForm(formObj, () => ({}), addClient);
   return (
     <>
       <MainPanel>
@@ -14,6 +49,7 @@ const AddClient = () => {
           <form
             action="
             "
+            onSubmit={handleSubmit}
           >
             <div class="form-row">
               <Input label="Client Name" />
@@ -52,9 +88,7 @@ const AddClient = () => {
             </div>
 
             <div class="form-row">
-                <button class="btn">
-                    Add Client
-                </button>
+              <button class="btn">Add Client</button>
             </div>
           </form>
         </div>
