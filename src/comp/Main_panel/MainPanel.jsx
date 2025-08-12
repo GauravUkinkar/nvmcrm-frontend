@@ -1,5 +1,5 @@
 import React from "react";
-import "./MainPanel.scss";
+import "./MianPanel.scss";
 import Sidebar from "../sidebar/Sidebar";
 const MainPanel = ({ children }) => {
   return (

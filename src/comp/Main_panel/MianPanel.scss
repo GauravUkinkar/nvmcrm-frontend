@@ -2,4 +2,21 @@
     width: 100%;
     height: auto;
     background-color: white;
+
+    .mainpanel{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .sidebar_section{
+            width: 300px;
+            height: auto;
+        }
+
+        .main_panel_dection{
+            width: calc(100% - 300px);
+           padding: 0px 20px;
+
+        }
+    }
 }
