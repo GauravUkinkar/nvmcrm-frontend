@@ -1,22 +1,36 @@
-.mainpanel_parent{
-    width: 100%;
-    height: auto;
-    background-color: white;
+.mainpanel_parent {
+  width: 100%;
+  height: auto;
+  background-color: white;
 
-    .mainpanel{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  .mainpanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        .sidebar_section{
-            width: 300px;
-            height: auto;
-        }
+    .sidebar_section {
+      width: 300px;
+      height: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+    //   transition: var(--trans);
 
-        .main_panel_dection{
-            width: calc(100% - 300px);
-           padding: 0px 20px;
-
-        }
+      &.active {
+        width: 50px;
+      }
     }
+
+    .main_panel_dection {
+      width: calc(100% - 300px);
+      padding: 20px 20px;
+      margin-left: 300px;
+    //   transition: var(--trans);
+
+      &.active {
+        width: calc(100% - 50px);
+        margin-left: 50px;
+      }
+    }
+  }
 }
