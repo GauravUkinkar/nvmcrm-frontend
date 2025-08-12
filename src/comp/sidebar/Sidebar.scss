@@ -4,7 +4,6 @@
   background-color: var(--accent);
   padding: 20px 10px;
 
-
   .sidebar_section_inner {
     display: flex;
     flex-direction: column;
@@ -26,14 +25,14 @@
       }
     }
 
-    .sidebar_items,.toggle_sidbar_icons {
+    .sidebar_items,
+    .toggle_sidbar_icons {
       width: 100%;
       height: auto;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      position: relative;
 
       a {
         padding: var(--unit) 0px;
@@ -47,26 +46,34 @@
         justify-content: center;
         align-items: center;
         gap: 10px;
+        position: relative;
 
-        span{
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
         &:hover {
           background-color: rgb(212, 212, 212);
           color: var(--accent);
         }
-      }
 
-      .children{
-        width: 100%;
-        position: absolute;
-        top: 102%;
-        left: 0;
-        background-color: var(--white);
-        height: 300px;
+        .children {
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 105%;
+          background-color: var(--white);
+          height: 300px;
+          box-shadow: var(--shadow);
+          overflow: hidden;
+
+          a {
+            color: var(--accent);
+          }
+          border-radius: var(--unit);
+        }
       }
     }
   }
