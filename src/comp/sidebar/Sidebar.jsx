@@ -5,6 +5,7 @@ import small_logo from "../../assets/small_logo.webp";
 import { Link } from "react-router-dom";
 import { IoGrid } from "react-icons/io5";
 import { FaPeopleLine } from "react-icons/fa6";
+import Input from "../input/Input";
 const Sidebar = ({ active }) => {
   const navlinks = [
     {
@@ -50,6 +51,8 @@ const Sidebar = ({ active }) => {
                 ))}
             </div>
           )}
+
+          
         </div>
       </div>
     </>
