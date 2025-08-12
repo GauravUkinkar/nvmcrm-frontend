@@ -53,6 +53,7 @@ const AddEmployee = () => {
 
     errors,
   } = UseForm(formobj, AddEmployeeValidate, addEmployee);
+  console.log(errors);
 
   return (
     <>

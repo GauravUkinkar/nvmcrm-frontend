@@ -33,6 +33,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      position: relative;
 
       a {
         padding: var(--unit) 0px;
@@ -42,11 +43,30 @@
         text-decoration: none;
         transition: var(--trans);
         font-size: calc(var(--unit) + 5px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        span{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         &:hover {
           background-color: rgb(212, 212, 212);
           color: var(--accent);
         }
+      }
+
+      .children{
+        width: 100%;
+        position: absolute;
+        top: 102%;
+        left: 0;
+        background-color: var(--white);
+        height: 300px;
       }
     }
   }

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Children } from "react";
 import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
 import { Link } from "react-router-dom";
 import { IoGrid } from "react-icons/io5";
 import { FaPeopleLine } from "react-icons/fa6";
-import Input from "../input/Input";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 const Sidebar = ({ active }) => {
   const navlinks = [
     {
@@ -16,11 +16,6 @@ const Sidebar = ({ active }) => {
     {
       name: "Clients",
       path: "/clients",
-      icon: <FaPeopleLine />,
-    },
-    {
-      name: "Add Clients",
-      path: "/addclients",
       icon: <FaPeopleLine />,
     },
     {
@@ -42,7 +37,19 @@ const Sidebar = ({ active }) => {
       name: "Activity Log",
       path: "/activityLogs",
       icon: <FaPeopleLine />,
-    }
+    },
+    {
+      name: "Add Entries",
+      icon: <FaPeopleLine />,
+      icon2:<MdOutlineKeyboardArrowDown />,
+      Children: [
+        {
+          name: "Add Client",
+          path: "/addclients",
+          icon: <FaPeopleLine />,
+        },
+      ],
+    },
   ];
   return (
     <>
@@ -62,8 +69,14 @@ const Sidebar = ({ active }) => {
                   <Link key={index} to={item.path}>
                     {" "}
                     {item.name}{" "}
+
+                    <span>{item?.icon2}</span>
                   </Link>
                 ))}
+
+                <div class="children">
+                    
+                </div>
             </div>
           ) : (
             <div class="toggle_sidbar_icons">
@@ -76,8 +89,6 @@ const Sidebar = ({ active }) => {
                 ))}
             </div>
           )}
-
-          
         </div>
       </div>
     </>
