@@ -15,6 +15,11 @@ const Sidebar = ({ active }) => {
       icon: <IoGrid />,
     },
     {
+      name: "Projects",
+      path: "/projects",
+      icon: <IoGrid />,
+    },    
+    {
       name: "Clients",
       path: "/clients",
       icon: <FaPeopleLine />,
