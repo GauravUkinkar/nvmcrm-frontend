@@ -7,6 +7,8 @@ const ActivityLogs = lazy(() => import("../pages/activityLogs/ActivityLogs.jsx")
 const ActionItems = lazy(() => import("../pages/actionItems/ActionItems.jsx"));
 const BDTracker = lazy(() => import("../pages/bdTracker/BDTracker.jsx"));
 const Properties = lazy(() => import("../pages/properties/Properties.jsx"));
+const AddClient = lazy(() => import("../pages/add_client/AddClient.jsx"));
+const AddEmployee = lazy(() => import("../pages/add_employee/AddEmployee.jsx"));
 
 export const routes = [
   {
@@ -44,5 +46,17 @@ export const routes = [
     exact: true,
     name: "activityLogs",
     component: ActivityLogs,
+  },
+  {
+    path:"/addclients",
+    exact:true,
+    name:"addClients",
+    component:AddClient
+  },
+  {
+    path:"/addemployee",
+    exact:true,
+    name:"addemployee",
+    component:AddEmployee
   },
 ];

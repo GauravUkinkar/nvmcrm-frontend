@@ -14,7 +14,7 @@ const Input = ({ label, value, onChange, onBlur, name, type, error }) => {
           onBlur={onBlur}
           id=""
         />
-        {error && <small style={{ color: "orangered" }}>{error}</small>}
+        {error && <small className="text-warning ">{error}</small>}
       </div>
     </>
   );
