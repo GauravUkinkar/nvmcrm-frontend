@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
      <MainPanel>
-       <Table/>
+       {/* <Table/> */}
      </MainPanel>
     </>
   )
