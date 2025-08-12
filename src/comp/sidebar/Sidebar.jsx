@@ -12,6 +12,11 @@ const Sidebar = ({ active }) => {
       name: "Dashboard",
       path: "/",
       icon: <IoGrid />,
+    },   
+    {
+      name: "Add Clients",
+      path: "/addclients",
+      icon: <FaPeopleLine />,
     },
     {
       name: "Clients",
@@ -19,8 +24,13 @@ const Sidebar = ({ active }) => {
       icon: <FaPeopleLine />,
     },
     {
-      name: "Add Clients",
-      path: "/addclients",
+      name: "Employees",
+      path: "/employees",
+      icon: <FaPeopleLine />,
+    },
+    {
+      name: "Brokers",
+      path: "/brokers",
       icon: <FaPeopleLine />,
     },
     {

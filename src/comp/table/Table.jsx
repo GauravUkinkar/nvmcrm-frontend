@@ -93,10 +93,28 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
     }));
   };
 
+  // 📏 Improved width calculation to fit long headings exactly
+  const calculateColumnWidth = (title, dataIndex) => {
+    const titleLength = title.toString().length;
+    const titleWidth = titleLength * 12; // More generous space for headers
+    const maxDataWidth = Math.max(
+      ...data.map((row) =>
+        row[dataIndex] ? row[dataIndex].toString().length * 10 : 0
+      ),
+      0
+    );
+    return Math.max(titleWidth + 40, maxDataWidth, 160); // 40px padding, min 160px
+  };
+
   const enhancedColumns = useMemo(() => {
     let updatedCols = columns.map((col) => ({
       ...col,
       align: "center",
+      width: calculateColumnWidth(col.title, col.dataIndex),
+      ellipsis: false,
+      onHeaderCell: () => ({
+        style: { whiteSpace: "nowrap" }, // 🚫 No wrap for headings
+      }),
       filters: getColumnValueFilters(col.dataIndex),
       filteredValue: filteredInfo[col.dataIndex] || null,
       onFilter: (value, record) =>
@@ -107,12 +125,15 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
       ...getColumnSearchProps(col.dataIndex),
     }));
 
-    // ✅ Add Action column only if showActions=true
     if (showActions) {
       updatedCols.push({
         title: "Action",
         key: "action",
         align: "center",
+        width: 140,
+        onHeaderCell: () => ({
+          style: { whiteSpace: "nowrap" },
+        }),
         render: (_, record) => (
           <Space>
             <Button
@@ -140,7 +161,9 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
       dataSource={data}
       onChange={handleChange}
       pagination={{ position: ["bottomRight"] }}
-      scroll={{ x: enhancedColumns.length * 150 }}
+      scroll={{
+        x: enhancedColumns.reduce((sum, col) => sum + (col.width || 150), 0),
+      }}
     />
   );
 };
