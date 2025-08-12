@@ -12,6 +12,7 @@ const AddEmployee = lazy(() => import("../pages/add_employee/AddEmployee.jsx"));
 const Brokers = lazy(() => import("../pages/brokers/Brokers.jsx"));
 const Employees = lazy(() => import("../pages/employees/Employees.jsx"));
 const Clients= lazy(() => import("../pages/clients/Clients.jsx"));
+const Projects= lazy(() => import("../pages/projects/Projects.jsx"));
 
 export const routes = [
   {
@@ -25,6 +26,12 @@ export const routes = [
     exact: true,
     name: "dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/projects",
+    exact: true,
+    name: "projects",
+    component: Projects,
   },
   {
     path: "/clients",
