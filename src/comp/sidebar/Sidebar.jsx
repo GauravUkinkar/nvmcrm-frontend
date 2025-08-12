@@ -18,6 +18,11 @@ const Sidebar = ({ active }) => {
       path: "/clients",
       icon: <FaPeopleLine />,
     },
+    {
+         name: "Add Clients",
+      path: "/addclients",
+      icon: <FaPeopleLine />,
+    }
   ];
   return (
     <>
