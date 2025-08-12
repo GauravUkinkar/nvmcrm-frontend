@@ -8,6 +8,7 @@ const Dashboard = () => {
     { title: "Login time", dataIndex: "loginTime", key: "loginTime" },
     { title: "Login date", dataIndex: "loginDate", key: "loginDate" },
     { title: "Logout time", dataIndex: "logoutTime", key: "logoutTime" },
+   
     
   ];
 
@@ -30,8 +31,7 @@ const Dashboard = () => {
 
   return (
     <MainPanel>
-    <div style={{ padding: "20px" }}>
-      <h2>Dashboard</h2>
+    <div >     
       <Table data={data} columns={columns} />
     </div>
     </MainPanel>

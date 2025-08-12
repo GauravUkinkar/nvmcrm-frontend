@@ -1,17 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table as AntTable } from 'antd';
-import Highlighter from 'react-highlight-words';
+import React, { useRef, useState, useMemo } from "react";
+import { Table as AntTable, Input, Button, Space } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
-
-
-const Table = ({data,columns}) => {
-
-
-
-
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+const Table = ({ data, columns }) => {
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const [filteredInfo, setFilteredInfo] = useState({});
   const searchInput = useRef(null);
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -22,19 +17,26 @@ const Table = ({data,columns}) => {
 
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText('');
+    setSearchText("");
   };
 
+  const handleChange = (pagination, filters) => {
+    setFilteredInfo(filters);
+  };
+
+  // Search filter dropdown
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
         <Input
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
+          style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
@@ -42,65 +44,82 @@ const Table = ({data,columns}) => {
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
             icon={<SearchOutlined />}
             size="small"
-            style={{ width: 90 }}
+            style={{
+              backgroundColor: "var(--accent)",
+              borderColor: "var(--accent)",
+            }}
           >
             Search
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
-            style={{ width: 90 }}
           >
             Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText(selectedKeys[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
-          <Button type="link" size="small" onClick={close}>
-            Close
           </Button>
         </Space>
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      <SearchOutlined style={{ color: "#fff", fontWeight: "bold", fontSize: "16px" }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    filterDropdownProps: {
-      onOpenChange(open) {
-        if (open) {
-          setTimeout(() => searchInput.current?.select(), 100);
-        }
-      },
-    },
+        ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+        : false,
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text ? text.toString() : ""}
         />
       ) : (
         text
       ),
   });
 
+  // 🔹 Auto-generate unique-value dropdown filters for each column
+  const getColumnValueFilters = (dataIndex) => {
+    const uniqueValues = Array.from(
+      new Set(
+        (data || [])
+          .map((item) => item[dataIndex])
+          .filter((val) => val !== undefined && val !== null)
+      )
+    );
+    return uniqueValues.map((val) => ({
+      text: val?.toString(),
+      value: val,
+    }));
+  };
 
+  // ✅ Attach BOTH search + dropdown filters to all columns dynamically
+  const enhancedColumns = useMemo(() => {
+    return columns.map((col) => ({
+      ...col,
+      align: "center",
+      filters: getColumnValueFilters(col.dataIndex),
+      filteredValue: filteredInfo[col.dataIndex] || null,
+      onFilter: (value, record) =>
+        record[col.dataIndex]
+          ?.toString()
+          .toLowerCase()
+          .includes(value.toString().toLowerCase()),
+      ...getColumnSearchProps(col.dataIndex),
+    }));
+  }, [columns, data, filteredInfo, searchText]);
 
-  return <AntTable columns={columns} dataSource={data} />;
+  return (
+    <AntTable
+      columns={enhancedColumns}
+      dataSource={data}
+      onChange={handleChange}
+      pagination={{ position: ["bottomRight"] }}
+      scroll={{ x: enhancedColumns.length * 150 }}
+    />
+  );
 };
 
 export default Table;
