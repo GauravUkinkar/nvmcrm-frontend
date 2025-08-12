@@ -1,5 +1,6 @@
 import React from "react";
 import Table from "../../comp/table/Table";
+import MainPanel from "../../comp/Main_panel/MainPanel";
 
 const Dashboard = () => {
   const columns = [
@@ -28,10 +29,12 @@ const Dashboard = () => {
   ];
 
   return (
+    <MainPanel>
     <div style={{ padding: "20px" }}>
       <h2>Dashboard</h2>
       <Table data={data} columns={columns} />
     </div>
+    </MainPanel>
   );
 };
 
