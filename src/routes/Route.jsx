@@ -9,19 +9,40 @@ const BDTracker = lazy(() => import("../pages/bdTracker/BDTracker.jsx"));
 const Properties = lazy(() => import("../pages/properties/Properties.jsx"));
 const AddClient = lazy(() => import("../pages/add_client/AddClient.jsx"));
 const AddEmployee = lazy(() => import("../pages/add_employee/AddEmployee.jsx"));
+const Brokers = lazy(() => import("../pages/brokers/Brokers.jsx"));
+const Employees = lazy(() => import("../pages/employees/Employees.jsx"));
+const Clients= lazy(() => import("../pages/clients/Clients.jsx"));
 
 export const routes = [
   {
-    path: "/",
+    path: "/home",
     exact: true,
     name: "home",
     component: Home,
   },
   {
-    path: "/dashboard",
+    path: "/",
     exact: true,
     name: "dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/clients",
+    exact: true,
+    name: "clients",
+    component: Clients,
+  },
+  {
+    path: "/employees",
+    exact: true,
+    name: "employees",
+    component: Employees,
+  },
+  {
+    path: "/brokers",
+    exact: true,
+    name: "brokers",
+    component: Brokers,
   },
   {
     path: "/properties",

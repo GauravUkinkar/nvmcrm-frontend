@@ -12,10 +12,25 @@ const Sidebar = ({ active }) => {
       name: "Dashboard",
       path: "/",
       icon: <IoGrid />,
+    },   
+    {
+      name: "Add Clients",
+      path: "/addclients",
+      icon: <FaPeopleLine />,
     },
     {
       name: "Clients",
       path: "/clients",
+      icon: <FaPeopleLine />,
+    },
+    {
+      name: "Employees",
+      path: "/employees",
+      icon: <FaPeopleLine />,
+    },
+    {
+      name: "Brokers",
+      path: "/brokers",
       icon: <FaPeopleLine />,
     },
     {
@@ -75,7 +90,7 @@ const Sidebar = ({ active }) => {
                 ))}
 
                 <div class="children">
-                    
+
                 </div>
             </div>
           ) : (
