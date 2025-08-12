@@ -1,9 +1,9 @@
 import React, { useRef, useState, useMemo } from "react";
 import { Table as AntTable, Input, Button, Space } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 
-const Table = ({ data, columns }) => {
+const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [filteredInfo, setFilteredInfo] = useState({});
@@ -24,7 +24,6 @@ const Table = ({ data, columns }) => {
     setFilteredInfo(filters);
   };
 
-  // Search filter dropdown
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -60,7 +59,7 @@ const Table = ({ data, columns }) => {
         </Space>
       </div>
     ),
-    filterIcon: (filtered) => (
+    filterIcon: () => (
       <SearchOutlined style={{ color: "#fff", fontWeight: "bold", fontSize: "16px" }} />
     ),
     onFilter: (value, record) =>
@@ -80,7 +79,6 @@ const Table = ({ data, columns }) => {
       ),
   });
 
-  // 🔹 Auto-generate unique-value dropdown filters for each column
   const getColumnValueFilters = (dataIndex) => {
     const uniqueValues = Array.from(
       new Set(
@@ -95,9 +93,8 @@ const Table = ({ data, columns }) => {
     }));
   };
 
-  // ✅ Attach BOTH search + dropdown filters to all columns dynamically
   const enhancedColumns = useMemo(() => {
-    return columns.map((col) => ({
+    let updatedCols = columns.map((col) => ({
       ...col,
       align: "center",
       filters: getColumnValueFilters(col.dataIndex),
@@ -109,7 +106,33 @@ const Table = ({ data, columns }) => {
           .includes(value.toString().toLowerCase()),
       ...getColumnSearchProps(col.dataIndex),
     }));
-  }, [columns, data, filteredInfo, searchText]);
+
+    // ✅ Add Action column only if showActions=true
+    if (showActions) {
+      updatedCols.push({
+        title: "Action",
+        key: "action",
+        align: "center",
+        render: (_, record) => (
+          <Space>
+            <Button
+              icon={<EditOutlined />}
+              type="link"
+              onClick={() => onEdit?.(record)}
+            />
+            <Button
+              icon={<DeleteOutlined />}
+              type="link"
+              danger
+              onClick={() => onDelete?.(record)}
+            />
+          </Space>
+        ),
+      });
+    }
+
+    return updatedCols;
+  }, [columns, data, filteredInfo, searchText, showActions, onEdit, onDelete]);
 
   return (
     <AntTable

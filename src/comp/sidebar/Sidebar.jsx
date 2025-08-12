@@ -19,8 +19,28 @@ const Sidebar = ({ active }) => {
       icon: <FaPeopleLine />,
     },
     {
-         name: "Add Clients",
+      name: "Add Clients",
       path: "/addclients",
+      icon: <FaPeopleLine />,
+    },
+    {
+      name: "Properties",
+      path: "/properties",
+      icon: <FaPeopleLine />,
+    },
+    {
+      name: "BD Tracker",
+      path: "/bdTracker",
+      icon: <FaPeopleLine />,
+    },
+    {
+      name: "Action Items",
+      path: "/actionItems",
+      icon: <FaPeopleLine />,
+    },
+    {
+      name: "Activity Log",
+      path: "/activityLogs",
       icon: <FaPeopleLine />,
     }
   ];
