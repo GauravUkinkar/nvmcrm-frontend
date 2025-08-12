@@ -1,9 +1,11 @@
 import { lazy } from "react";
 
+
 const Home = lazy(() => import("../pages/Home/Home.jsx"));
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard.jsx"));
 const ActivityLogs = lazy(() => import("../pages/activityLogs/ActivityLogs.jsx"));
 const AddClient = lazy(() => import("../pages/add_client/AddClient.jsx"));
+const AddEmployee = lazy(() => import("../pages/add_employee/AddEmployee.jsx"));
 
 export const routes = [
   {
@@ -29,5 +31,11 @@ export const routes = [
     exact:true,
     name:"addClients",
     component:AddClient
-  }
+  },
+  {
+    path:"/addemployee",
+    exact:true,
+    name:"addemployee",
+    component:AddEmployee
+  },
 ];
