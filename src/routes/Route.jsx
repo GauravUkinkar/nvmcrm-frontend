@@ -3,6 +3,7 @@ import { lazy } from "react";
 const Home = lazy(() => import("../pages/Home/Home.jsx"));
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard.jsx"));
 const ActivityLogs = lazy(() => import("../pages/activityLogs/ActivityLogs.jsx"));
+const AddClient = lazy(() => import("../pages/add_client/AddClient.jsx"));
 
 export const routes = [
   {
@@ -23,4 +24,10 @@ export const routes = [
     name: "activityLogs",
     component: ActivityLogs,
   },
+  {
+    path:"/addclients",
+    exact:true,
+    name:"addClients",
+    component:AddClient
+  }
 ];
