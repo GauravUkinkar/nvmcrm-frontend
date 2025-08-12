@@ -1,5 +1,5 @@
-export function AddEmployeeValidate(value) {
-  let error;
+export  default function AddEmployeeValidate(value) {
+  let error = {};
 
   if (!value.empName) {
     error.empName = "Employee Name is required";
@@ -16,4 +16,4 @@ export function AddEmployeeValidate(value) {
   }
 
   return error;
-}
+};

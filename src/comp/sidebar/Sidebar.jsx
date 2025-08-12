@@ -1,22 +1,18 @@
-import React, { Children } from "react";
+import React, { Children, useState } from "react";
 import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
 import { Link } from "react-router-dom";
 import { IoGrid } from "react-icons/io5";
 import { FaPeopleLine } from "react-icons/fa6";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { MdOutlineArrowForward } from "react-icons/md";
 const Sidebar = ({ active }) => {
+    const [activeIndex, setActiveIndex] = useState();
   const navlinks = [
     {
       name: "Dashboard",
       path: "/",
       icon: <IoGrid />,
-    },   
-    {
-      name: "Add Clients",
-      path: "/addclients",
-      icon: <FaPeopleLine />,
     },
     {
       name: "Clients",
@@ -56,11 +52,16 @@ const Sidebar = ({ active }) => {
     {
       name: "Add Entries",
       icon: <FaPeopleLine />,
-      icon2:<MdOutlineKeyboardArrowDown />,
+      icon2: <MdOutlineArrowForward />,
       Children: [
         {
           name: "Add Client",
           path: "/addclients",
+          icon: <FaPeopleLine />,
+        },
+        {
+          name: "Add Employee",
+          path: "/addemployee",
           icon: <FaPeopleLine />,
         },
       ],
@@ -81,17 +82,21 @@ const Sidebar = ({ active }) => {
             <div class="sidebar_items">
               {navlinks &&
                 navlinks.map((item, index) => (
-                  <Link key={index} to={item.path}>
+                  <Link onMouseEnter={()=>setActiveIndex(index)} key={index} to={item.path}>
                     {" "}
-                    {item.name}{" "}
-
-                    <span>{item?.icon2}</span>
+                    {item.name} <span>{item?.icon2}</span>
+                    {(activeIndex === index && item?.Children) && (
+                      <div class="children" onMouseLeave={()=>setActiveIndex(null)} >
+                        {item.Children &&
+                          item.Children.map((item2, index) => (
+                            <Link key={index} to={item2.path}>
+                              {item2.name}
+                            </Link>
+                          ))}
+                      </div>
+                    )}
                   </Link>
                 ))}
-
-                <div class="children">
-
-                </div>
             </div>
           ) : (
             <div class="toggle_sidbar_icons">

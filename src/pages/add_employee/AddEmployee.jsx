@@ -3,9 +3,11 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import "../add_client/AddClient.scss";
 import Input from "../../comp/input/Input";
 import UseForm from "../../UseForm";
-import { AddEmployeeValidate } from "../../validates/AddEmployee";
+
 import axios from "axios";
 import SelectInput from "../../comp/SelectInput/SelectInput";
+import AddEmployeeValidate from "../../validates/AddEmployee";
+import { toast } from "react-toastify";
 
 const AddEmployee = () => {
   const formobj = {
@@ -37,22 +39,57 @@ const AddEmployee = () => {
 
   const addEmployee = async () => {
     try {
-      const response = await axios.post("", values);
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}admin/RegisterUser`,
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      console.log(response);
+      if (response.status === 200) {
+        setValues({
+          empId: "",
+          empName: "",
+          userName: "",
+          password: "",
+          role: "",
+          projectSubtitles: "",
+          projectName: "",
+          gender: "",
+          employeeStatus: "",
+          designation: "",
+          dateOfJoining: "",
+          dateOfLeaving: "",
+          contactNo: "",
+          alternateConNo: "",
+          mailId: "",
+          dob: "",
+          bankName: "",
+          accountNo: "",
+          ifscCode: "",
+          aadharCard: "",
+          panNo: "",
+          commennts: "",
+          monthlySalary: "",
+          ctc: "",
+        });
+
+        toast.success("Employee added successfully!");
+      }
+
+    
     } catch (error) {
       console.log(error);
     }
   };
 
-  const {
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    values,
-
-    errors,
-  } = UseForm(formobj, AddEmployeeValidate, addEmployee);
+  const { handleChange, handleSubmit, handleBlur, values, setValues, errors } =
+    UseForm(formobj, AddEmployeeValidate, addEmployee);
   console.log(errors);
 
   return (
@@ -70,7 +107,7 @@ const AddEmployee = () => {
                 onBlur={handleBlur}
               />
               <Input
-                label="Employee Id"
+                label="User Name"
                 error={errors.userName}
                 value={values.userName}
                 name="userName"
@@ -188,6 +225,7 @@ const AddEmployee = () => {
                 value={values.mailId}
                 name="mailId"
                 onChange={handleChange}
+                type="email"
                 onBlur={handleBlur}
               />
               <Input
