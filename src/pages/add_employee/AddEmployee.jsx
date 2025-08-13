@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import "../add_client/AddClient.scss";
 import Input from "../../comp/input/Input";
@@ -12,7 +12,7 @@ import { useSearchParams } from "react-router-dom";
 
 const AddEmployee = () => {
   const [searchparams] = useSearchParams();
-  const empId = searchparams.get("eid")
+  const empId = searchparams.get("eid");
   const formobj = {
     empId: "",
     empName: "",
@@ -84,18 +84,31 @@ const AddEmployee = () => {
 
         toast.success("Employee added successfully!");
       }
-
-    
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
   const { handleChange, handleSubmit, handleBlur, values, setValues, errors } =
     UseForm(formobj, AddEmployeeValidate, addEmployee);
-  console.log(errors);
+
+  const getEmployeeById = async (id) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}admin/getEmployee/${id}`
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (empId) {
+      getEmployeeById(empId);
+    }
+  }, []);
 
   return (
     <>
