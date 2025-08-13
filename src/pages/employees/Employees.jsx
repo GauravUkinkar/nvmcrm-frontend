@@ -4,14 +4,21 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import { employeeGetAll } from "../../(api)/Employee";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Employees = () => {
   const [data, setData] = useState();
      const [loading, setLoading] = useState(false);
-   
+    
+    //  navigate----------------
+    const navigate=useNavigate()
      useEffect(() => {
       getAllEmplyoee();
      }, []);
+
+     const edit= (Id) => {
+      navigate(`/addemployee?empId=${Id}`)
+        }
    
      const getAllEmplyoee = async () => {
        try {
@@ -57,6 +64,8 @@ const Employees = () => {
     { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
   ];
+
+  
   
 
   return (
@@ -69,7 +78,7 @@ const Employees = () => {
           data={data}
           columns={columns}
           showActions={true}
-          onEdit={(record) => console.log("Edit", record)}
+          onEdit={(record) => edit(record.empId)}
           onDelete={(record) => console.log("Delete", record)}
         />
         )}

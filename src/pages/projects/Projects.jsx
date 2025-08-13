@@ -4,15 +4,19 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { projectsAdd, projectsGetAll } from "../../(api)/Project";
+import { useNavigate } from "react-router-dom";
 
 const Projects = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [projectName, setProjectName] = useState("");
+ 
 
   useEffect(() => {
     getAllProjects();
   }, []);
+
+
 
   const getAllProjects = async () => {
     try {
