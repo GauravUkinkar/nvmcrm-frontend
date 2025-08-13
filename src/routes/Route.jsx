@@ -13,6 +13,7 @@ const Brokers = lazy(() => import("../pages/brokers/Brokers.jsx"));
 const Employees = lazy(() => import("../pages/employees/Employees.jsx"));
 const Clients= lazy(() => import("../pages/clients/Clients.jsx"));
 const Projects= lazy(() => import("../pages/projects/Projects.jsx"));
+const addProperties = lazy(() => import("../pages/add_properties/AddProperties.jsx"));
 
 export const routes = [
   {
@@ -86,5 +87,11 @@ export const routes = [
     exact:true,
     name:"addemployee",
     component:AddEmployee
+  },
+  {
+    path:"/addproperties",
+    exact:true,
+    name:"addproperties",
+    component:addProperties
   },
 ];

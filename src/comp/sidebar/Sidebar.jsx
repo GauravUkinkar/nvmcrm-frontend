@@ -69,6 +69,11 @@ const Sidebar = ({ active }) => {
           path: "/addemployee",
           icon: <FaPeopleLine />,
         },
+        {
+          name: "Add Properties",
+          path: "/addproperties",
+          icon: <FaPeopleLine />,
+        },
       ],
     },
   ];
