@@ -1,107 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
+import { employeeGetAll } from "../../(api)/Employee";
+import Loader from "../../comp/loader/Loader";
+import { toast } from "react-toastify";
 
 const Employees = () => {
-  const columns = [
-    { title: "Serial No", dataIndex: "serialNo", key: "serialNo" },
-    { title: "Employee Code", dataIndex: "employeeCode", key: "employeeCode" },
-    { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
+  const [data, setData] = useState();
+     const [loading, setLoading] = useState(false);
+   
+     useEffect(() => {
+      getAllEmplyoee();
+     }, []);
+   
+     const getAllEmplyoee = async () => {
+       try {
+         setLoading(true);
+          const response = await employeeGetAll();
+       if(response.status==="OK"){
+         setData(response.data);
+       }
+       } catch (err) {
+         toast.error("Something went wrong");
+       } finally {
+         setLoading(false);
+   
+       }
+     };
+
+  const columns = [   
+    { title: "Employee Id", dataIndex: "empId", key: "empId" },
+    { title: "Employee Name", dataIndex: "empName", key: "empName" },
+    { title: "User Name", dataIndex: "userName", key: "userName" },
+    { title: "Role", dataIndex: "role", key: "role" },
+    { title: "Project Subtitles", dataIndex: "projectSubtitles", key: "projectSubtitles" },
     { title: "Project Name", dataIndex: "projectName", key: "projectName" },
-    { title: "Employee Name", dataIndex: "employeeName", key: "employeeName" },
     { title: "Gender", dataIndex: "gender", key: "gender" },
     { title: "Employee Status", dataIndex: "employeeStatus", key: "employeeStatus" },
     { title: "Designation", dataIndex: "designation", key: "designation" },
-    { title: "Date of joining", dataIndex: "dateOfJoining", key: "dateOfJoining" },
-    { title: "Date of leaving", dataIndex: "dateOfLeaving", key: "dateOfLeaving" },
-    { title: "Contact Number", dataIndex: "contactNumber", key: "contactNumber" },
-    { title: "Alternate Contact Number", dataIndex: "altContactNumber", key: "altContactNumber" },
-    { title: "Mail ID", dataIndex: "mailId", key: "mailId" },
+    { title: "Date Of Joining", dataIndex: "dateOfJoining", key: "dateOfJoining" },
+    { title: "Date Of Leaving", dataIndex: "dateOfLeaving", key: "dateOfLeaving" },
+    { title: "Contact Number", dataIndex: "contactNo", key: "contactNo" },
+    { title: "Alternate Contact Number", dataIndex: "alternateConNo", key: "alternateConNo" },
+    { title: "Email", dataIndex: "mailId", key: "mailId" },
     { title: "Date of Birth", dataIndex: "dob", key: "dob" },
     { title: "Bank Name", dataIndex: "bankName", key: "bankName" },
-    { title: "Account Number", dataIndex: "accountNumber", key: "accountNumber" },
+    { title: "Account Number", dataIndex: "accountNo", key: "accountNo" },
     { title: "IFSC Code", dataIndex: "ifscCode", key: "ifscCode" },
-    { title: "AADHAR Number", dataIndex: "aadharNumber", key: "aadharNumber" },
-    { title: "PAN Number", dataIndex: "panNumber", key: "panNumber" },
-    { title: "Comments", dataIndex: "comments", key: "comments" },
+    { title: "Aadhar Card", dataIndex: "aadharCard", key: "aadharCard" },
+    { title: "PAN Number", dataIndex: "panNo", key: "panNo" },
+    { title: "Comments", dataIndex: "commennts", key: "commennts" },
     { title: "Monthly Salary", dataIndex: "monthlySalary", key: "monthlySalary" },
     { title: "CTC", dataIndex: "ctc", key: "ctc" },
+    { title: "Added by", dataIndex: "addedBy", key: "addedBy" },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
-    { title: "Updated date", dataIndex: "updatedDate", key: "updatedDate" },
-    { title: "Updated time", dataIndex: "updatedTime", key: "updatedTime" },
+    { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
+    { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
   ];
-
-  const data = [
-    {
-      key: "1",
-      serialNo: 1,
-      employeeCode: "EMP001",
-      projectSubtitle: "Infra Development",
-      projectName: "Smart City Project",
-      employeeName: "Rajesh Sharma",
-      gender: "Male",
-      employeeStatus: "Active",
-      designation: "Project Manager",
-      dateOfJoining: "2020-05-15",
-      dateOfLeaving: "",
-      contactNumber: "9876543210",
-      altContactNumber: "9123456780",
-      mailId: "rajesh@example.com",
-      dob: "1988-04-22",
-      bankName: "HDFC Bank",
-      accountNumber: "1234567890",
-      ifscCode: "HDFC0001234",
-      aadharNumber: "123456789012",
-      panNumber: "ABCDE1234F",
-      comments: "Key project lead",
-      monthlySalary: "80,000",
-      ctc: "9,60,000",
-      updatedBy: "admin",
-      updatedDate: "2025-08-08",
-      updatedTime: "09:02 AM",
-    },
-    {
-      key: "2",
-      serialNo: 2,
-      employeeCode: "EMP002",
-      projectSubtitle: "Residential Project",
-      projectName: "Green Heights",
-      employeeName: "Priya Mehta",
-      gender: "Female",
-      employeeStatus: "On Leave",
-      designation: "Architect",
-      dateOfJoining: "2021-01-10",
-      dateOfLeaving: "",
-      contactNumber: "9988776655",
-      altContactNumber: "9112233445",
-      mailId: "priya@example.com",
-      dob: "1990-09-12",
-      bankName: "SBI",
-      accountNumber: "9876543210",
-      ifscCode: "SBIN0000456",
-      aadharNumber: "987654321098",
-      panNumber: "XYZAB9876P",
-      comments: "Design lead",
-      monthlySalary: "65,000",
-      ctc: "7,80,000",
-      updatedBy: "manager",
-      updatedDate: "2025-08-09",
-      updatedTime: "10:15 AM",
-    },
-  ];
+  
 
   return (
+    <>
+    {loading && <Loader />}
     <MainPanel>
       <div>
-        <Table
+      {data?.length > 0 && (
+          <Table
           data={data}
           columns={columns}
           showActions={true}
           onEdit={(record) => console.log("Edit", record)}
           onDelete={(record) => console.log("Delete", record)}
         />
+        )}
       </div>
     </MainPanel>
+    
+    
+    
+    </>
   );
 };
 

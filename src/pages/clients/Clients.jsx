@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
-import { brokerGetAll } from "../../(api)/BrokerApi";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { clientGetAll } from "../../(api)/Client";
