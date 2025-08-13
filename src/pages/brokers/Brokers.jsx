@@ -1,21 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
+import { brokerGetAll } from "../../(api)/BrokerApi";
+import Loader from "../../comp/loader/Loader";
+import { toast } from "react-toastify";
 
 const Brokers = () => {
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    getAll();
+  }, []);
+
+  const getAll = async () => {
+    try {
+      setLoading(true);
+      const response = brokerGetAll();
+      setData(response.data);
+
+
+  
+      
+    } catch (err) {
+      setError(err);
+      toast.error("Something went wrong")
+   
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const columns = [
     { title: "Serial No", dataIndex: "serialNo", key: "serialNo" },
     { title: "Broker Code", dataIndex: "brokerCode", key: "brokerCode" },
     { title: "Broker Name", dataIndex: "brokerName", key: "brokerName" },
     { title: "Date of Birth", dataIndex: "dob", key: "dob" },
     { title: "Address", dataIndex: "address", key: "address" },
-    { title: "Contact Number", dataIndex: "contactNumber", key: "contactNumber" },
-    { title: "Alternate Contact Number", dataIndex: "altContactNumber", key: "altContactNumber" },
+    {
+      title: "Contact Number",
+      dataIndex: "contactNumber",
+      key: "contactNumber",
+    },
+    {
+      title: "Alternate Contact Number",
+      dataIndex: "altContactNumber",
+      key: "altContactNumber",
+    },
     { title: "Broker E-mail", dataIndex: "email", key: "email" },
     { title: "PAN Number", dataIndex: "panNumber", key: "panNumber" },
     { title: "AADHAR Number", dataIndex: "aadharNumber", key: "aadharNumber" },
     { title: "Bank Name", dataIndex: "bankName", key: "bankName" },
-    { title: "Account Number", dataIndex: "accountNumber", key: "accountNumber" },
+    {
+      title: "Account Number",
+      dataIndex: "accountNumber",
+      key: "accountNumber",
+    },
     { title: "IFSC Code", dataIndex: "ifscCode", key: "ifscCode" },
     { title: "Comments", dataIndex: "comments", key: "comments" },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
@@ -23,7 +65,7 @@ const Brokers = () => {
     { title: "Updated time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
 
-  const data = [
+  const data2 = [
     {
       key: "1",
       serialNo: 1,
@@ -67,17 +109,20 @@ const Brokers = () => {
   ];
 
   return (
-    <MainPanel>
-      <div>
-        <Table
-          data={data}
-          columns={columns}
-          showActions={true}
-          onEdit={(record) => console.log("Edit", record)}
-          onDelete={(record) => console.log("Delete", record)}
-        />
-      </div>
-    </MainPanel>
+    <>
+      {loading && <Loader />}
+      <MainPanel>
+        <div>
+          <Table
+            data={data2}
+            columns={columns}
+            showActions={true}
+            onEdit={(record) => console.log("Edit", record)}
+            onDelete={(record) => console.log("Delete", record)}
+          />
+        </div>
+      </MainPanel>
+    </>
   );
 };
 
