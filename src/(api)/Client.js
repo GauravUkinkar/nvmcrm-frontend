@@ -14,13 +14,12 @@ axiosInstance.interceptors.request.use((config) => {
   });
 
 
-export const propertyGetAll = async () => {
+export const clientGetAll = async () => {
   try {
-    const response = await axiosInstance.get('/property/getallproperty');   
+    const response = await axiosInstance.get('/client/getAllClient');   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
   }
 };
-
 
