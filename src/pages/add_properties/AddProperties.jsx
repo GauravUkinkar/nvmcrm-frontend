@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
 const AddProperties = () => {
   const [loader, setLoader] = useState(false);
+
   const formObj = {
     plotNo: "",
     projectSubtitle: "",
@@ -63,6 +64,8 @@ const AddProperties = () => {
     () => ({}),
     addProperties
   );
+
+
 
   return (
     <>
