@@ -3,6 +3,8 @@ import "./AddClient.scss";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
 import UseForm from "../../UseForm";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddClient = () => {
   const formObj = {
@@ -22,23 +24,36 @@ const AddClient = () => {
     brokerName: "",
   };
 
-  const addClient = () => {
+  const addClient = async () => {
     try {
-        
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}client/addClient`,
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if(response.status === 200){
+        setValues(formObj); // Reset form after successful submission
+        toast.success("Client added successfully!");
+      }
+
+      console.log(response);
     } catch (error) {
-        
+      console.log(error);
     }
   };
 
-  const {
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    values,
-    setValues,
-    errors,
-    setErrors,
-  } = UseForm(formObj, () => ({}), addClient);
+  const { handleChange, handleSubmit, handleBlur, values, setValues } = UseForm(
+    formObj,
+    () => ({}),
+    addClient
+  );
+
   return (
     <>
       <MainPanel>
@@ -52,39 +67,125 @@ const AddClient = () => {
             onSubmit={handleSubmit}
           >
             <div class="form-row">
-              <Input label="Client Name" />
-              <Input label="Project Subtitle" />
+              <Input
+                label="Client Name"
+                name="clientName"
+                onChange={handleChange}
+                value={values.clientName}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="Project Subtitle"
+                name="projectSubtitle"
+                onChange={handleChange}
+                value={values.projectSubtitle}
+                onBlur={handleBlur}
+              />
             </div>
             <div class="form-row">
-              <Input label="Project Name" />
-              <Input label="Date of Birth" />
+              <Input
+                label="Project Name"
+                name="projectName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.projectName}
+              />
+              <Input
+                label="Date of Birth"
+                name="dob"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.dob}
+              />
             </div>
             <div class="form-row">
               <div class="input-textarea input">
                 <label for="">Address</label>
-                <textarea placeholder="Address" name="" id=""></textarea>
+                <textarea
+                  placeholder="Address"
+                  name="address"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.address}
+                  id=""
+                ></textarea>
               </div>
-              <Input label="Mobile Number" />
+              <Input
+                label="Mobile Number"
+                name="phoneNumber"
+                onChange={handleChange}
+                value={values.phoneNumber}
+                onBlur={handleBlur}
+              />
             </div>
 
             <div class="form-row">
-              <Input label="Marketing Executive" />
-              <Input label="Alternate Mobile Number" />
+              <Input
+                label="Marketing Executive"
+                name="marketingExecutive"
+                onChange={handleChange}
+                value={values.marketingExecutive}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="Alternate Mobile Number"
+                name="alternateMobNo"
+                onChange={handleChange}
+                value={values.alternateMobNo}
+                onBlur={handleBlur}
+              />
             </div>
             <div class="form-row">
-              <Input label="Client Email" />
-              <Input label="Profession" />
+              <Input
+                label="Client Email"
+                name="clientEmail"
+                onChange={handleChange}
+                value={values.clientEmail}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="Profession"
+                name="proffession"
+                onChange={handleChange}
+                value={values.proffession}
+                onBlur={handleBlur}
+              />
             </div>
             <div class="form-row">
-              <Input label="PAN Number" />
-              <Input label="Aadhar Number" />
+              <Input
+                label="PAN Number"
+                name="panNo"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.panNo}
+              />
+              <Input
+                label="Aadhar Number"
+                name="aadharNo"
+                onChange={handleChange}
+                value={values.aadharNo}
+                onBlur={handleBlur}
+              />
             </div>
             <div class="form-row">
               <div class="input-textarea input">
                 <label for="">Comments</label>
-                <textarea placeholder="Comments" name="" id=""></textarea>
+                <textarea
+                  placeholder="Comments"
+                  name="comments"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.comments}
+                  id=""
+                ></textarea>
               </div>
-              <Input label="Broker Name" />
+              <Input
+                label="Broker Name"
+                name="brokerName"
+                onChange={handleChange}
+                value={values.brokerName}
+                onBlur={handleBlur}
+              />
             </div>
 
             <div class="form-row">
