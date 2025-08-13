@@ -14,7 +14,7 @@ axiosInstance.interceptors.request.use((config) => {
   });
 
 
-export const brokerGetAll = async () => {
+export const propertyGetAll = async () => {
   try {
     const response = await axiosInstance.get('/broker/getAllBroker');   
     return response.data;
@@ -23,20 +23,4 @@ export const brokerGetAll = async () => {
   }
 };
 
-export const updateBroker = async (data) => {
-  try {
-    const response = await axiosInstance.post('/broker/updateBroker',data);   
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error;
-  }
-};
 
-export const deleteBroker = async (bId) => {
-  try {
-    const response = await axiosInstance.delete('/broker/deleteBroker',bId);   
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error;
-  }
-};
