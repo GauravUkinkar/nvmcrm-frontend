@@ -8,8 +8,11 @@ import axios from "axios";
 import SelectInput from "../../comp/SelectInput/SelectInput";
 import AddEmployeeValidate from "../../validates/AddEmployee";
 import { toast } from "react-toastify";
+import { useSearchParams } from "react-router-dom";
 
 const AddEmployee = () => {
+  const [searchparams] = useSearchParams();
+  const empId = searchparams.get("eid")
   const formobj = {
     empId: "",
     empName: "",
@@ -87,6 +90,8 @@ const AddEmployee = () => {
       console.log(error);
     }
   };
+
+
 
   const { handleChange, handleSubmit, handleBlur, values, setValues, errors } =
     UseForm(formobj, AddEmployeeValidate, addEmployee);

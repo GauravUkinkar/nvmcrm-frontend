@@ -62,13 +62,15 @@
         .children {
           width: 100%;
           position: absolute;
-          bottom: 0;
+          top: 50%;
+          transform: translateY(-50%);
   
           left: 105%;
           background-color: var(--white);
-          height: 300px;
+          height: auto;
           box-shadow: var(--shadow);
           overflow: hidden;
+          
 
           a {
             color: var(--accent);
