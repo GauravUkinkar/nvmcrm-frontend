@@ -96,6 +96,7 @@ const AddClient = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.dob}
+                type="date"
               />
             </div>
             <div class="form-row">
