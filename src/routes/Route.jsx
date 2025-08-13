@@ -15,6 +15,7 @@ const Clients= lazy(() => import("../pages/clients/Clients.jsx"));
 const Projects= lazy(() => import("../pages/projects/Projects.jsx"));
 const addProperties = lazy(() => import("../pages/add_properties/AddProperties.jsx"));
 const addBroker = lazy(() => import("../pages/add_brokers/AddBroker.jsx"));
+const addBDtracker = lazy(() => import("../pages/add_bdtracker/AddBdtracker.jsx"));
 
 export const routes = [
   {
@@ -100,5 +101,11 @@ export const routes = [
     exact:true,
     name:"addbroker",
     component:addBroker
+  },
+  {
+    path:"/addBdTracker",
+    exact:true,
+    name:"addBdTracker",
+    component:addBDtracker
   },
 ];

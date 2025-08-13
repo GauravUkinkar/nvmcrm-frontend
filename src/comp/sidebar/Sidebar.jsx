@@ -79,6 +79,11 @@ const Sidebar = ({ active }) => {
           path: "/addbroker",
           icon: <FaPeopleLine />,
         },
+        {
+          name: "Add BD Tracker",
+          path: "/addBdTracker",
+          icon: <FaPeopleLine />,
+        },
       ],
     },
   ];
