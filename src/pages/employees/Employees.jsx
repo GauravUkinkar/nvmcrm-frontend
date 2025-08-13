@@ -17,7 +17,7 @@ const Employees = () => {
      }, []);
 
      const edit= (Id) => {
-      navigate(`/addemployee?empId=${Id}`)
+      navigate(`/addemployee?eid=${Id}`)
         }
    
      const getAllEmplyoee = async () => {
@@ -78,7 +78,7 @@ const Employees = () => {
           data={data}
           columns={columns}
           showActions={true}
-          onEdit={(record) => edit(record.empId)}
+          onEdit={(record) => edit(record.eid)}
           onDelete={(record) => console.log("Delete", record)}
         />
         )}

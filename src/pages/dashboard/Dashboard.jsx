@@ -30,10 +30,11 @@ const Dashboard = () => {
 
 
   const columns = [
-    { title: "User", dataIndex: "user", key: "user" },
-    { title: "Login time", dataIndex: "loginTime", key: "loginTime" },
-    { title: "Login date", dataIndex: "loginDate", key: "loginDate" },
-    { title: "Logout time", dataIndex: "logoutTime", key: "logoutTime" },
+    { title: "Id", dataIndex: "lid", key: "lid" },
+    { title: "User Name", dataIndex: "username", key: "username" },
+    { title: "Login Time", dataIndex: "loginTime", key: "loginTime" },
+    { title: "Login Date", dataIndex: "loginDate", key: "loginDate" },
+    { title: "Logout Time", dataIndex: "logoutTime", key: "logoutTime" },
    
     
   ];
@@ -47,10 +48,7 @@ const Dashboard = () => {
     {data?.length > 0 && (
           <Table
           data={data}
-          columns={columns}
-          showActions={true}
-          onEdit={(record) => console.log("Edit", record)}
-          onDelete={(record) => console.log("Delete", record)}
+          columns={columns}          
         />
         )}
     </div>
