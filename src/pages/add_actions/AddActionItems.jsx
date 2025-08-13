@@ -4,6 +4,9 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
 import SelectInput from "../../comp/SelectInput/SelectInput";
 const AddActionItems = () => {
+    const formObj = {
+        
+    }
   return (
     <>
       <MainPanel>
@@ -50,6 +53,24 @@ const AddActionItems = () => {
                 <option value="Cancelled">Cancelled</option>
                 <option value="Closed">Closed</option>
               </SelectInput>
+            </div>
+            <div class="form-row">
+              <SelectInput label="Action Item Status">
+                <option value="">Select Status</option>
+                <option value="nvm">nvm</option>
+              </SelectInput>
+              <Input label="Action Completion Date" type="date" />
+            </div>
+
+            <div class="form-row">
+              <div class="input-textarea input">
+                <label for="">Comments</label>
+                <textarea placeholder="Comments" id=""></textarea>
+              </div>
+            </div>
+
+            <div class="form-row">
+                <button type="submit"class="btn">Add Action Items</button>
             </div>
           </form>
         </div>
