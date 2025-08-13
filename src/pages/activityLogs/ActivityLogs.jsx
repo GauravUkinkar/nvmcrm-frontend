@@ -1,57 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
+import Loader from "../../comp/loader/Loader";
+import { toast } from "react-toastify";
+import { activityLogsGetAll } from "../../(api)/ActivityLogs";
 
 const ActivityLogs = () => {
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getAllActivity();
+  }, []);
+
+  const getAllActivity = async () => {
+    try {
+      setLoading(true);
+      const response = await activityLogsGetAll();
+      if (response.status === "OK") {
+        setData(response.data);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+
+    }
+  };
+
+
   const columns = [
-    { title: "Serial No.", dataIndex: "serialNo", key: "serialNo" },
+    { title: "Id", dataIndex: "aid", key: "aid" },
     { title: "Changed by", dataIndex: "changedBy", key: "changedBy" },
     { title: "Changed in", dataIndex: "changedIn", key: "changedIn" },
-    { title: "Database Name", dataIndex: "databaseName", key: "databaseName" },
+    { title: "Table Name", dataIndex: "tableName", key: "tableName" },
     {
-      title: "Changed Field Id",
-      dataIndex: "changedFieldId",
-      key: "changedFieldId",
+      title: "Changed Field Name",
+      dataIndex: "changedFieldName",
+      key: "changedFieldName",
     },
-    { title: "Changed time", dataIndex: "changedTime", key: "changedTime" },
+    { title: "Changed Time", dataIndex: "changedTime", key: "changedTime" },
     { title: "Changed date", dataIndex: "changedDate", key: "changedDate" },
+    { title: "Activity Type", dataIndex: "activityType", key: "activityType" },
   ];
 
-  const data = [
-    {
-      key: "1",
-      serialNo: 1,
-      changedBy: "ashok_dhas",
-      changedIn: "profession",
-      databaseName: "Client",
-      changedFieldId: "20185830",
-      changedTime: "9:02 AM",
-      changedDate: "2025-08-08",
-    },
-    {
-      key: "2",
-      serialNo: 2,
-      changedBy: "ashok_dhas",
-      changedIn: "broker-code",
-      databaseName: "Client",
-      changedFieldId: "20185830",
-      changedTime: "8:44 AM",
-      changedDate: "2025-08-08",
-    },
-  ];
+ 
 
   return (
-    <MainPanel>
-      <div>
-        <Table
-          data={data}
-          columns={columns}
-          showActions={false} 
-          onEdit={(record) => console.log("Edit", record)}
-          onDelete={(record) => console.log("Delete", record)}
-        />
-      </div>
-    </MainPanel>
+    <>
+      {loading && <Loader />}
+      <MainPanel>
+        <div>
+          {data?.length > 0 && (
+            <Table
+              data={data}
+              columns={columns}
+
+            />
+          )}
+        </div>
+      </MainPanel>
+
+
+
+    </>
   );
 };
 
