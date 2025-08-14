@@ -14,7 +14,8 @@
       position: fixed;
       top: 0;
       left: 0;
-    //   transition: var(--trans);
+      z-index: 99;
+      //   transition: var(--trans);
 
       &.active {
         width: 50px;
@@ -25,7 +26,7 @@
       width: calc(100% - 300px);
       padding: 20px 20px;
       margin-left: 300px;
-    //   transition: var(--trans);
+      //   transition: var(--trans);
 
       &.active {
         width: calc(100% - 50px);

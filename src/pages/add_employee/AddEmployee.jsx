@@ -8,11 +8,12 @@ import axios from "axios";
 import SelectInput from "../../comp/SelectInput/SelectInput";
 import AddEmployeeValidate from "../../validates/AddEmployee";
 import { toast } from "react-toastify";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AddEmployee = () => {
   const [searchparams] = useSearchParams();
   const empId = searchparams.get("eid");
+  const navigate = useNavigate();
   const formobj = {
     empId: "",
     empName: "",
@@ -43,16 +44,40 @@ const AddEmployee = () => {
   const addEmployee = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}admin/RegisterUser`,
-        values,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+
+      let response;
+
+      if (empId) {
+        const payload = { ...values, eid: empId };
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}admin/UpdateEmployee`,
+          payload,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          toast.success("Employee Updated successfully!");
+          navigate("/employees");
         }
-      );
+      } else {
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}admin/RegisterUser`,
+          values,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        toast.success("Employee added successfully!");
+      }
 
       if (response.status === 200) {
         setValues({
@@ -81,8 +106,6 @@ const AddEmployee = () => {
           monthlySalary: "",
           ctc: "",
         });
-
-        toast.success("Employee added successfully!");
       }
     } catch (error) {
       console.log(error);
@@ -90,15 +113,48 @@ const AddEmployee = () => {
   };
 
   const { handleChange, handleSubmit, handleBlur, values, setValues, errors } =
-    UseForm(formobj, AddEmployeeValidate, addEmployee);
+    UseForm(formobj, empId ? () => ({}) : AddEmployeeValidate, addEmployee);
 
   const getEmployeeById = async (id) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}admin/getEmployee/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}admin/getEmployee/{eId}?eId=${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+      const data = response.data.data;
 
-      console.log(response);
+      setValues({
+        empId: data?.empId,
+        empName: data?.empName,
+        userName: data?.userName,
+        password: "",
+        role: data?.role,
+        projectSubtitles: data?.projectSubtitles,
+        projectName: data?.projectName,
+        gender: data?.gender,
+        employeeStatus: data?.employeeStatus,
+        designation: data?.designation,
+        dateOfJoining: data?.dateOfJoining,
+        dateOfLeaving: data?.dateOfLeaving,
+        contactNo: data?.contactNo,
+        alternateConNo: data?.alternateConNo,
+        mailId: data?.mailId,
+        dob: data?.dob,
+        bankName: data?.bankName,
+        accountNo: data?.accountNo,
+        ifscCode: data?.ifscCode,
+        aadharCard: data?.aadharCard,
+        panNo: data?.panNo,
+        commennts: data?.commennts,
+        monthlySalary: data?.monthlySalary,
+        ctc: data?.ctc,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +164,7 @@ const AddEmployee = () => {
     if (empId) {
       getEmployeeById(empId);
     }
-  }, []);
+  }, [empId]);
 
   return (
     <>
@@ -150,8 +206,8 @@ const AddEmployee = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               >
-                <option value="Employee">Employee</option>
-                <option value="Admin">Admin</option>
+                <option value="EMPLOYEE">Employee</option>
+                <option value="ADMIN">Admin</option>
               </SelectInput>
             </div>
             <div class="form-row">
