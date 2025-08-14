@@ -12,66 +12,66 @@ const BDTracker = () => {
   const [loading, setLoading] = useState(false);
 
   //navigate----------------------------------------------
-const navigate=useNavigate()
-const edit= (Id) => {
-  navigate(`/addBdTracker?bdId=${Id}`)
-    }
+  const navigate = useNavigate()
+  const edit = (Id) => {
+    navigate(`/addBdTracker?bdId=${Id}`)
+  }
 
-   useEffect(() => {
-      getAllBd();
-    }, []);
-  
-    const getAllBd = async () => {
-      try {
-        setLoading(true);
-         const response = await bdTrackerGetAll();
-      if(response.status==="OK"){
+  useEffect(() => {
+    getAllBd();
+  }, []);
+
+  const getAllBd = async () => {
+    try {
+      setLoading(true);
+      const response = await bdTrackerGetAll();
+      if (response.status === "OK") {
         setData(response.data);
       }
-      } catch (err) {
-        toast.error("Something went wrong");
-      } finally {
-        setLoading(false);
-  
-      }
-    };
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
 
-     const deleteId = async (bdId) => {
-        try {
-          setLoading(true);
-          const response = await deleteBDTracker(bdId);
-          if (response.status === "OK") {
-            toast.success("Successfully Deleted!!");
-            getAllBd();
-          }
-        } catch (err) {
-          toast.error("Something went wrong");
-        } finally {
-          setLoading(false);
-          setDeletePopup(false);
-        }
-      };
-    
-      const [deletePopup, setDeletePopup] = useState(false);
-      const [deleteInfo, setDeleteInfo] = useState({
-        title: "",
-        desc: "",
-        bid: "",
-      });
-    
-      const deleteDialog = (id) => {
-        setDeleteInfo({
-          ...deleteInfo,
-          title: "Are you sure?",
-          desc: `You want to delete the item with bid: ${id}`,
-          bid: id,
-        });
-        setDeletePopup(true);
-      };
+    }
+  };
+
+  const deleteId = async (bdId) => {
+    try {
+      setLoading(true);
+      const response = await deleteBDTracker(bdId);
+      if (response.status === "OK") {
+        toast.success("Successfully Deleted!!");
+        getAllBd();
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+      setDeletePopup(false);
+    }
+  };
+
+  const [deletePopup, setDeletePopup] = useState(false);
+  const [deleteInfo, setDeleteInfo] = useState({
+    title: "",
+    desc: "",
+    bid: "",
+  });
+
+  const deleteDialog = (id) => {
+    setDeleteInfo({
+      ...deleteInfo,
+      title: "Are you sure?",
+      desc: `You want to delete the item with bid: ${id}`,
+      bid: id,
+    });
+    setDeletePopup(true);
+  };
 
   const columns = [
     { title: "Tracker Id", dataIndex: "bdId", key: "bdId" },
-   /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
+    /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
     { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
     { title: "Project Name", dataIndex: "projectName", key: "projectName" },
     { title: "Lead Generation Date", dataIndex: "leadGenerationDate", key: "leadGenerationDate" },
@@ -83,19 +83,19 @@ const edit= (Id) => {
     { title: "Comments", dataIndex: "comments", key: "comments" },
     { title: "Date of Future Contact", dataIndex: "dateOfFutureContact", key: "dateOfFutureContact" },
     { title: "Marketing Executive", dataIndex: "marketingExecutive", key: "marketingExecutive" },
-    { title: "Date of emailing the Business Proposal to Potential Client", dataIndex: "dateofemailingtheBusinessProposaltoPotentialClient", key: "dateofemailingtheBusinessProposaltoPotentialClient" }, 
-    { title: "Future date to Proceed on Business Proposal", dataIndex: "futuredatetoproceedonBusinessProposal", key: "futuredatetoproceedonBusinessProposal" }, 
+    { title: "Date of emailing the Business Proposal to Potential Client", dataIndex: "dateofemailingtheBusinessProposaltoPotentialClient", key: "dateofemailingtheBusinessProposaltoPotentialClient" },
+    { title: "Future date to Proceed on Business Proposal", dataIndex: "futuredatetoproceedonBusinessProposal", key: "futuredatetoproceedonBusinessProposal" },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
-    
-    
+
+
   ];
-  
+
 
   return (
-   <>
-    {deletePopup && (
+    <>
+      {deletePopup && (
         <DeleteConfirmation
           title={deleteInfo.title}
           desc={deleteInfo.desc}
@@ -103,24 +103,24 @@ const edit= (Id) => {
           nofunc={() => setDeletePopup(false)}
         />
       )}
-    {loading && <Loader />}
-    <MainPanel>
-      <div>
-        {data?.length > 0 && (
-          <Table
-          data={data}
-          columns={columns}
-          showActions={true}
-          onEdit={(record) => edit(record.bdId)}
-          onDelete={(record) => deleteDialog(record.bdId)}
-        />
-        )}
-      </div>
-    </MainPanel>
-   
-   
-   
-   </>
+      {loading && <Loader />}
+      <MainPanel>
+        <div>
+          {data?.length > 0 && (
+            <Table
+              data={data}
+              columns={columns}
+              showActions={true}
+              onEdit={(record) => edit(record.bdId)}
+              onDelete={(record) => deleteDialog(record.bdId)}
+            />
+          )}
+        </div>
+      </MainPanel>
+
+
+
+    </>
   );
 };
 

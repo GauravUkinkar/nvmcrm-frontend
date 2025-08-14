@@ -23,9 +23,18 @@ export const actionGetAll = async () => {
   }
 };
 
-export const updateClient = async (data) => {
+export const updateAction = async (data) => {
   try {
     const response = await axiosInstance.put('/actionItems/updateActionItems',data);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
+export const deleteAction = async (aid) => {
+  try {
+    const response = await axiosInstance.delete(`/actionItems/deleteActionItems?aId=${aid}`);   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
