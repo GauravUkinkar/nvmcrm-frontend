@@ -248,3 +248,17 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
 
 }
+.btn2{
+  width: auto;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  border: 1px solid var(--accent);
+
+}
+

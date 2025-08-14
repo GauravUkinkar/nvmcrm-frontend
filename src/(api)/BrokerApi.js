@@ -34,7 +34,7 @@ export const updateBroker = async (data) => {
 
 export const deleteBroker = async (bId) => {
   try {
-    const response = await axiosInstance.delete('/broker/deleteBroker',bId);   
+    const response = await axiosInstance.delete(`/broker/deleteBroker/{bId}?bId=${bId}`);   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
