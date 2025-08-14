@@ -4,10 +4,17 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { propertyGetAll } from "../../(api)/Properties";
+import { useNavigate } from "react-router-dom";
 
 const Properties = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+
+   //navigate----------------------------------------------
+const navigate=useNavigate()
+const edit= (Id) => {
+  navigate(`/addproperties?pid=${Id}`)
+    }
 
    useEffect(() => {
     getAllProperty();
@@ -66,7 +73,7 @@ const Properties = () => {
           data={data}
           columns={columns}
           showActions={true}
-          onEdit={(record) => console.log("Edit", record)}
+          onEdit={(record) => edit(record.pid)}
           onDelete={(record) => console.log("Delete", record)}
         />
         )}

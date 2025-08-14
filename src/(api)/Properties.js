@@ -23,4 +23,13 @@ export const propertyGetAll = async () => {
   }
 };
 
+export const updateProperties = async (data) => {
+  try {
+    const response = await axiosInstance.post('/property/updateproperty',data);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
 

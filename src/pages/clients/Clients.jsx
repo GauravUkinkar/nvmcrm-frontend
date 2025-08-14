@@ -4,10 +4,17 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { clientGetAll } from "../../(api)/Client";
+import { useNavigate } from "react-router-dom";
 
 const Clients = () => {
   const [data, setData] = useState();
    const [loading, setLoading] = useState(false);
+
+    //navigate----------------------------------------------
+const navigate=useNavigate()
+const edit= (Id) => {
+  navigate(`/addclients?cid=${Id}`)
+    }
  
    useEffect(() => {
      getAllClient();
@@ -62,7 +69,7 @@ const Clients = () => {
           data={data}
           columns={columns}
           showActions={true}
-          onEdit={(record) => console.log("Edit", record)}
+          onEdit={(record) => edit(record.cid)}
           onDelete={(record) => console.log("Delete", record)}
         />
         )}
