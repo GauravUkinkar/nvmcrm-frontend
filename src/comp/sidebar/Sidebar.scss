@@ -4,6 +4,7 @@
   background-color: var(--accent);
   padding: 20px 10px;
 
+
   .sidebar_section_inner {
     display: flex;
     flex-direction: column;
@@ -64,7 +65,7 @@
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-  
+       
           left: 105%;
           background-color: var(--white);
           height: auto;
