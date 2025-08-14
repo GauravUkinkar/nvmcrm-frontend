@@ -8,9 +8,11 @@ import UseForm from "../../UseForm";
 import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { projectsGetAll } from "../../(api)/Project";
 const AddBdtracker = () => {
   const [loader, setLoader] = useState(false);
   const [searchparams] = useSearchParams();
+  const [projectList, setProjectList] = useState();
   const bdId = searchparams.get("bdId");
   const navigate = useNavigate();
   const formObj = {
@@ -130,6 +132,21 @@ const AddBdtracker = () => {
     }
   }, [bdId]);
 
+  useEffect(() => {
+    projectsGetAll()
+      .then((res) => {
+        setProjectList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+
+      
+  }, []);
+
+
+
   return (
     <>
       <MainPanel>
@@ -160,12 +177,17 @@ const AddBdtracker = () => {
               <SelectInput
                 label="Project Name"
                 name="projectName"
-                value={values.projectName}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                value={values.projectName}
               >
-                <option value="">Select Project</option>
-                <option value="nvm">nvm</option>
+                <option value="">Select Project Name</option>
+                {projectList &&
+                  projectList?.map((item, index) => (
+                    <option key={index} value={item?.projectName}>
+                      {item?.projectName}
+                    </option>
+                  ))}
               </SelectInput>
               <SelectInput
                 label="Potential Client Name"

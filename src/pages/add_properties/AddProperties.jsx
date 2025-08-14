@@ -10,12 +10,14 @@ import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { projectsGetAll } from "../../(api)/Project";
+import { clientGetAll } from "../../(api)/Client";
 const AddProperties = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [searchparams] = useSearchParams();
   const propertyId = searchparams.get("pid");
   const [projectList, setProjectList] = useState();
+  const [ownerList,setOwnerList] = useState()
   const formObj = {
     plotNo: "",
     projectSubtitle: "",
@@ -147,7 +149,16 @@ const AddProperties = () => {
       .catch((err) => {
         console.log(err);
       });
+    clientGetAll()
+      .then((res) => {
+        setOwnerList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  console.log(ownerList, "ownerList")
 
   return (
     <>
@@ -292,7 +303,12 @@ const AddProperties = () => {
                 label="Plot Owner"
               >
                 <option value="">Select Owner</option>
-                <option value="Rishabh Khade">Rishabh Khade</option>
+               {ownerList &&
+                  ownerList?.map((item, index) => (
+                    <option key={index} value={item?.clientName}>
+                      {item?.clientName}
+                    </option>
+                  ))}
               </SelectInput>
               <SelectInput
                 name="plotFinancialStatus"
@@ -301,9 +317,9 @@ const AddProperties = () => {
                 onBlur={handleBlur}
                 label="Plot Financial Status"
               >
-                <option value="">Select Owner</option>
+                <option value="">Select Financial Status</option>
                 <option value="Amount Pending">Amount Pending</option>
-                <option value="">Complete Amount Paid</option>
+                <option value="Complete Amount Paid">Complete Amount Paid</option>
               </SelectInput>
             </div>
             <div class="form-row">
