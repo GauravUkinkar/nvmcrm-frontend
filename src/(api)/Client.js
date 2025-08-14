@@ -23,3 +23,12 @@ export const clientGetAll = async () => {
   }
 };
 
+export const updateClient = async (data) => {
+  try {
+    const response = await axiosInstance.put('/client/updateClient',data);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
