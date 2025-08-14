@@ -7,10 +7,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loader from "../../comp/loader/Loader";
+import SelectInput from "../../comp/SelectInput/SelectInput";
 
 const AddClient = () => {
   const [loader, setLoader] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const formObj = {
     clientName: "",
@@ -53,7 +54,7 @@ const AddClient = () => {
         if (response.status === 200) {
           setValues(formObj); // Reset form after successful submission
           toast.success("Client updated successfully!");
-          navigate("/clients")
+          navigate("/clients");
         }
       } else {
         response = await axios.post(
@@ -160,13 +161,15 @@ const AddClient = () => {
               />
             </div>
             <div class="form-row">
-              <Input
+              <SelectInput
                 label="Project Name"
                 name="projectName"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.projectName}
-              />
+              >
+                <option value="">Select Project Name</option>
+              </SelectInput>
               <Input
                 label="Date of Birth"
                 name="dob"
