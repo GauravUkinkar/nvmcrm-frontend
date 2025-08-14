@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AddClient.scss";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
 import UseForm from "../../UseForm";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import Loader from "../../comp/loader/Loader";
 
 const AddClient = () => {
+  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate()
+
   const formObj = {
     clientName: "",
     projectName: "",
@@ -24,27 +29,52 @@ const AddClient = () => {
     brokerName: "",
   };
 
+  const [searchparams] = useSearchParams();
+
+  const clientId = searchparams.get("cid");
+
   const addClient = async () => {
     try {
+      setLoader(true);
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}client/addClient`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      let response;
+      if (clientId) {
+        const payload = { ...values, cid: clientId };
+        response = await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}client/updateClient`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setValues(formObj); // Reset form after successful submission
+          toast.success("Client updated successfully!");
+          navigate("/clients")
         }
-      );
+      } else {
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}client/addClient`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      if(response.status === 200){
-        setValues(formObj); // Reset form after successful submission
-        toast.success("Client added successfully!");
+        if (response.status === 200) {
+          setValues(formObj); // Reset form after successful submission
+          toast.success("Client added successfully!");
+        }
       }
-
-      console.log(response);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -54,9 +84,56 @@ const AddClient = () => {
     addClient
   );
 
+  // get client by id
+
+  const getClientById = async (id) => {
+    try {
+      setLoader(true);
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}client/getClientById?cId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = response.data.data;
+      setValues({
+        clientName: data.clientName,
+        projectName: data.projectName,
+        projectSubtitle: data.projectSubtitle,
+        dob: data.dob,
+        address: data.address,
+        phoneNumber: data.phoneNumber,
+        marketingExecutive: data.marketingExecutive,
+        alternateMobNo: data.alternateMobNo,
+        clientEmail: data.clientEmail,
+        proffession: data.proffession,
+        panNo: data.panNo,
+        aadharNo: data.aadharNo,
+        comments: data.comments,
+        brokerName: data.brokerName,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    if (clientId) {
+      getClientById(clientId);
+    }
+  }, [clientId]);
+
   return (
     <>
       <MainPanel>
+        {loader && <Loader />}
         <div class="form">
           <div class="topbar">
             <h2>Add Client</h2>

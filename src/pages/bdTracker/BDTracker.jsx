@@ -74,8 +74,16 @@ const BDTracker = () => {
     /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
     { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
     { title: "Project Name", dataIndex: "projectName", key: "projectName" },
-    { title: "Lead Generation Date", dataIndex: "leadGenerationDate", key: "leadGenerationDate" },
-    { title: "Potential Client Name", dataIndex: "potentialClientName", key: "potentialClientName" },
+    {
+      title: "Lead Generation Date",
+      dataIndex: "leadGenerationDate",
+      key: "leadGenerationDate",
+    },
+    {
+      title: "Potential Client Name",
+      dataIndex: "potentialClientName",
+      key: "potentialClientName",
+    },
     { title: "Status", dataIndex: "status", key: "status" },
     { title: "Email", dataIndex: "emailId", key: "emailId" },
     { title: "Phone Number", dataIndex: "phoneNo", key: "phoneNo" },
