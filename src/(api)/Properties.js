@@ -32,4 +32,13 @@ export const updateProperties = async (data) => {
   }
 };
 
+export const deleteProperty = async (pid) => {
+  try {
+    const response = await axiosInstance.delete(`/property/deleteproperty/{pId}?pId=${pid}`);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
 

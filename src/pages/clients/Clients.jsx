@@ -3,8 +3,9 @@ import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
-import { clientGetAll } from "../../(api)/Client";
+import { clientGetAll, deleteClient } from "../../(api)/Client";
 import { useNavigate } from "react-router-dom";
+import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 
 const Clients = () => {
   const [data, setData] = useState();
@@ -35,6 +36,39 @@ const edit= (Id) => {
      }
    };
 
+   const deleteId = async (cid) => {
+         try {
+           setLoading(true);
+           const response = await deleteClient(cid);
+           if (response.status === "OK") {
+             toast.success("Successfully Deleted!!");
+             getAllClient();
+           }
+         } catch (err) {
+           toast.error("Something went wrong");
+         } finally {
+           setLoading(false);
+           setDeletePopup(false);
+         }
+       };
+     
+       const [deletePopup, setDeletePopup] = useState(false);
+       const [deleteInfo, setDeleteInfo] = useState({
+         title: "",
+         desc: "",
+         bid: "",
+       });
+     
+       const deleteDialog = (id) => {
+         setDeleteInfo({
+           ...deleteInfo,
+           title: "Are you sure?",
+           desc: `You want to delete the item with bid: ${id}`,
+           bid: id,
+         });
+         setDeletePopup(true);
+       };
+
   const columns = [
     { title: "Id", dataIndex: "cid", key: "cid" },
     { title: "Client Name", dataIndex: "clientName", key: "clientName" },
@@ -61,6 +95,14 @@ const edit= (Id) => {
 
   return (
     <>
+    {deletePopup && (
+        <DeleteConfirmation
+          title={deleteInfo.title}
+          desc={deleteInfo.desc}
+          yesfunc={() => deleteId(deleteInfo.bid)}
+          nofunc={() => setDeletePopup(false)}
+        />
+      )}
     {loading && <Loader />}
     <MainPanel>
       <div>
@@ -70,7 +112,8 @@ const edit= (Id) => {
           columns={columns}
           showActions={true}
           onEdit={(record) => edit(record.cid)}
-          onDelete={(record) => console.log("Delete", record)}
+          onDelete={(record) => deleteDialog(record.cid)}
+          
         />
         )}
       </div>
