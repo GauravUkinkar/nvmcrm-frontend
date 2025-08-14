@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
-import { brokerGetAll } from "../../(api)/BrokerApi";
+import { brokerGetAll, deleteBroker } from "../../(api)/BrokerApi";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
+import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
+import { useNavigate } from "react-router-dom";
 
 const Brokers = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+
+  //navigate----------------------------------------------
+const navigate=useNavigate()
+const edit= (Id) => {
+  navigate(`/brokers?eid=${Id}`)
+    }
 
   useEffect(() => {
     getAll();
@@ -16,17 +24,51 @@ const Brokers = () => {
   const getAll = async () => {
     try {
       setLoading(true);
-       const response = await brokerGetAll();
-    if(response.status==="OK"){
-      setData(response.data);
-    }
+      const response = await brokerGetAll();
+      if (response.status === "OK") {
+        setData(response.data);
+      }
     } catch (err) {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
-
     }
   };
+
+  const deleteId = async (bid) => {
+    try {
+      setLoading(true);
+      const response = await deleteBroker(bid);
+      if (response.status === "OK") {
+        toast.success("Successfully Deleted!!");
+        getAll();
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+      setDeletePopup(false);
+    }
+  };
+
+  const [deletePopup, setDeletePopup] = useState(false);
+  const [deleteInfo, setDeleteInfo] = useState({
+    title: "",
+    desc: "",
+    bid: "",
+  });
+
+  const deleteDialog = (id) => {
+    setDeleteInfo({
+      ...deleteInfo,
+      title: "Are you sure?",
+      desc: `You want to delete the item with bid: ${id}`,
+      bid: id,
+    });
+    setDeletePopup(true);
+  };
+
+
 
   const columns = [
     { title: "Id", dataIndex: "bid", key: "bid" },
@@ -60,9 +102,16 @@ const Brokers = () => {
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
   ];
 
-
   return (
     <>
+      {deletePopup && (
+        <DeleteConfirmation
+          title={deleteInfo.title}
+          desc={deleteInfo.desc}
+          yesfunc={() => deleteId(deleteInfo.bid)}
+          nofunc={() => setDeletePopup(false)}
+        />
+      )}
       {loading && <Loader />}
       <MainPanel>
         <div>
@@ -71,8 +120,8 @@ const Brokers = () => {
               data={data}
               columns={columns}
               showActions={true}
-              onEdit={(record) => console.log("Edit", record)}
-              onDelete={(record) => console.log("Delete", record)}
+              onEdit={(record) => edit(record.bid)}
+              onDelete={(record) => deleteDialog(record.bid)}
             />
           )}
         </div>
