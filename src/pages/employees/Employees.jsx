@@ -1,41 +1,75 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
-import { employeeGetAll } from "../../(api)/Employee";
+import { deleteEmployee, employeeGetAll } from "../../(api)/Employee";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 
 const Employees = () => {
   const [data, setData] = useState();
-     const [loading, setLoading] = useState(false);
-    
-    //  navigate----------------
-    const navigate=useNavigate()
-     useEffect(() => {
-      getAllEmplyoee();
-     }, []);
+  const [loading, setLoading] = useState(false);
 
-     const edit= (Id) => {
-      navigate(`/addemployee?eid=${Id}`)
-        }
-   
-     const getAllEmplyoee = async () => {
-       try {
-         setLoading(true);
-          const response = await employeeGetAll();
-       if(response.status==="OK"){
-         setData(response.data);
-       }
-       } catch (err) {
-         toast.error("Something went wrong");
-       } finally {
-         setLoading(false);
-   
-       }
-     };
+  //  navigate----------------
+  const navigate = useNavigate()
+  useEffect(() => {
+    getAllEmplyoee();
+  }, []);
 
-  const columns = [   
+  const edit = (Id) => {
+    navigate(`/addemployee?eid=${Id}`)
+  }
+
+  const getAllEmplyoee = async () => {
+    try {
+      setLoading(true);
+      const response = await employeeGetAll();
+      if (response.status === "OK") {
+        setData(response.data);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+
+    }
+  };
+
+  const deleteId = async (eid) => {
+    try {
+      setLoading(true);
+      const response = await deleteEmployee(eid);
+      if (response.status === "OK") {
+        toast.success("Successfully Deleted!!");
+        getAllEmplyoee();
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+      setDeletePopup(false);
+    }
+  };
+
+  const [deletePopup, setDeletePopup] = useState(false);
+  const [deleteInfo, setDeleteInfo] = useState({
+    title: "",
+    desc: "",
+    bid: "",
+  });
+
+  const deleteDialog = (id) => {
+    setDeleteInfo({
+      ...deleteInfo,
+      title: "Are you sure?",
+      desc: `You want to delete the item with bid: ${id}`,
+      bid: id,
+    });
+    setDeletePopup(true);
+  };
+
+  const columns = [
     { title: "Employee Id", dataIndex: "empId", key: "empId" },
     { title: "Employee Name", dataIndex: "empName", key: "empName" },
     { title: "User Name", dataIndex: "userName", key: "userName" },
@@ -65,28 +99,36 @@ const Employees = () => {
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
   ];
 
-  
-  
+
+
 
   return (
     <>
-    {loading && <Loader />}
-    <MainPanel>
-      <div>
-      {data?.length > 0 && (
-          <Table
-          data={data}
-          columns={columns}
-          showActions={true}
-          onEdit={(record) => edit(record.eid)}
-          onDelete={(record) => console.log("Delete", record)}
+      {deletePopup && (
+        <DeleteConfirmation
+          title={deleteInfo.title}
+          desc={deleteInfo.desc}
+          yesfunc={() => deleteId(deleteInfo.bid)}
+          nofunc={() => setDeletePopup(false)}
         />
-        )}
-      </div>
-    </MainPanel>
-    
-    
-    
+      )}
+      {loading && <Loader />}
+      <MainPanel>
+        <div>
+          {data?.length > 0 && (
+            <Table
+              data={data}
+              columns={columns}
+              showActions={true}
+              onEdit={(record) => edit(record.eid)}
+              onDelete={(record) => deleteDialog(record.eid)}
+            />
+          )}
+        </div>
+      </MainPanel>
+
+
+
     </>
   );
 };

@@ -23,6 +23,15 @@ export const employeeGetAll = async () => {
   }
 };
 
+export const deleteEmployee = async (eid) => {
+  try {
+    const response = await axiosInstance.delete(`/admin/DeleteEmployee/{eId}?eId=${eid}`);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
 
 
 

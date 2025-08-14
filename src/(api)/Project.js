@@ -43,4 +43,13 @@ export const updateProject = async (data) => {
   }
 };
 
+export const deleteProject = async (pid) => {
+  try {
+    const response = await axiosInstance.delete(`/project/deleteProject?pId=${pid}`);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
 
