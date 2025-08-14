@@ -34,4 +34,13 @@ export const projectsAdd = async (data) => {
   }
 };
 
+export const updateProject = async (data) => {
+  try {
+    const response = await axiosInstance.put('/project/updateProject',data);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
 
