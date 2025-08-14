@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../add_client/AddClient.scss";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
@@ -6,8 +6,10 @@ import axios from "axios";
 import UseForm from "../../UseForm";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
+import { useNavigate, useSearchParams } from "react-router-dom";
 const AddBroker = () => {
   const [loader, setLoader] = useState(false);
+  const navigate = useNavigate()
   const formObj = {
     brokerName: "",
     dob: "",
@@ -23,26 +25,53 @@ const AddBroker = () => {
     comments: "",
   };
 
+  const [searchparams] = useSearchParams();
+  const brokerId = searchparams.get("bid");
+
   const addBroker = async () => {
     try {
       setLoader(true);
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}broker/addBroker`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
 
-      if (response.status === 200) {
-        setValues(formObj); // Reset form after successful submission
+      let response;
+
+      if (brokerId) {
+        const payload = { ...values, bid: brokerId };
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}broker/updateBroker`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setValues(formObj); // Reset form after successful submission
+          toast.success("Broker updated successfully!");
+          navigate("/brokers")
+        }
+      } else {
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}broker/addBroker`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+              if (response.status === 200) {
+           setValues(formObj); // Reset form after successful submission
         toast.success("Broker added successfully!");
       }
+      }
 
-      console.log(response);
+
+
+  
     } catch (error) {
       console.log(error);
     } finally {
@@ -55,6 +84,52 @@ const AddBroker = () => {
     () => ({}),
     addBroker
   );
+
+  // get broker byID
+
+  const getBrokerById = async (id) => {
+    try {
+      setLoader(true);
+
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}broker/getBroker/bId?bId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = response.data.data;
+
+      setValues({
+        brokerName: data.brokerName,
+        dob: data.dob,
+        address: data.address,
+        contactNo: data.contactNo,
+        alternateConNo: data.alternateConNo,
+        mailId: data.mailId,
+        panNo: data.panNo,
+        aadharNo: data.aadharNo,
+        bankName: data.bankName,
+        accountNo: data.accountNo,
+        ifscCode: data.ifscCode,
+        comments: data.comments,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    if (brokerId) {
+      getBrokerById(brokerId);
+    }
+  }, [brokerId]);
+
   return (
     <>
       <MainPanel>

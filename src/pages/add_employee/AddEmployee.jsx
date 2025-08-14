@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import "../add_client/AddClient.scss";
 import Input from "../../comp/input/Input";
@@ -9,9 +9,11 @@ import SelectInput from "../../comp/SelectInput/SelectInput";
 import AddEmployeeValidate from "../../validates/AddEmployee";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Loader from "../../comp/loader/Loader";
 
 const AddEmployee = () => {
   const [searchparams] = useSearchParams();
+  const [loader, setLoader] = useState(false);
   const empId = searchparams.get("eid");
   const navigate = useNavigate();
   const formobj = {
@@ -43,6 +45,7 @@ const AddEmployee = () => {
 
   const addEmployee = async () => {
     try {
+      setLoader(true);
       const token = localStorage.getItem("token");
 
       let response;
@@ -109,6 +112,8 @@ const AddEmployee = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -117,6 +122,7 @@ const AddEmployee = () => {
 
   const getEmployeeById = async (id) => {
     try {
+      setLoader(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}admin/getEmployee/{eId}?eId=${id}`,
@@ -157,6 +163,8 @@ const AddEmployee = () => {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -169,6 +177,7 @@ const AddEmployee = () => {
   return (
     <>
       <MainPanel>
+        {loader && <Loader />}
         <div class="form">
           <div class="topbar">Add Employee</div>
           <form action="" onSubmit={handleSubmit}>
