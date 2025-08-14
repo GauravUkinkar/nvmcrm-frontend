@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../add_client/AddClient.scss";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
@@ -8,8 +8,12 @@ import UseForm from "../../UseForm";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
+import { useNavigate, useSearchParams } from "react-router-dom";
 const AddProperties = () => {
   const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
+  const [searchparams] = useSearchParams();
+  const propertyId = searchparams.get("pid");
 
   const formObj = {
     plotNo: "",
@@ -36,22 +40,43 @@ const AddProperties = () => {
       setLoader(true);
       const token = localStorage.getItem("token");
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}property/addproperty`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      let response;
 
-      if (response.status === 200) {
-        setValues(formObj); // Reset form after successful submission
-        toast.success("Property added successfully!");
+      if (propertyId) {
+        const payload = { ...values, pid: propertyId };
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}property/updateproperty`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setValues(formObj); // Reset form after successful submission
+          toast.success("Property update successfully!");
+          navigate("/properties");
+        }
+      } else {
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}property/addproperty`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setValues(formObj); // Reset form after successful submission
+          toast.success("Property added successfully!");
+        }
       }
 
-      console.log(response);
+   
     } catch (error) {
       console.log(error);
     } finally {
@@ -65,13 +90,60 @@ const AddProperties = () => {
     addProperties
   );
 
+  // get peroperties by id
 
+  const getPropertiesById = async (id) => {
+    try {
+      setLoader(true);
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}property/getproperty/pId?pId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = response.data.data;
+
+      setValues({
+        plotNo: data.plotNo,
+        projectSubtitle: data.projectSubtitle,
+        projectName: data.projectName,
+        phase: data.phase,
+        plotSize: data.plotSize,
+        ratePerSqft: data.ratePerSqft,
+        otherCosts: data.otherCosts,
+        totalRateOfPlot: data.totalRateOfPlot,
+        plotDevelopementStatus: data.plotDevelopementStatus,
+        plotSaleStatus: data.plotSaleStatus,
+        plotOwner: data.plotOwner,
+        plotFinancialStatus: data.plotFinancialStatus,
+        pendingAmmountValue: data.pendingAmmountValue,
+        registryDate: data.registryDate,
+        actualPossessionDate: data.actualPossessionDate,
+        tentativePossessionDate: data.tentativePossessionDate,
+        comments: data.comments,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    if (propertyId) {
+      getPropertiesById(propertyId);
+    }
+  }, [propertyId]);
 
   return (
     <>
-    
       <MainPanel>
-          {loader && <Loader />}
+        {loader && <Loader />}
         <div class="form">
           <div class="topbar">
             <h2>Add Properties</h2>
