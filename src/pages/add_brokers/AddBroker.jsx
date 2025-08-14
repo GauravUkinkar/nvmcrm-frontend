@@ -62,12 +62,14 @@ const AddBroker = () => {
             },
           }
         );
-      }
 
-      if (response.status === 200) {
+              if (response.status === 200) {
            setValues(formObj); // Reset form after successful submission
         toast.success("Broker added successfully!");
       }
+      }
+
+
 
   
     } catch (error) {
