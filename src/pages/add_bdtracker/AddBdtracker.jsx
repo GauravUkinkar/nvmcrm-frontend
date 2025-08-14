@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../add_client/AddClient.scss";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
@@ -7,9 +7,12 @@ import axios from "axios";
 import UseForm from "../../UseForm";
 import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
+import { useNavigate, useSearchParams } from "react-router-dom";
 const AddBdtracker = () => {
   const [loader, setLoader] = useState(false);
-
+  const [searchparams] = useSearchParams();
+  const bdId = searchparams.get("bdId");
+  const navigate = useNavigate();
   const formObj = {
     leadGenerationDate: "",
     projectSubtitle: "",
@@ -30,20 +33,39 @@ const AddBdtracker = () => {
     try {
       setLoader(true);
       const token = localStorage.getItem("token");
+      let response;
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}bdtracker/addBDTracker`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      if (bdId) {
+        const payload = { ...values, bdId: bdId };
+        response = await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}bdtracker/updateBDTracker`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          toast.success("BD Tracker updated successfully!");
+          navigate("/bdTracker");
         }
-      );
+      } else {
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}bdtracker/addBDTracker`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      if (response.status === 200) {
-        setValues(formObj);
-        toast.success("BD Tracker added successfully!");
+        if (response.status === 200) {
+          setValues(formObj);
+          toast.success("BD Tracker added successfully!");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -57,6 +79,57 @@ const AddBdtracker = () => {
     () => ({}),
     addbd
   );
+
+  // get bd tracker by id
+
+  const getBdTrackerById = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      setLoader(true);
+
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }bdtracker/getBDTrackerById?bId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = response.data.data;
+
+      setValues({
+        leadGenerationDate: data?.leadGenerationDate,
+        projectSubtitle: data?.projectSubtitle,
+        projectName: data?.projectName,
+        potentialClientName: data?.potentialClientName,
+        status: data?.status,
+        emailId: data?.emailId,
+        phoneNo: data?.phoneNo,
+        reference: data?.reference,
+        comments: data?.comments,
+        dateOfFutureContact: data?.dateOfFutureContact,
+        marketingExecutive: data?.marketingExecutive,
+        dateofemailingtheBusinessProposaltoPotentialClient:
+          data?.dateofemailingtheBusinessProposaltoPotentialClient,
+        futuredatetoproceedonBusinessProposal:
+          data?.futuredatetoproceedonBusinessProposal,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    if (bdId) {
+      getBdTrackerById(bdId);
+    }
+  }, [bdId]);
+
   return (
     <>
       <MainPanel>
