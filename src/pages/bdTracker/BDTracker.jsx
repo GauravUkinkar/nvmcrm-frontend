@@ -70,8 +70,8 @@ const edit= (Id) => {
       };
 
   const columns = [
-    { title: "Id", dataIndex: "bdId", key: "bdId" },
-    { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" },
+    { title: "Tracker Id", dataIndex: "bdId", key: "bdId" },
+   /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
     { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
     { title: "Project Name", dataIndex: "projectName", key: "projectName" },
     { title: "Lead Generation Date", dataIndex: "leadGenerationDate", key: "leadGenerationDate" },
