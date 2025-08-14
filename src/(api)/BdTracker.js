@@ -32,9 +32,9 @@ export const updateBDTracker = async (data) => {
   }
 };
 
-export const deleteBroker = async (bdId) => {
+export const deleteBDTracker = async (bdId) => {
   try {
-    const response = await axiosInstance.delete(`/bdtracker/deleteBDTracker?bId=${bdId}'`);   
+    const response = await axiosInstance.delete(`/bdtracker/deleteBDTracker?bId=${bdId}`);   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

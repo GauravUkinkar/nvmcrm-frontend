@@ -3,7 +3,8 @@ import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
-import { bdTrackerGetAll } from "../../(api)/BdTracker";
+import { bdTrackerGetAll, deleteBDTracker } from "../../(api)/BdTracker";
+import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
 
 const BDTracker = () => {
@@ -13,7 +14,7 @@ const BDTracker = () => {
   //navigate----------------------------------------------
 const navigate=useNavigate()
 const edit= (Id) => {
-  navigate(`/bdTracker?bdId=${Id}`)
+  navigate(`/addBdTracker?bdId=${Id}`)
     }
 
    useEffect(() => {
@@ -34,6 +35,39 @@ const edit= (Id) => {
   
       }
     };
+
+     const deleteId = async (bdId) => {
+        try {
+          setLoading(true);
+          const response = await deleteBDTracker(bdId);
+          if (response.status === "OK") {
+            toast.success("Successfully Deleted!!");
+            getAllBd();
+          }
+        } catch (err) {
+          toast.error("Something went wrong");
+        } finally {
+          setLoading(false);
+          setDeletePopup(false);
+        }
+      };
+    
+      const [deletePopup, setDeletePopup] = useState(false);
+      const [deleteInfo, setDeleteInfo] = useState({
+        title: "",
+        desc: "",
+        bid: "",
+      });
+    
+      const deleteDialog = (id) => {
+        setDeleteInfo({
+          ...deleteInfo,
+          title: "Are you sure?",
+          desc: `You want to delete the item with bid: ${id}`,
+          bid: id,
+        });
+        setDeletePopup(true);
+      };
 
   const columns = [
     { title: "Id", dataIndex: "bdId", key: "bdId" },
@@ -61,6 +95,14 @@ const edit= (Id) => {
 
   return (
    <>
+    {deletePopup && (
+        <DeleteConfirmation
+          title={deleteInfo.title}
+          desc={deleteInfo.desc}
+          yesfunc={() => deleteId(deleteInfo.bid)}
+          nofunc={() => setDeletePopup(false)}
+        />
+      )}
     {loading && <Loader />}
     <MainPanel>
       <div>
@@ -70,7 +112,7 @@ const edit= (Id) => {
           columns={columns}
           showActions={true}
           onEdit={(record) => edit(record.bdId)}
-          onDelete={(record) => console.log("Delete", record)}
+          onDelete={(record) => deleteDialog(record.bdId)}
         />
         )}
       </div>
