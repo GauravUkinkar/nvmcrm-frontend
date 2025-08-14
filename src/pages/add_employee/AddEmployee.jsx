@@ -244,13 +244,18 @@ const AddEmployee = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <Input
+
+              <SelectInput
                 label="Gender"
                 value={values.gender}
                 name="gender"
                 onChange={handleChange}
                 onBlur={handleBlur}
-              />
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </SelectInput>
             </div>
             <div class="form-row">
               <Input

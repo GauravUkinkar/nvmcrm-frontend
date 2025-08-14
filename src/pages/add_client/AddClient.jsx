@@ -9,9 +9,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Loader from "../../comp/loader/Loader";
 import SelectInput from "../../comp/SelectInput/SelectInput";
 
+import { projectsGetAll } from "../../(api)/Project";
+
 const AddClient = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
+  const [projectList, setProjectList] = useState();
 
   const formObj = {
     clientName: "",
@@ -131,6 +134,18 @@ const AddClient = () => {
     }
   }, [clientId]);
 
+  useEffect(() => {
+    projectsGetAll()
+      .then((res) => {
+        setProjectList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+
+
   return (
     <>
       <MainPanel>
@@ -169,6 +184,10 @@ const AddClient = () => {
                 value={values.projectName}
               >
                 <option value="">Select Project Name</option>
+                {projectList &&
+                  projectList?.map((item, index) => (
+                    <option key={index} value={item?.projectName}>{item?.projectName}</option>
+                  ))}
               </SelectInput>
               <Input
                 label="Date of Birth"

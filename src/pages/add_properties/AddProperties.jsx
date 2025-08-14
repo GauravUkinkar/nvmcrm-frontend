@@ -9,12 +9,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { projectsGetAll } from "../../(api)/Project";
 const AddProperties = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [searchparams] = useSearchParams();
   const propertyId = searchparams.get("pid");
-
+  const [projectList, setProjectList] = useState();
   const formObj = {
     plotNo: "",
     projectSubtitle: "",
@@ -75,8 +76,6 @@ const AddProperties = () => {
           toast.success("Property added successfully!");
         }
       }
-
-   
     } catch (error) {
       console.log(error);
     } finally {
@@ -140,6 +139,16 @@ const AddProperties = () => {
     }
   }, [propertyId]);
 
+  useEffect(() => {
+    projectsGetAll()
+      .then((res) => {
+        setProjectList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
       <MainPanel>
@@ -166,13 +175,21 @@ const AddProperties = () => {
               />
             </div>
             <div class="form-row">
-              <Input
+              <SelectInput
+                label="Project Name"
                 name="projectName"
-                value={values.projectName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                label="Project Name"
-              />
+                value={values.projectName}
+              >
+                <option value="">Select Project Name</option>
+                {projectList &&
+                  projectList?.map((item, index) => (
+                    <option key={index} value={item?.projectName}>
+                      {item?.projectName}
+                    </option>
+                  ))}
+              </SelectInput>
               <Input
                 name="phase"
                 value={values.phase}
