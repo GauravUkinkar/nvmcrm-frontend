@@ -14,7 +14,7 @@ const Brokers = () => {
   //navigate----------------------------------------------
 const navigate=useNavigate()
 const edit= (Id) => {
-  navigate(`/brokers?bid=${Id}`)
+  navigate(`/addbroker?bid=${Id}`)
     }
 
   useEffect(() => {
