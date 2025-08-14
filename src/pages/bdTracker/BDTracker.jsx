@@ -12,10 +12,10 @@ const BDTracker = () => {
   const [loading, setLoading] = useState(false);
 
   //navigate----------------------------------------------
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const edit = (Id) => {
-    navigate(`/addBdTracker?bdId=${Id}`)
-  }
+    navigate(`/addBdTracker?bdId=${Id}`);
+  };
 
   useEffect(() => {
     getAllBd();
@@ -32,7 +32,6 @@ const BDTracker = () => {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
-
     }
   };
 
@@ -72,7 +71,11 @@ const BDTracker = () => {
   const columns = [
     { title: "Tracker Id", dataIndex: "bdId", key: "bdId" },
     /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
-    { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
+    {
+      title: "Project Subtitle",
+      dataIndex: "projectSubtitle",
+      key: "projectSubtitle",
+    },
     { title: "Project Name", dataIndex: "projectName", key: "projectName" },
     {
       title: "Lead Generation Date",
@@ -89,17 +92,30 @@ const BDTracker = () => {
     { title: "Phone Number", dataIndex: "phoneNo", key: "phoneNo" },
     { title: "Reference", dataIndex: "reference", key: "reference" },
     { title: "Comments", dataIndex: "comments", key: "comments" },
-    { title: "Date of Future Contact", dataIndex: "dateOfFutureContact", key: "dateOfFutureContact" },
-    { title: "Marketing Executive", dataIndex: "marketingExecutive", key: "marketingExecutive" },
-    { title: "Date of emailing the Business Proposal to Potential Client", dataIndex: "dateofemailingtheBusinessProposaltoPotentialClient", key: "dateofemailingtheBusinessProposaltoPotentialClient" },
-    { title: "Future date to Proceed on Business Proposal", dataIndex: "futuredatetoproceedonBusinessProposal", key: "futuredatetoproceedonBusinessProposal" },
+    {
+      title: "Date of Future Contact",
+      dataIndex: "dateOfFutureContact",
+      key: "dateOfFutureContact",
+    },
+    {
+      title: "Marketing Executive",
+      dataIndex: "marketingExecutive",
+      key: "marketingExecutive",
+    },
+    {
+      title: "Date of emailing the Business Proposal to Potential Client",
+      dataIndex: "dateofemailingtheBusinessProposaltoPotentialClient",
+      key: "dateofemailingtheBusinessProposaltoPotentialClient",
+    },
+    {
+      title: "Future date to Proceed on Business Proposal",
+      dataIndex: "futuredatetoproceedonBusinessProposal",
+      key: "futuredatetoproceedonBusinessProposal",
+    },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
-
-
   ];
-
 
   return (
     <>
@@ -125,9 +141,6 @@ const BDTracker = () => {
           )}
         </div>
       </MainPanel>
-
-
-
     </>
   );
 };

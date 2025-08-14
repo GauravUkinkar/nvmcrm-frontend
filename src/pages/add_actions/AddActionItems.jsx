@@ -1,36 +1,169 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../add_client/AddClient.scss";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Input from "../../comp/input/Input";
 import SelectInput from "../../comp/SelectInput/SelectInput";
+import UseForm from "../../UseForm";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Loader from "../../comp/loader/Loader";
+import { useNavigate, useSearchParams } from "react-router-dom";
 const AddActionItems = () => {
-    const formObj = {
-        
+  const [loader, setLoader] = useState(false);
+  const [searchParams] = useSearchParams();
+  const actionId = searchParams.get("aid");
+  const navigate = useNavigate()
+
+  const formObj = {
+    projectName: "",
+    projectSubtitle: "",
+    actionItemDescription: "",
+    actionItemStatus: "",
+    actionOwner: "",
+    actionCompleteionDate: "",
+    comments: "",
+  };
+
+  const addActionItems = async () => {
+    try {
+      setLoader(true);
+      const token = localStorage.getItem("token");
+
+      let response;
+
+      if (actionId) {
+        const payload = {...values, aid: actionId};
+        response = await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}actionItems/updateActionItems`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          toast.success("Action Items Updated successfully!");
+          setValues(formObj);
+          navigate("/actionItems")
+        }
+      } else {
+        response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}actionItems/addActionItems`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          toast.success("Action Items added successfully!");
+          setValues(formObj);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
     }
+  };
+
+  const { handleChange, handleSubmit, handleBlur, values, setValues } = UseForm(
+    formObj,
+    () => ({}),
+    addActionItems
+  );
+
+  // get action items data by id
+
+  const getActionItemsById = async (id) => {
+    try {
+      setLoader(true);
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }actionItems/getActionItemsById?aId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = response.data.data;
+
+      setValues({
+        projectName: data.projectName,
+        projectSubtitle: data.projectSubtitle,
+        actionItemDescription: data.actionItemDescription,
+        actionItemStatus: data.actionItemStatus,
+        actionOwner: data.actionOwner,
+        actionCompleteionDate: data.actionCompleteionDate,
+        comments: data.comments,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    if (actionId) {
+      getActionItemsById(actionId);
+    }
+  }, [actionId]);
+
   return (
     <>
       <MainPanel>
+        {loader && <Loader />}
         <div class="form">
           <div class="topbar">
             <h1>Add Action Items</h1>
           </div>
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <div class="form-row">
-              <SelectInput label="Project Name">
+              <SelectInput
+                label="Project Name"
+                value={values.projectName}
+                name="projectName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              >
                 <option value="">Select Project</option>
                 <option value="nvm">nvm</option>
               </SelectInput>
-              <Input label="Project Subtitle" />
+              <Input
+                label="Project Subtitle"
+                value={values.projectSubtitle}
+                name="projectSubtitle"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </div>
             <div class="form-row">
               <div class="input-textarea input">
                 <label for="">Action Item Description</label>
                 <textarea
                   placeholder="Action Item Description"
-                  id=""
+                  value={values.actionItemDescription}
+                  name="actionItemDescription"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 ></textarea>
               </div>
-              <SelectInput label="Action Item Status">
+              <SelectInput
+                label="Action Item Status"
+                value={values.actionItemStatus}
+                name="actionItemStatus"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              >
                 <option value="">Select Status</option>
                 <option value="To be started - Action Item is yet to be initated">
                   To be started
@@ -55,22 +188,43 @@ const AddActionItems = () => {
               </SelectInput>
             </div>
             <div class="form-row">
-              <SelectInput label="Action Item Status">
+              <SelectInput
+                value={values.actionOwner}
+                name="actionOwner"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Action Owner"
+              >
                 <option value="">Select Status</option>
                 <option value="nvm">nvm</option>
               </SelectInput>
-              <Input label="Action Completion Date" type="date" />
+              <Input
+                label="Action Completion Date"
+                type="date"
+                value={values.actionCompleteionDate}
+                name="actionCompleteionDate"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </div>
 
             <div class="form-row">
               <div class="input-textarea input">
                 <label for="">Comments</label>
-                <textarea placeholder="Comments" id=""></textarea>
+                <textarea
+                  value={values.comments}
+                  name="comments"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Comments"
+                ></textarea>
               </div>
             </div>
 
             <div class="form-row">
-                <button type="submit"class="btn">Add Action Items</button>
+              <button type="submit" class="btn">
+                Add Action Items
+              </button>
             </div>
           </form>
         </div>
