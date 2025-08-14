@@ -10,6 +10,7 @@ const Projects = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [projectName, setProjectName] = useState("");
+  
  
 
   useEffect(() => {
@@ -104,7 +105,7 @@ const Projects = () => {
             data={data}
             columns={columns}
             showActions={true}
-            onEdit={(record) => console.log("Edit", record)}
+            onEdit={(record) => edit(record.pid)}
             onDelete={(record) => console.log("Delete", record)}
           />
         )}

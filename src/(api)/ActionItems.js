@@ -14,33 +14,21 @@ axiosInstance.interceptors.request.use((config) => {
   });
 
 
-export const projectsGetAll = async () => {
+export const actionGetAll = async () => {
   try {
-    const response = await axiosInstance.get('/project/getAllProjects');   
+    const response = await axiosInstance.get('/actionItems/getAllActionItemss');   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
   }
 };
 
-export const projectsAdd = async (data) => {
+export const updateClient = async (data) => {
   try {
-    const response = await axiosInstance.post('/project/addProject', {
-          "projectName": data
-    });   
+    const response = await axiosInstance.put('/actionItems/updateActionItems',data);   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
   }
 };
-
-export const updateProject = async (data) => {
-  try {
-    const response = await axiosInstance.put('/project/updateProject',data);   
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error;
-  }
-};
-
 

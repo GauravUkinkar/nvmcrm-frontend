@@ -33,7 +33,7 @@ const ActivityLogs = () => {
     { title: "Id", dataIndex: "aid", key: "aid" },
     { title: "Changed by", dataIndex: "changedBy", key: "changedBy" },
     { title: "Changed in", dataIndex: "changedIn", key: "changedIn" },
-    { title: "Table Name", dataIndex: "tableName", key: "tableName" },
+    { title: "Database Name", dataIndex: "tableName", key: "tableName" },
     {
       title: "Changed Field Name",
       dataIndex: "changedFieldName",

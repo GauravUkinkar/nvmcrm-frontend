@@ -1,68 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
+import Loader from "../../comp/loader/Loader";
+import { toast } from "react-toastify";
+import { actionGetAll } from "../../(api)/ActionItems";
+import { useNavigate } from "react-router-dom";
 
 const ActionItems = () => {
-  const columns = [
-    { title: "Serial No.", dataIndex: "serialNo", key: "serialNo" },
-    { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
-    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
-    { title: "Action Item Desc.", dataIndex: "actionItemDesc", key: "actionItemDesc" },
-    { title: "Status", dataIndex: "status", key: "status" },
-    { title: "Estimated Completion Date", dataIndex: "estimatedCompletionDate", key: "estimatedCompletionDate" },
-    { title: "Owner", dataIndex: "owner", key: "owner" },
-    { title: "Comments", dataIndex: "comments", key: "comments" },
-    { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
-    { title: "Update time", dataIndex: "updateTime", key: "updateTime" },
-    { title: "Updated date", dataIndex: "updatedDate", key: "updatedDate" },
-    
-  ];
+   const [data, setData] = useState();
+    const [loading, setLoading] = useState(false);
 
-  const data = [
-    {
-      key: "1",
-      serialNo: 1,
-      projectSubtitle: "Phase 1",
-      projectName: "Website Redesign",
-      actionItemDesc: "Update homepage banner",
-      status: "In Progress",
-      estimatedCompletionDate: "2025-08-15",
-      owner: "John Doe",
-      comments: "Waiting for design approval",
-      updatedBy: "ashok_dhas",
-      updateTime: "9:02 AM",
-      updatedDate: "2025-08-08",
-      action: "Edit/Delete",
-    },
-    {
-      key: "2",
-      serialNo: 2,
-      projectSubtitle: "Phase 2",
-      projectName: "Mobile App Launch",
-      actionItemDesc: "Test payment integration",
-      status: "Completed",
-      estimatedCompletionDate: "2025-08-10",
-      owner: "Jane Smith",
-      comments: "All tests passed",
-      updatedBy: "ashok_dhas",
-      updateTime: "8:44 AM",
-      updatedDate: "2025-08-08",
-      action: "Edit/Delete",
-    },
-  ];
+      //navigate----------------------------------------------
+const navigate=useNavigate()
+const edit= (Id) => {
+  navigate(`/addactionitems?aid=${Id}`)
+    }
+
+  
+
+  useEffect(() => {
+    getAllAction();
+      }, []);
+    
+      const getAllAction = async () => {
+        try {
+          setLoading(true);
+           const response = await actionGetAll();
+        if(response.status==="OK"){
+          setData(response.data);
+        }
+        } catch (err) {
+          toast.error("Something went wrong");
+        } finally {
+          setLoading(false);
+    
+        }
+      };
+
+
+      const columns = [
+        { title: "Serial No.", dataIndex: "aid", key: "aid" },
+        { title: "Project Name", dataIndex: "projectName", key: "projectName" },
+        { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
+        { title: "Action Item Description", dataIndex: "actionItemDescription", key: "actionItemDescription" },
+        { title: "Action Item Status", dataIndex: "actionItemStatus", key: "actionItemStatus" },
+        { title: "Action Owner", dataIndex: "actionOwner", key: "actionOwner" },
+        { title: "Action Completeion Date", dataIndex: "actionCompleteionDate", key: "actionCompleteionDate" },
+        { title: "Comments", dataIndex: "comments", key: "comments" },
+        { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
+        { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
+        { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
+        
+      ];
 
   return (
+    <>
+    {loading && <Loader />}
     <MainPanel>
       <div>
-        <Table
+        {data?.length > 0 && (
+          <Table
           data={data}
           columns={columns}
           showActions={true}
-          onEdit={(record) => console.log("Edit", record)}
-          onDelete={(record) => console.log("Delete", record)}
+          onEdit={(record) => edit(record.aid)}
+          onDelete={(record) => deleteDialog(record.bdId)}
         />
+        )}
       </div>
     </MainPanel>
+    
+    
+    
+    </>
   );
 };
 
