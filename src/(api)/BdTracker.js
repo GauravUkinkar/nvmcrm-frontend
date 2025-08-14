@@ -23,4 +23,22 @@ export const bdTrackerGetAll = async () => {
   }
 };
 
+export const updateBDTracker = async (data) => {
+  try {
+    const response = await axiosInstance.put('/bdtracker/updateBDTracker',data);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
+export const deleteBroker = async (bdId) => {
+  try {
+    const response = await axiosInstance.delete(`/bdtracker/deleteBDTracker?bId=${bdId}'`);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
 

@@ -4,10 +4,17 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { bdTrackerGetAll } from "../../(api)/BdTracker";
+import { useNavigate } from "react-router-dom";
 
 const BDTracker = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+
+  //navigate----------------------------------------------
+const navigate=useNavigate()
+const edit= (Id) => {
+  navigate(`/bdTracker?bdId=${Id}`)
+    }
 
    useEffect(() => {
       getAllBd();
@@ -62,7 +69,7 @@ const BDTracker = () => {
           data={data}
           columns={columns}
           showActions={true}
-          onEdit={(record) => console.log("Edit", record)}
+          onEdit={(record) => edit(record.bdId)}
           onDelete={(record) => console.log("Delete", record)}
         />
         )}
