@@ -32,3 +32,12 @@ export const updateClient = async (data) => {
   }
 };
 
+export const deleteClient = async (cid) => {
+  try {
+    const response = await axiosInstance.delete(`/client/deleteClient?cId=${cid}`);   
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
