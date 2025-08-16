@@ -78,6 +78,7 @@ const Sidebar = ({ active }) => {
     },
     {
       name: "Add Entries",
+      path: "#", // Added path for collapsed sidebar tooltip
       icon: <IoAddCircleOutline />,
       icon2: <MdOutlineArrowForward />,
       Children: [
@@ -114,6 +115,15 @@ const Sidebar = ({ active }) => {
       ],
     },
   ];
+
+  // Handle click for Add Entries in collapsed mode
+  const handleAddEntriesClick = (e, item) => {
+    if (active && item.Children) {
+      e.preventDefault(); // Prevent navigation for "Add Entries" in collapsed mode
+      // You could implement a dropdown or modal here if needed
+      console.log('Add Entries clicked in collapsed mode');
+    }
+  };
 
   return (
     <>
@@ -153,11 +163,22 @@ const Sidebar = ({ active }) => {
           ) : (
             <div className="toggle_sidbar_icons">
               {navlinks &&
-                navlinks.map((item, index) => (
-                  <Link key={index} to={item.path} data-tooltip={item.name}>
-                    {item.icon}
-                  </Link>
-                ))}
+                navlinks.map((item, index) => {
+                  // For items with children, we'll show a different tooltip
+                  const tooltipText = item.Children ? `${item.name} (Click for options)` : item.name;
+                  
+                  return (
+                    <Link 
+                      key={index} 
+                      to={item.Children ? "#" : item.path} 
+                      data-tooltip={tooltipText}
+                      onClick={(e) => handleAddEntriesClick(e, item)}
+                      title={tooltipText} // Fallback for accessibility
+                    >
+                      {item.icon}
+                    </Link>
+                  );
+                })}
             </div>
           )}
 
@@ -176,7 +197,7 @@ const Sidebar = ({ active }) => {
               </>
             ) : (
               <div className="collapsed-footer">
-                <Link className="user-icon-collapsed" data-tooltip="ashok_dhas">
+                <Link className="user-icon-collapsed" data-tooltip="ashok_dhas" to="#">
                   <IoPersonCircleOutline />
                 </Link>
                 <button className="logout-btn-collapsed" data-tooltip="Logout" onClick={() => console.log('Logout clicked')}>
