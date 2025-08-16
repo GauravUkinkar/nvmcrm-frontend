@@ -1,25 +1,21 @@
-import React, { Children, useState } from "react";
+import React, { useState } from "react";
 import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
 import { Link } from "react-router-dom";
 import { 
-  IoGrid, 
-  IoDocumentText, 
   IoPeople, 
   IoPersonAdd, 
-  IoBusiness, 
   IoHome, 
   IoBarChart, 
-  IoCheckboxOutline, 
-  IoTimeOutline,
-  IoAddCircleOutline
+  IoCheckboxOutline,
+  IoAddCircleOutline,
+  IoPersonCircleOutline,
+  IoLogOutOutline
 } from "react-icons/io5";
 import { 
   MdOutlineArrowForward, 
   MdDashboard, 
-  MdPeople, 
-  MdBusiness,
   MdTrackChanges,
   MdAssignment,
   MdHistory 
@@ -28,8 +24,7 @@ import {
   FaProjectDiagram, 
   FaUsers, 
   FaUserTie, 
-  FaBuilding,
-  FaPlus 
+  FaBuilding
 } from "react-icons/fa";
 
 const Sidebar = ({ active }) => {
@@ -165,6 +160,31 @@ const Sidebar = ({ active }) => {
                 ))}
             </div>
           )}
+
+          {/* Footer Section */}
+          <div className="sidebar_footer">
+            {!active ? (
+              <>
+                <div className="user-info">
+                  <IoPersonCircleOutline className="user-icon" />
+                  <span className="username">ashok_dhas</span>
+                </div>
+                <button className="logout-btn" onClick={() => console.log('Logout clicked')}>
+                  <IoLogOutOutline />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <div className="collapsed-footer">
+                <Link className="user-icon-collapsed" data-tooltip="ashok_dhas">
+                  <IoPersonCircleOutline />
+                </Link>
+                <button className="logout-btn-collapsed" data-tooltip="Logout" onClick={() => console.log('Logout clicked')}>
+                  <IoLogOutOutline />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
