@@ -6,17 +6,16 @@ const axiosInstance = axios.create({
 
 // Add request interceptor to include auth token
 axiosInstance.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
-
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export const projectsGetAll = async () => {
   try {
-    const response = await axiosInstance.get('/project/getAllProjects');   
+    const response = await axiosInstance.get("/project/getAllProjects");
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -25,18 +24,21 @@ export const projectsGetAll = async () => {
 
 export const projectsAdd = async (data) => {
   try {
-    const response = await axiosInstance.post('/project/addProject', {
-          "projectName": data
-    });   
+    const response = await axiosInstance.post("/project/addProject", {
+      projectName: data,
+    });
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
   }
 };
 
-export const updateProject = async (data) => {
+export const updateProject = async (data, id) => {
   try {
-    const response = await axiosInstance.put('/project/updateProject',data);   
+    const response = await axiosInstance.put("/project/updateProject", {
+      projectName: data,
+      pid: id,
+    });
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -45,11 +47,11 @@ export const updateProject = async (data) => {
 
 export const deleteProject = async (pid) => {
   try {
-    const response = await axiosInstance.delete(`/project/deleteProject?pId=${pid}`);   
+    const response = await axiosInstance.delete(
+      `/project/deleteProject?pId=${pid}`
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
   }
 };
-
-

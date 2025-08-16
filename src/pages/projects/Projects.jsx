@@ -3,22 +3,25 @@ import Table from "../../comp/table/Table";
 import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
-import { deleteProject, projectsAdd, projectsGetAll } from "../../(api)/Project";
-import { useNavigate } from "react-router-dom";
+import {
+  deleteProject,
+  projectsAdd,
+  projectsGetAll,
+  updateProject,
+} from "../../(api)/Project";
+
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
+import axios from "axios";
 
 const Projects = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [projectName, setProjectName] = useState("");
-  
- 
+  const [editAccess, setEditAccess] = useState();
 
   useEffect(() => {
     getAllProjects();
   }, []);
-
-
 
   const getAllProjects = async () => {
     try {
@@ -29,6 +32,7 @@ const Projects = () => {
       }
     } catch (err) {
       toast.error("Something went wrong");
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -41,50 +45,64 @@ const Projects = () => {
         return;
       }
       setLoading(true);
-      const response = await projectsAdd(projectName);
-      if (response.responseMessage === "Project Added Successfully") {
-        toast.success("Project Added Successfully");
-        getAllProjects();
+
+      let response;
+      if (editAccess) {
+        response = await updateProject(projectName,editAccess);
+        if (response.responseMessage === "Project Updated Successfully") {
+          setEditAccess("");
+          setProjectName("");
+          toast.success("Project Updated Successfully");
+          getAllProjects();
+        }
+      } else {
+        response = await projectsAdd(projectName);
+        if (response.responseMessage === "Project Added Successfully") {
+          toast.success("Project Added Successfully");
+          getAllProjects();
+        }
       }
     } catch (error) {
       toast.error("Something went wrong");
+      console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
   const deleteId = async (eid) => {
-      try {
-        setLoading(true);
-        const response = await deleteProject(eid);
-        if (response.status === "OK") {
-          toast.success("Successfully Deleted!!");
-          getAllProjects();
-        }
-      } catch (err) {
-        toast.error("Something went wrong");
-      } finally {
-        setLoading(false);
-        setDeletePopup(false);
+    try {
+      setLoading(true);
+      const response = await deleteProject(eid);
+      if (response.status === "OK") {
+        toast.success("Successfully Deleted!!");
+        getAllProjects();
       }
-    };
-  
-    const [deletePopup, setDeletePopup] = useState(false);
-    const [deleteInfo, setDeleteInfo] = useState({
-      title: "",
-      desc: "",
-      bid: "",
+    } catch (err) {
+      toast.error("Something went wrong");
+      console.log(err)
+    } finally {
+      setLoading(false);
+      setDeletePopup(false);
+    }
+  };
+
+  const [deletePopup, setDeletePopup] = useState(false);
+  const [deleteInfo, setDeleteInfo] = useState({
+    title: "",
+    desc: "",
+    bid: "",
+  });
+
+  const deleteDialog = (id) => {
+    setDeleteInfo({
+      ...deleteInfo,
+      title: "Are you sure?",
+      desc: `You want to delete the item with bid: ${id}`,
+      bid: id,
     });
-  
-    const deleteDialog = (id) => {
-      setDeleteInfo({
-        ...deleteInfo,
-        title: "Are you sure?",
-        desc: `You want to delete the item with bid: ${id}`,
-        bid: id,
-      });
-      setDeletePopup(true);
-    };
+    setDeletePopup(true);
+  };
 
   const columns = [
     { title: "Id", dataIndex: "pid", key: "pid" },
@@ -94,9 +112,30 @@ const Projects = () => {
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
 
+  // get project by id
+
+  const getProjectById = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}project/getProjectById?pId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setEditAccess(id);
+      setProjectName(response.data.data.projectName);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-     {deletePopup && (
+      {deletePopup && (
         <DeleteConfirmation
           title={deleteInfo.title}
           desc={deleteInfo.desc}
@@ -138,7 +177,11 @@ const Projects = () => {
             }}
             onClick={() => addProject()}
           >
-            + Add Project
+            {
+              editAccess ? "+ Update Project" : 
+              "+ Add Project"
+            }
+            
           </button>
         </div>
 
@@ -147,7 +190,7 @@ const Projects = () => {
             data={data}
             columns={columns}
             showActions={true}
-            onEdit={(record) => edit(record.pid)}
+            onEdit={(record) => getProjectById(record.pid)}
             onDelete={(record) => deleteDialog(record.pid)}
           />
         )}

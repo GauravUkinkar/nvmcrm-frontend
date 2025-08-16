@@ -9,10 +9,14 @@ import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { projectsGetAll } from "../../(api)/Project";
+import { clientGetAll } from "../../(api)/Client";
+import { brokerGetAll } from "../../(api)/BrokerApi";
 const AddBdtracker = () => {
   const [loader, setLoader] = useState(false);
   const [searchparams] = useSearchParams();
   const [projectList, setProjectList] = useState();
+  const [clientList, setClientList] = useState();
+  const [brokerList, setBrokerList] = useState();
   const bdId = searchparams.get("bdId");
   const navigate = useNavigate();
   const formObj = {
@@ -141,11 +145,24 @@ const AddBdtracker = () => {
         console.log(err);
       });
 
+    clientGetAll()
+      .then((res) => {
+        setClientList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-      
+    brokerGetAll()
+      .then((res) => {
+        setBrokerList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
-
+  console.log(brokerList, "brokerList");
 
   return (
     <>
@@ -197,7 +214,12 @@ const AddBdtracker = () => {
                 onBlur={handleBlur}
               >
                 <option value="">Select Client</option>
-                <option value="nvm">nvm</option>
+                {clientList &&
+                  clientList?.map((item, index) => (
+                    <option key={index} value={item?.clientName}>
+                      {item?.clientName}
+                    </option>
+                  ))}
               </SelectInput>
             </div>
             <div class="form-row">
@@ -236,7 +258,13 @@ const AddBdtracker = () => {
                 onBlur={handleBlur}
               >
                 <option value="">Select Broker</option>
-                <option value="nvm">nvm</option>
+                {brokerList &&
+                  brokerList?.map((item, index) => (
+                    <option key={index} value={item?.brokerName}>
+                      {" "}
+                      {item?.brokerName}{" "}
+                    </option>
+                  ))}
               </SelectInput>
             </div>
 
