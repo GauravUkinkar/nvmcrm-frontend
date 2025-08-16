@@ -89,7 +89,7 @@
         margin: 2px 0;
         overflow: visible;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        // transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         
         .nav-content {
           display: flex;
@@ -113,7 +113,7 @@
             rgba(255, 255, 255, 0.05));
           border-radius: calc(var(--unit) * 0.8);
           opacity: 0;
-          transition: opacity 0.3s ease;
+          // transition: opacity 0.3s ease;
         }
 
         .arrow-icon {
@@ -123,7 +123,7 @@
           opacity: 0.8;
           font-size: 16px;
           min-width: 20px;
-          transition: all 0.3s ease;
+          // transition: all 0.3s ease;
         }
 
         .nav-icon {
@@ -178,7 +178,7 @@
           z-index: 1000;
           opacity: 0;
           visibility: hidden;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          // transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           display: flex;
           flex-direction: column;
           align-items: flex-start;
@@ -234,30 +234,30 @@
       }
     }
 
-    // Special styling for toggle icons - FIXED POSITIONING
+    // Special styling for toggle icons - REDUCED SIZE
     .toggle_sidbar_icons {
-      padding: 0 15px;
+      padding: 0 10px; // Reduced padding from 15px to 10px
       
       a {
-        width: 50px;
-        height: 50px;
+        width: 40px; // Reduced from 50px to 40px
+        height: 40px; // Reduced from 50px to 40px
         border-radius: 50% !important;
         justify-content: center;
         padding: 0;
-        font-size: 20px;
+        font-size: 16px; // Reduced from 20px to 16px
         position: relative;
         display: flex;
         align-items: center;
-        min-width: 50px;
-        min-height: 50px;
-        margin: 6px 0;
+        min-width: 40px; // Reduced from 50px to 40px
+        min-height: 40px; // Reduced from 50px to 40px
+        margin: 4px 0; // Reduced from 6px to 4px
         color: var(--white);
         background: transparent;
         border: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         text-decoration: none;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        // transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         white-space: nowrap;
         overflow: hidden;
         // Keep position fixed during transitions
@@ -315,7 +315,7 @@
           white-space: nowrap;
           opacity: 0;
           visibility: hidden;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          // transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.1);
@@ -361,7 +361,7 @@
         white-space: nowrap;
         overflow: hidden;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
         
         &::before {
           content: '';
@@ -375,7 +375,7 @@
             rgba(255, 255, 255, 0.05));
           border-radius: calc(var(--unit) * 0.8);
           opacity: 0;
-          transition: opacity 0.3s ease;
+          // transition: opacity 0.3s ease;
         }
 
         &:hover {
@@ -419,7 +419,7 @@
         font-size: 14px;
         font-weight: 400;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        // transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-align: left;
         position: relative;
         backdrop-filter: blur(10px);
@@ -477,34 +477,34 @@
         }
       }
 
-      // Collapsed footer styling - FIXED POSITIONING
+      // Collapsed footer styling - REDUCED SIZE
       .collapsed-footer {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 6px; // Reduced from 8px to 6px
         width: 100%;
 
         .user-icon-collapsed,
         .logout-btn-collapsed {
-          width: 50px;
-          height: 50px;
+          width: 40px; // Reduced from 50px to 40px
+          height: 40px; // Reduced from 50px to 40px
           border-radius: 50% !important;
           display: flex;
           justify-content: center;
           align-items: center;
           padding: 0;
-          font-size: 20px;
+          font-size: 16px; // Reduced from 20px to 16px
           position: relative;
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          // transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           text-decoration: none;
           color: var(--white);
           background: transparent;
           cursor: pointer;
-          min-width: 50px;
-          min-height: 50px;
+          min-width: 40px; // Reduced from 50px to 40px
+          min-height: 40px; // Reduced from 50px to 40px
           // Keep position fixed during transitions
           transform-origin: center center;
           
@@ -559,7 +559,7 @@
             white-space: nowrap;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            // transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
