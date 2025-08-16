@@ -3,100 +3,128 @@ import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
 import { Link } from "react-router-dom";
-import { IoGrid } from "react-icons/io5";
-import { FaPeopleLine } from "react-icons/fa6";
-import { MdOutlineArrowForward } from "react-icons/md";
+import { 
+  IoGrid, 
+  IoDocumentText, 
+  IoPeople, 
+  IoPersonAdd, 
+  IoBusiness, 
+  IoHome, 
+  IoBarChart, 
+  IoCheckboxOutline, 
+  IoTimeOutline,
+  IoAddCircleOutline
+} from "react-icons/io5";
+import { 
+  MdOutlineArrowForward, 
+  MdDashboard, 
+  MdPeople, 
+  MdBusiness,
+  MdTrackChanges,
+  MdAssignment,
+  MdHistory 
+} from "react-icons/md";
+import { 
+  FaProjectDiagram, 
+  FaUsers, 
+  FaUserTie, 
+  FaBuilding,
+  FaPlus 
+} from "react-icons/fa";
+
 const Sidebar = ({ active }) => {
-    const [activeIndex, setActiveIndex] = useState();
+  const [activeIndex, setActiveIndex] = useState();
+  
   const navlinks = [
     {
       name: "Dashboard",
       path: "/",
-      icon: <IoGrid />,
+      icon: <MdDashboard />,
     },
     {
       name: "Projects",
       path: "/projects",
-      icon: <IoGrid />,
+      icon: <FaProjectDiagram />,
     },    
     {
       name: "Clients",
       path: "/clients",
-      icon: <FaPeopleLine />,
+      icon: <FaUsers />,
     },
     {
       name: "Employees",
       path: "/employees",
-      icon: <FaPeopleLine />,
+      icon: <IoPeople />,
     },
     {
       name: "Brokers",
       path: "/brokers",
-      icon: <FaPeopleLine />,
+      icon: <FaUserTie />,
     },
     {
       name: "Properties",
       path: "/properties",
-      icon: <FaPeopleLine />,
+      icon: <FaBuilding />,
     },
     {
       name: "BD Tracker",
       path: "/bdTracker",
-      icon: <FaPeopleLine />,
+      icon: <MdTrackChanges />,
     },
     {
       name: "Action Items",
       path: "/actionItems",
-      icon: <FaPeopleLine />,
+      icon: <MdAssignment />,
     },
     {
       name: "Activity Log",
       path: "/activityLogs",
-      icon: <FaPeopleLine />,
+      icon: <MdHistory />,
     },
     {
       name: "Add Entries",
-      icon: <FaPeopleLine />,
+      icon: <IoAddCircleOutline />,
       icon2: <MdOutlineArrowForward />,
       Children: [
         {
           name: "Add Client",
           path: "/addclients",
-          icon: <FaPeopleLine />,
+          icon: <IoPersonAdd />,
         },
         {
           name: "Add Employee",
           path: "/addemployee",
-          icon: <FaPeopleLine />,
+          icon: <IoPeople />,
         },
         {
           name: "Add Properties",
           path: "/addproperties",
-          icon: <FaPeopleLine />,
+          icon: <IoHome />,
         },
         {
           name: "Add Broker",
           path: "/addbroker",
-          icon: <FaPeopleLine />,
+          icon: <FaUserTie />,
         },
         {
           name: "Add BD Tracker",
           path: "/addBdTracker",
-          icon: <FaPeopleLine />,
+          icon: <IoBarChart />,
         },
         {
           name: "Add Action Items",
           path: "/addactionitems",
-          icon: <FaPeopleLine />,
+          icon: <IoCheckboxOutline />,
         },
       ],
     },
   ];
+
   return (
     <>
-      <div class="sidebar">
-        <div class="sidebar_section_inner">
-          <div class="logo">
+      <div className="sidebar">
+        <div className="sidebar_section_inner">
+          <div className="logo">
             {active ? (
               <img src={small_logo} alt="" />
             ) : (
@@ -104,17 +132,21 @@ const Sidebar = ({ active }) => {
             )}
           </div>
           {!active ? (
-            <div class="sidebar_items">
+            <div className="sidebar_items">
               {navlinks &&
                 navlinks.map((item, index) => (
-                  <Link onMouseEnter={()=>setActiveIndex(index)} key={index} to={item.path}>
-                    {" "}
-                    {item.name} <span>{item?.icon2}</span>
+                  <Link onMouseEnter={() => setActiveIndex(index)} key={index} to={item.path}>
+                    <div className="nav-content">
+                      <span className="nav-icon">{item.icon}</span>
+                      {item.name}
+                    </div>
+                    {item?.icon2 && <span className="arrow-icon">{item.icon2}</span>}
                     {(activeIndex === index && item?.Children) && (
-                      <div class="children" onMouseLeave={()=>setActiveIndex(null)} >
+                      <div className="children" onMouseLeave={() => setActiveIndex(null)}>
                         {item.Children &&
-                          item.Children.map((item2, index) => (
-                            <Link key={index} to={item2.path}>
+                          item.Children.map((item2, index2) => (
+                            <Link key={index2} to={item2.path}>
+                              <span className="nav-icon">{item2.icon}</span>
                               {item2.name}
                             </Link>
                           ))}
@@ -124,12 +156,11 @@ const Sidebar = ({ active }) => {
                 ))}
             </div>
           ) : (
-            <div class="toggle_sidbar_icons">
+            <div className="toggle_sidbar_icons">
               {navlinks &&
                 navlinks.map((item, index) => (
-                  <Link key={index} to={item.path}>
-                    {" "}
-                    {item.icon}{" "}
+                  <Link key={index} to={item.path} data-tooltip={item.name}>
+                    {item.icon}
                   </Link>
                 ))}
             </div>
