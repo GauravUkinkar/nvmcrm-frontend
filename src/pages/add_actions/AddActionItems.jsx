@@ -8,11 +8,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { projectsGetAll } from "../../(api)/Project";
 const AddActionItems = () => {
   const [loader, setLoader] = useState(false);
   const [searchParams] = useSearchParams();
   const actionId = searchParams.get("aid");
-  const navigate = useNavigate()
+  const [projectList, setProjectList] = useState();
+  const navigate = useNavigate();
 
   const formObj = {
     projectName: "",
@@ -32,7 +34,7 @@ const AddActionItems = () => {
       let response;
 
       if (actionId) {
-        const payload = {...values, aid: actionId};
+        const payload = { ...values, aid: actionId };
         response = await axios.put(
           `${import.meta.env.VITE_BACKEND_URL}actionItems/updateActionItems`,
           payload,
@@ -46,7 +48,7 @@ const AddActionItems = () => {
         if (response.status === 200) {
           toast.success("Action Items Updated successfully!");
           setValues(formObj);
-          navigate("/actionItems")
+          navigate("/actionItems");
         }
       } else {
         response = await axios.post(
@@ -118,6 +120,16 @@ const AddActionItems = () => {
     }
   }, [actionId]);
 
+  useEffect(() => {
+    projectsGetAll()
+      .then((res) => {
+        setProjectList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
       <MainPanel>
@@ -135,8 +147,12 @@ const AddActionItems = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               >
-                <option value="">Select Project</option>
-                <option value="nvm">nvm</option>
+                {projectList &&
+                  projectList?.map((item, index) => (
+                    <option key={index} value={item?.projectName}>
+                      {item?.projectName}
+                    </option>
+                  ))}
               </SelectInput>
               <Input
                 label="Project Subtitle"
