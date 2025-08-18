@@ -10,10 +10,12 @@ import AddEmployeeValidate from "../../validates/AddEmployee";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loader from "../../comp/loader/Loader";
+import { projectsGetAll } from "../../(api)/Project";
 
 const AddEmployee = () => {
   const [searchparams] = useSearchParams();
   const [loader, setLoader] = useState(false);
+  const [projectList, setProjectList] = useState();
   const empId = searchparams.get("eid");
   const navigate = useNavigate();
   const formobj = {
@@ -174,6 +176,16 @@ const AddEmployee = () => {
     }
   }, [empId]);
 
+  useEffect(() => {
+    projectsGetAll()
+      .then((res) => {
+        setProjectList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
       <MainPanel>
@@ -215,6 +227,7 @@ const AddEmployee = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               >
+                <option value="">Select Role</option>
                 <option value="EMPLOYEE">Employee</option>
                 <option value="ADMIN">Admin</option>
               </SelectInput>
@@ -237,14 +250,21 @@ const AddEmployee = () => {
               />
             </div>
             <div class="form-row">
-              <Input
-                label="Project Name"
+              <SelectInput
+                label="Project Nam"
                 value={values.projectName}
                 name="projectName"
                 onChange={handleChange}
                 onBlur={handleBlur}
-              />
-
+              >
+                <option value="">Select Project Name</option>
+                {projectList &&
+                  projectList?.map((item, index) => (
+                    <option key={index} value={item?.projectName}>
+                      {item?.projectName}
+                    </option>
+                  ))}
+              </SelectInput>
               <SelectInput
                 label="Gender"
                 value={values.gender}

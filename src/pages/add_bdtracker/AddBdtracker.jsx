@@ -11,12 +11,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { projectsGetAll } from "../../(api)/Project";
 import { clientGetAll } from "../../(api)/Client";
 import { brokerGetAll } from "../../(api)/BrokerApi";
+import { getAllEmployeeName } from "../../(api)/Employee";
 const AddBdtracker = () => {
   const [loader, setLoader] = useState(false);
   const [searchparams] = useSearchParams();
   const [projectList, setProjectList] = useState();
   const [clientList, setClientList] = useState();
   const [brokerList, setBrokerList] = useState();
+    const [employeeName, setEmployeeName] = useState();
   const bdId = searchparams.get("bdId");
   const navigate = useNavigate();
   const formObj = {
@@ -160,6 +162,13 @@ const AddBdtracker = () => {
       .catch((err) => {
         console.log(err);
       });
+          getAllEmployeeName()
+            .then((res) => {
+              setEmployeeName(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
   }, []);
 
   console.log(brokerList, "brokerList");
@@ -298,7 +307,13 @@ const AddBdtracker = () => {
                 label="Marketing Executive"
               >
                 <option value="">Select Marketing Executive</option>
-                <option value="nvm">nvm</option>
+                {employeeName &&
+                  employeeName?.map((item, index) => (
+                    <option key={index} value={item?.empName}>
+                      {" "}
+                      {item?.empName}{" "}
+                    </option>
+                  ))}
               </SelectInput>
               <Input
                 label="Date of emailing the Business Proposal to Potential Client"

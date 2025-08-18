@@ -10,12 +10,13 @@ import Loader from "../../comp/loader/Loader";
 import SelectInput from "../../comp/SelectInput/SelectInput";
 
 import { projectsGetAll } from "../../(api)/Project";
+import { getAllEmployeeName } from "../../(api)/Employee";
 
 const AddClient = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [projectList, setProjectList] = useState();
-
+  const [employeeName, setEmployeeName] = useState();
   const formObj = {
     clientName: "",
     projectName: "",
@@ -142,9 +143,15 @@ const AddClient = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    getAllEmployeeName()
+      .then((res) => {
+        setEmployeeName(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
-
-
 
   return (
     <>
@@ -186,7 +193,9 @@ const AddClient = () => {
                 <option value="">Select Project Name</option>
                 {projectList &&
                   projectList?.map((item, index) => (
-                    <option key={index} value={item?.projectName}>{item?.projectName}</option>
+                    <option key={index} value={item?.projectName}>
+                      {item?.projectName}
+                    </option>
                   ))}
               </SelectInput>
               <Input
@@ -220,13 +229,22 @@ const AddClient = () => {
             </div>
 
             <div class="form-row">
-              <Input
-                label="Marketing Executive"
+              <SelectInput
+                value={values.marketingExecutive}
                 name="marketingExecutive"
                 onChange={handleChange}
-                value={values.marketingExecutive}
                 onBlur={handleBlur}
-              />
+                label="Marketing Executive"
+              >
+                <option value="">Select Owner</option>
+                {employeeName &&
+                  employeeName?.map((item, index) => (
+                    <option key={index} value={item?.empName}>
+                      {" "}
+                      {item?.empName}{" "}
+                    </option>
+                  ))}
+              </SelectInput>
               <Input
                 label="Alternate Mobile Number"
                 name="alternateMobNo"
