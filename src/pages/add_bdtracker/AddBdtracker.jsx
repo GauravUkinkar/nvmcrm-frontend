@@ -12,13 +12,15 @@ import { projectsGetAll } from "../../(api)/Project";
 import { clientGetAll } from "../../(api)/Client";
 import { brokerGetAll } from "../../(api)/BrokerApi";
 import { getAllEmployeeName } from "../../(api)/Employee";
+import { getAllstatus } from "../../(api)/Dashboard";
 const AddBdtracker = () => {
   const [loader, setLoader] = useState(false);
   const [searchparams] = useSearchParams();
   const [projectList, setProjectList] = useState();
   const [clientList, setClientList] = useState();
+  const [statusList, setStatusList] = useState();
   const [brokerList, setBrokerList] = useState();
-    const [employeeName, setEmployeeName] = useState();
+  const [employeeName, setEmployeeName] = useState();
   const bdId = searchparams.get("bdId");
   const navigate = useNavigate();
   const formObj = {
@@ -162,16 +164,24 @@ const AddBdtracker = () => {
       .catch((err) => {
         console.log(err);
       });
-          getAllEmployeeName()
-            .then((res) => {
-              setEmployeeName(res.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+    getAllEmployeeName()
+      .then((res) => {
+        setEmployeeName(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    getAllstatus()
+      .then((res) => {
+        setStatusList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
-  console.log(brokerList, "brokerList");
+  console.log(statusList, "statusList");
 
   return (
     <>
@@ -240,7 +250,10 @@ const AddBdtracker = () => {
                 onBlur={handleBlur}
               >
                 <option value="">Select Status</option>
-                <option value="nvm">nvm</option>
+                {statusList &&
+                  statusList?.map((item, index) => (
+                    <option key={index} value={item?.status}> {item?.status} </option>
+                  ))}
               </SelectInput>
               <Input
                 label="Email-Id"

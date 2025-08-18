@@ -6,17 +6,28 @@ const axiosInstance = axios.create({
 
 // Add request interceptor to include auth token
 axiosInstance.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
-
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export const loginLogsGetAll = async () => {
   try {
-    const response = await axiosInstance.get('/admin/getAllLoginLogs');   
+    const response = await axiosInstance.get("/admin/getAllLoginLogs");
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
+export const getAllstatus = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}status/getAllStatus`
+    );
+
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
