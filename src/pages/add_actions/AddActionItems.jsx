@@ -9,11 +9,13 @@ import { toast } from "react-toastify";
 import Loader from "../../comp/loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { projectsGetAll } from "../../(api)/Project";
+import { getAllEmployeeName } from "../../(api)/Employee";
 const AddActionItems = () => {
   const [loader, setLoader] = useState(false);
   const [searchParams] = useSearchParams();
   const actionId = searchParams.get("aid");
   const [projectList, setProjectList] = useState();
+  const [employeeName, setEmployeeName] = useState();
   const navigate = useNavigate();
 
   const formObj = {
@@ -128,6 +130,13 @@ const AddActionItems = () => {
       .catch((err) => {
         console.log(err);
       });
+    getAllEmployeeName()
+      .then((res) => {
+        setEmployeeName(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -211,10 +220,16 @@ const AddActionItems = () => {
                 onBlur={handleBlur}
                 label="Action Owner"
               >
-                <option value="">Select Status</option>
-                <option value="nvm">nvm</option>
+                <option value="">Select Owner</option>
+                {employeeName &&
+                  employeeName?.map((item, index) => (
+                    <option key={index} value={item?.empName}>
+                      {" "}
+                      {item?.empName}{" "}
+                    </option>
+                  ))}
               </SelectInput>
-              <Input
+              <Input  
                 label="Action Completion Date"
                 type="date"
                 value={values.actionCompleteionDate}

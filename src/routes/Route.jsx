@@ -18,7 +18,9 @@ const addBroker = lazy(() => import("../pages/add_brokers/AddBroker.jsx"));
 const addBDtracker = lazy(() => import("../pages/add_bdtracker/AddBdtracker.jsx"));
 const addActionItems = lazy(() => import("../pages/add_actions/AddActionItems.jsx"));
 
+
 export const routes = [
+
   {
     path: "/home",
     exact: true,

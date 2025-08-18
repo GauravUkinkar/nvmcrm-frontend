@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
@@ -26,9 +26,17 @@ import {
   FaUserTie, 
   FaBuilding
 } from "react-icons/fa";
+import { UserContext } from "../../Context";
 
 const Sidebar = ({ active }) => {
   const [activeIndex, setActiveIndex] = useState();
+const {user} = useContext(UserContext);
+  const handleLogout = ()=>{
+    localStorage.clear();
+    window.location.href = "/login"
+  }
+
+
   
   const navlinks = [
     {
@@ -188,9 +196,9 @@ const Sidebar = ({ active }) => {
               <>
                 <div className="user-info">
                   <IoPersonCircleOutline className="user-icon" />
-                  <span className="username">ashok_dhas</span>
+                  <span className="username"> {user?.empName} </span>
                 </div>
-                <button className="logout-btn" onClick={() => console.log('Logout clicked')}>
+                <button className="logout-btn" onClick={handleLogout}>
                   <IoLogOutOutline />
                   <span>Logout</span>
                 </button>
@@ -200,7 +208,7 @@ const Sidebar = ({ active }) => {
                 <Link className="user-icon-collapsed" data-tooltip="ashok_dhas" to="#">
                   <IoPersonCircleOutline />
                 </Link>
-                <button className="logout-btn-collapsed" data-tooltip="Logout" onClick={() => console.log('Logout clicked')}>
+                <button className="logout-btn-collapsed" data-tooltip="Logout" onClick={handleLogout}>
                   <IoLogOutOutline />
                 </button>
               </div>
