@@ -130,6 +130,7 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
         title: "Action",
         key: "action",
         align: "center",
+        fixed:"right",
         width: 140,
         onHeaderCell: () => ({
           style: { whiteSpace: "nowrap" },
