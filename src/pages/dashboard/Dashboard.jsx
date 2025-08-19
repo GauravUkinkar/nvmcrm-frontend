@@ -42,7 +42,7 @@ const Dashboard = () => {
   return (
      <>
      {loading && <Loader />}
-    <MainPanel>
+    <MainPanel  length={data?.length} text="Login Logs"  >
     <div >     
     {data?.length > 0 && (
           <Table

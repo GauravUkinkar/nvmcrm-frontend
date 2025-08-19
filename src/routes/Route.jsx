@@ -15,6 +15,7 @@ const Clients= lazy(() => import("../pages/clients/Clients.jsx"));
 const Projects= lazy(() => import("../pages/projects/Projects.jsx"));
 const addProperties = lazy(() => import("../pages/add_properties/AddProperties.jsx"));
 const addBroker = lazy(() => import("../pages/add_brokers/AddBroker.jsx"));
+const ManageUser = lazy(() => import("../pages/manageusers/ManageUser.jsx"));
 const addBDtracker = lazy(() => import("../pages/add_bdtracker/AddBdtracker.jsx"));
 const addActionItems = lazy(() => import("../pages/add_actions/AddActionItems.jsx"));
 
@@ -116,5 +117,11 @@ export const routes = [
     exact:true,
     name:"addactionitems",
     component:addActionItems
+  },
+  {
+    path:"/manageusers",
+    exact:true,
+    name:"manageusers",
+    component:ManageUser
   },
 ];

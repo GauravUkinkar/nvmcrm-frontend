@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const bdTrackerGetAll = async () => {
   try {
-    const response = await axiosInstance.get('bdtracker/getAllBdTracker');   
+    const response = await axiosInstance.get('auth/getAllBdTracker');   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

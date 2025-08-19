@@ -46,7 +46,7 @@ const ActivityLogs = () => {
   return (
     <>
       {loading && <Loader />}
-      <MainPanel>
+      <MainPanel length={data?.length} text="Activity Logs" >
         <div>
           <button
             style={{ marginBottom: "10px" }}
@@ -56,9 +56,9 @@ const ActivityLogs = () => {
             Export Data
           </button>
 
-          {data?.length > 0 && (
+          
             <Table data={data.reverse()} columns={columns} />
-          )}
+       
         </div>
       </MainPanel>
     </>

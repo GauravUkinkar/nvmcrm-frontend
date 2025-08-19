@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const BDTracker = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //navigate----------------------------------------------
@@ -129,12 +129,12 @@ const BDTracker = () => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel>
+      <MainPanel   length={data?.length} text="BD Tracker"   >
         <div>
             <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"BDtracker")} >
             Export Data
           </button>
-          {data?.length > 0 && (
+         
             <Table
               data={data}
               columns={columns}
@@ -142,7 +142,7 @@ const BDTracker = () => {
               onEdit={(record) => edit(record.bdId)}
               onDelete={(record) => deleteDialog(record.bdId)}
             />
-          )}
+    
         </div>
       </MainPanel>
     </>

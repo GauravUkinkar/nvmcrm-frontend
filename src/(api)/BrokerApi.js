@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const brokerGetAll = async () => {
   try {
-    const response = await axiosInstance.get('/broker/getAllBroker');   
+    const response = await axiosInstance.get('/auth/getAllBroker');   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

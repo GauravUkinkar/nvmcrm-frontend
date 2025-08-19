@@ -9,7 +9,7 @@ import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const Clients = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //navigate----------------------------------------------
@@ -98,13 +98,13 @@ const Clients = () => {
       dataIndex: "marketingExecutive",
       key: "marketingExecutive",
     },
-    { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
-    { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
-    { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
 
     { title: "Added by", dataIndex: "addedBy", key: "addedBy" },
 
     { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
+    { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
+    { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
+    { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
 
   return (
@@ -118,12 +118,16 @@ const Clients = () => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel>
-        <div >
-           <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"Clients")} >
+      <MainPanel length={data?.length} text="Clients">
+        <div>
+          <button
+            style={{ marginBottom: "10px" }}
+            class="btn"
+            onClick={() => ExportDataToExcel(data, "Clients")}
+          >
             Export Data
           </button>
-          {data?.length > 0 && (
+         
             <Table
               data={data}
               columns={columns}
@@ -131,7 +135,7 @@ const Clients = () => {
               onEdit={(record) => edit(record.cid)}
               onDelete={(record) => deleteDialog(record.cid)}
             />
-          )}
+       
         </div>
       </MainPanel>
     </>

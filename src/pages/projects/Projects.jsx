@@ -15,7 +15,7 @@ import axios from "axios";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const Projects = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [projectName, setProjectName] = useState("");
   const [editAccess, setEditAccess] = useState();
@@ -189,7 +189,7 @@ const Projects = () => {
           </button>
         </div>
 
-        {data?.length > 0 && (
+       
           <Table
             data={data}
             columns={columns}
@@ -197,7 +197,7 @@ const Projects = () => {
             onEdit={(record) => getProjectById(record.pid)}
             onDelete={(record) => deleteDialog(record.pid)}
           />
-        )}
+   
       </MainPanel>
     </>
   );

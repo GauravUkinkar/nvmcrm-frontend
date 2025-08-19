@@ -200,7 +200,7 @@
         .children {
           width: 250px;
           position: absolute;
-          top: 50%;
+          top: 100%;
           transform: translateY(-50%);
           left: calc(100% + 15px);
           background: linear-gradient(145deg, var(--white), #f8f9fa);
@@ -448,43 +448,43 @@
         padding-left: 1rem;
         padding-right: 1rem;
         position: relative;
-        border-radius: calc(var(--unit) * 0.8);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        // border-radius: calc(var(--unit) * 0.8);
+        // backdrop-filter: blur(10px);
+        // border: 1px solid rgba(255, 255, 255, 0.1);
         margin: 2px 0;
         white-space: nowrap;
         overflow: hidden;
         cursor: pointer;
 
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.1),
-            rgba(255, 255, 255, 0.05)
-          );
-          border-radius: calc(var(--unit) * 0.8);
-          opacity: 0;
-        }
+        // &::before {
+        //   content: "";
+        //   position: absolute;
+        //   top: 0;
+        //   left: 0;
+        //   right: 0;
+        //   bottom: 0;
+        //   background: linear-gradient(
+        //     135deg,
+        //     rgba(255, 255, 255, 0.1),
+        //     rgba(255, 255, 255, 0.05)
+        //   );
+        //   border-radius: calc(var(--unit) * 0.8);
+        //   opacity: 0;
+        // }
 
-        &:hover {
-          background: rgba(255, 255, 255, 0.1);
-          transform: translateX(3px);
-          border-color: rgba(255, 255, 255, 0.2);
+        // &:hover {
+        //   background: rgba(255, 255, 255, 0.1);
+        //   transform: translateX(3px);
+        //   border-color: rgba(255, 255, 255, 0.2);
 
-          &::before {
-            opacity: 1;
-          }
+        //   &::before {
+        //     opacity: 1;
+        //   }
 
-          .user-icon {
-            transform: translateX(2px);
-          }
-        }
+        //   .user-icon {
+        //     transform: translateX(2px);
+        //   }
+        // }
 
         .user-icon {
           font-size: 18px;

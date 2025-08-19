@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const projectsGetAll = async () => {
   try {
-    const response = await axiosInstance.get("/project/getAllProjects");
+    const response = await axiosInstance.get("/auth/getAllProjects");
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

@@ -1,0 +1,39 @@
+.panel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0px;
+
+  .table_panel {
+    width: 70%;
+  }
+
+  .form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--unit);
+    background-color: var(--unit);
+    box-shadow: var(--shadow);
+    padding: var(--unit);
+    border-radius: 8px;
+  }
+}
+
+@media only screen and (max-width:1050px){
+    .panel{
+        flex-direction: column-reverse;
+
+        .table_panel{
+            width: 100%;
+        }
+
+        .form{
+            width: 100%;
+        }
+    }
+}

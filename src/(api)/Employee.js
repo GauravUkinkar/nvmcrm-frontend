@@ -44,3 +44,14 @@ export const getAllEmployeeName = async () => {
     throw error.response?.data || error;
   }
 };
+export const getAllEmployeeById = async (id) => {
+  try {
+    const response = await axiosInstance.get(
+      `admin/getEmployee/eId?eId=${id}`
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};

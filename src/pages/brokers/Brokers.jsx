@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const Brokers = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //navigate----------------------------------------------
@@ -116,12 +116,12 @@ const edit= (Id) => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel>
+      <MainPanel length={data?.length} text="Brokers" >
         <div>
             <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"Brokers")} >
             Export Data
           </button>
-          {data?.length > 0 && (
+        
             <Table
               data={data}
               columns={columns}
@@ -129,7 +129,7 @@ const edit= (Id) => {
               onEdit={(record) => edit(record.bid)}
               onDelete={(record) => deleteDialog(record.bid)}
             />
-          )}
+     
         </div>
       </MainPanel>
     </>

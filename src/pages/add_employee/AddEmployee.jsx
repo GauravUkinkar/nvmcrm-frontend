@@ -127,7 +127,7 @@ const AddEmployee = () => {
       setLoader(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}admin/getEmployee/{eId}?eId=${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}admin/getEmployee/eId?eId=${id}`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -9,7 +9,7 @@ import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const Properties = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
    //navigate----------------------------------------------
@@ -110,12 +110,12 @@ const edit= (Id) => {
         />
       )}
     {loading && <Loader />}
-    <MainPanel>
+    <MainPanel length={data?.length} text="Properties"  >
       <div>     
           <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"Properties")} >
             Export Data
           </button>   
-        {data?.length  > 0 && (
+   
           <Table
           data={data}
           columns={columns}
@@ -123,7 +123,7 @@ const edit= (Id) => {
           onEdit={(record) => edit(record.pid)}
           onDelete={(record) => deleteDialog(record.pid)}
         />
-        )}
+      
       </div>
     </MainPanel>
     

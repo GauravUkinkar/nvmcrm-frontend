@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { Children, useContext, useState } from "react";
 import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
+import { RiPagesLine } from "react-icons/ri";
 import {
   IoPeople,
   IoPersonAdd,
@@ -30,9 +31,10 @@ import {
 } from "react-icons/fa";
 import { UserContext } from "../../Context";
 
-const Sidebar = ({ active,setActive }) => {
+const Sidebar = ({ active, setActive }) => {
   const [activeIndex, setActiveIndex] = useState();
   const location = useLocation();
+
   const { user } = useContext(UserContext);
   const handleLogout = () => {
     localStorage.clear();
@@ -46,45 +48,59 @@ const Sidebar = ({ active,setActive }) => {
       icon: <MdDashboard />,
     },
     {
-      name: "Projects",
-      path: "/projects",
-      icon: <FaProjectDiagram />,
+      name: "Entries",
+      path: "#", // Added path for collapsed sidebar tooltip
+      icon: <RiPagesLine />,
+      icon2: <MdOutlineArrowForward />,
+      Children: [
+        {
+          name: "Projects",
+          path: "/projects",
+          icon: <FaProjectDiagram />,
+        },
+        {
+          name: "Clients",
+          path: "/clients",
+          icon: <FaUsers />,
+        },
+        {
+          name: "Employees",
+          path: "/employees",
+          icon: <IoPeople />,
+        },
+        {
+          name: "Brokers",
+          path: "/brokers",
+          icon: <FaUserTie />,
+        },
+        {
+          name: "Properties",
+          path: "/properties",
+          icon: <FaBuilding />,
+        },
+        {
+          name: "BD Tracker",
+          path: "/bdTracker",
+          icon: <MdTrackChanges />,
+        },
+        {
+          name: "Action Items",
+          path: "/actionItems",
+          icon: <MdAssignment />,
+        },
+        {
+          name: "Activity Log",
+          path: "/activityLogs",
+          icon: <MdHistory />,
+        },
+        {
+          name: "Manage Users",
+          path: "/manageusers",
+          icon: <IoPeople />,
+        },
+      ],
     },
-    {
-      name: "Clients",
-      path: "/clients",
-      icon: <FaUsers />,
-    },
-    {
-      name: "Employees",
-      path: "/employees",
-      icon: <IoPeople />,
-    },
-    {
-      name: "Brokers",
-      path: "/brokers",
-      icon: <FaUserTie />,
-    },
-    {
-      name: "Properties",
-      path: "/properties",
-      icon: <FaBuilding />,
-    },
-    {
-      name: "BD Tracker",
-      path: "/bdTracker",
-      icon: <MdTrackChanges />,
-    },
-    {
-      name: "Action Items",
-      path: "/actionItems",
-      icon: <MdAssignment />,
-    },
-    {
-      name: "Activity Log",
-      path: "/activityLogs",
-      icon: <MdHistory />,
-    },
+
     {
       name: "Add Entries",
       path: "#", // Added path for collapsed sidebar tooltip
@@ -96,11 +112,17 @@ const Sidebar = ({ active,setActive }) => {
           path: "/addclients",
           icon: <IoPersonAdd />,
         },
-        {
-          name: "Add Employee",
-          path: "/addemployee",
-          icon: <IoPeople />,
-        },
+
+        ...(user.role === "ADMIN"
+          ? [
+              {
+                name: "Add Employee",
+                path: "/addemployee",
+                icon: <IoPeople />,
+              },
+            ]
+          : []),
+
         {
           name: "Add Properties",
           path: "/addproperties",
@@ -145,7 +167,9 @@ const Sidebar = ({ active,setActive }) => {
               <img src={logo} alt="" />
             )}
           </div>
-          <div class="arrow" onClick={() => setActive(!active)} >{active ? <FaArrowRight /> : <FaArrowLeft />}</div>
+          <div class="arrow" onClick={() => setActive(!active)}>
+            {active ? <FaArrowRight /> : <FaArrowLeft />}
+          </div>
           {!active ? (
             <div className="sidebar_items">
               {navlinks &&
@@ -223,7 +247,7 @@ const Sidebar = ({ active,setActive }) => {
               <>
                 <div className="user-info">
                   <IoPersonCircleOutline className="user-icon" />
-                  <span className="username"> {user?.empName} </span>
+                  <span className="username"> {`@ ${user?.empName}`} </span>
                 </div>
                 <button className="logout-btn" onClick={handleLogout}>
                   <IoLogOutOutline />
@@ -234,7 +258,7 @@ const Sidebar = ({ active,setActive }) => {
               <div className="collapsed-footer">
                 <Link
                   className="user-icon-collapsed"
-                  data-tooltip={user?.empName}
+                  data-tooltip={`@ ${user?.empName}`}
                   to="#"
                 >
                   <IoPersonCircleOutline />
