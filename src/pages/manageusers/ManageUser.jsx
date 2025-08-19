@@ -71,6 +71,8 @@ const changePassword = async (e)=>{
       },
     });
 
+    toast.success("User Updated Successfully");
+
     setFormData({
       username:"",
       password:"",
