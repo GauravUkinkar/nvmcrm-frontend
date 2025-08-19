@@ -19,7 +19,7 @@ const [user, setUser] = useState(null);
             },
           }
         );
-      } else if (role === "EMPLOYEE") {
+      } else if (role === "USER") {
         response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}user/getEmployee/eId?eId=${id}`,
           {
