@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { 
   IoPeople, 
   IoPersonAdd, 
@@ -30,6 +30,7 @@ import { UserContext } from "../../Context";
 
 const Sidebar = ({ active }) => {
   const [activeIndex, setActiveIndex] = useState();
+  const location = useLocation()
 const {user} = useContext(UserContext);
   const handleLogout = ()=>{
     localStorage.clear();
@@ -148,7 +149,7 @@ const {user} = useContext(UserContext);
             <div className="sidebar_items">
               {navlinks &&
                 navlinks.map((item, index) => (
-                  <Link onMouseEnter={() => setActiveIndex(index)} key={index} to={item.path}>
+                  <Link className={location.pathname === item.path ? "active link" : "link"} onMouseEnter={() => setActiveIndex(index)} key={index} to={item.path}>
                     <div className="nav-content">
                       <span className="nav-icon">{item.icon}</span>
                       {item.name}
@@ -158,7 +159,7 @@ const {user} = useContext(UserContext);
                       <div className="children" onMouseLeave={() => setActiveIndex(null)}>
                         {item.Children &&
                           item.Children.map((item2, index2) => (
-                            <Link key={index2} to={item2.path}>
+                            <Link className={location.pathname === item2.path ? "childLink active" : "childLink"} key={index2} to={item2.path}>
                               <span className="nav-icon">{item2.icon}</span>
                               {item2.name}
                             </Link>
@@ -177,6 +178,7 @@ const {user} = useContext(UserContext);
                   
                   return (
                     <Link 
+                    className={location.pathname === item.path ? "active link" : "link"}
                       key={index} 
                       to={item.Children ? "#" : item.path} 
                       data-tooltip={tooltipText}

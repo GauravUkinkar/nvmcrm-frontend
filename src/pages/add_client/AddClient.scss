@@ -33,3 +33,15 @@
     gap: var(--unit);
   }
 }
+
+
+@media only screen and (max-width:750px) {
+ .form{
+
+  form{
+    .form-row{
+      flex-direction: column;
+    }
+  }
+ } 
+}

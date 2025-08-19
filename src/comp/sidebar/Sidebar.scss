@@ -1,22 +1,28 @@
 .sidebar {
   width: 100%;
   height: 100svh;
-  background: linear-gradient(145deg, var(--accent), color-mix(in srgb, var(--accent) 90%, white 10%));
+  background: linear-gradient(
+    145deg,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 90%, white 10%)
+  );
   padding: 20px 10px;
   position: relative;
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
-  
+
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, 
-      rgba(255, 255, 255, 0.05) 0%, 
-      transparent 50%, 
-      rgba(0, 0, 0, 0.05) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
     pointer-events: none;
   }
 
@@ -48,7 +54,7 @@
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
         transition: filter 0.3s ease;
         transform: none;
-        
+
         &:hover {
           filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
           transform: none;
@@ -66,7 +72,7 @@
       align-items: center;
       gap: 4px;
 
-      a {
+      .link {
         padding: calc(var(--unit) * 0.8) var(--unit);
         color: var(--white);
         width: 100%;
@@ -89,7 +95,26 @@
         margin: 2px 0;
         overflow: visible;
         cursor: pointer;
-        
+
+        &.active {
+          background: rgba(255, 255, 255, 0.95);
+          color: var(--accent);
+          // transform: translateX(6px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
+            0 0 0 1px rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.3);
+
+          &::before {
+            opacity: 1;
+          }
+
+          .nav-icon,
+          .arrow-icon {
+            opacity: 1;
+            transform: translateX(2px);
+          }
+        }
+
         .nav-content {
           display: flex;
           align-items: center;
@@ -99,17 +124,19 @@
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        
+
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.1), 
-            rgba(255, 255, 255, 0.05));
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.05)
+          );
           border-radius: calc(var(--unit) * 0.8);
           opacity: 0;
         }
@@ -137,16 +164,16 @@
           background: rgba(255, 255, 255, 0.95);
           color: var(--accent);
           transform: translateX(6px);
-          box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.15),
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
             0 0 0 1px rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.3);
-          
+
           &::before {
             opacity: 1;
           }
 
-          .nav-icon, .arrow-icon {
+          .nav-icon,
+          .arrow-icon {
             opacity: 1;
             transform: translateX(2px);
           }
@@ -164,8 +191,7 @@
           left: calc(100% + 15px);
           background: linear-gradient(145deg, var(--white), #f8f9fa);
           height: auto;
-          box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.15),
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15),
             0 0 0 1px rgba(0, 0, 0, 0.05);
           overflow: hidden;
           border-radius: calc(var(--unit) * 1.2);
@@ -179,21 +205,23 @@
           flex-direction: column;
           align-items: flex-start;
           justify-content: center;
-          
+
           &::before {
-            content: '';
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, 
-              rgba(255, 255, 255, 0.9), 
-              rgba(248, 249, 250, 0.9));
+            background: linear-gradient(
+              135deg,
+              rgba(255, 255, 255, 0.9),
+              rgba(248, 249, 250, 0.9)
+            );
             border-radius: calc(var(--unit) * 1.2);
           }
 
-          a {
+          .childLink {
             color: var(--accent);
             padding: calc(var(--unit) * 0.8) var(--unit);
             margin: 4px 0;
@@ -211,6 +239,14 @@
             text-align: left;
             width: 100%;
             justify-content: flex-start;
+
+            &.active {
+              background: var(--accent);
+              color: var(--white);
+              transform: translateX(4px);
+
+              border-color: rgba(255, 255, 255, 0.2);
+            }
 
             &:hover {
               background: var(--accent);
@@ -233,8 +269,8 @@
     // Special styling for toggle icons - FIXED TOOLTIPS
     .toggle_sidbar_icons {
       padding: 0 10px;
-      
-      a {
+
+      .link {
         width: 40px;
         height: 40px;
         border-radius: 50% !important;
@@ -257,22 +293,52 @@
         overflow: visible; // Changed from hidden to visible for tooltips
         transform-origin: center center;
         
+
+        
+        &.active{
+        background: rgba(255, 255, 255, 0.95);
+          color: var(--accent);
+          transform: none;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
+            0 0 0 1px rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.3);
+          border-radius: 50% !important;
+
+          &::before {
+            opacity: 1;
+          }
+
+          // Show tooltip on hover
+          &::after {
+            opacity: 1;
+            visibility: visible;
+          }
+
+          .tooltip-arrow {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+
+
         // Background overlay for hover effect
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.1), 
-            rgba(255, 255, 255, 0.05));
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.05)
+          );
           border-radius: 50% !important;
           opacity: 0;
           transition: opacity 0.3s ease;
         }
-        
+
         // Tooltip styling - FIXED
         &::after {
           content: attr(data-tooltip);
@@ -312,27 +378,26 @@
           z-index: 1000;
           pointer-events: none;
         }
-        
+
         &:hover {
           background: rgba(255, 255, 255, 0.95);
           color: var(--accent);
-          transform: none; 
-          box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.15),
+          transform: none;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
             0 0 0 1px rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.3);
           border-radius: 50% !important;
-          
+
           &::before {
             opacity: 1;
           }
-          
+
           // Show tooltip on hover
           &::after {
             opacity: 1;
             visibility: visible;
           }
-          
+
           .tooltip-arrow {
             opacity: 1;
             visibility: visible;
@@ -375,17 +440,19 @@
         white-space: nowrap;
         overflow: hidden;
         cursor: pointer;
-        
+
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.1), 
-            rgba(255, 255, 255, 0.05));
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.05)
+          );
           border-radius: calc(var(--unit) * 0.8);
           opacity: 0;
         }
@@ -394,11 +461,11 @@
           background: rgba(255, 255, 255, 0.1);
           transform: translateX(3px);
           border-color: rgba(255, 255, 255, 0.2);
-          
+
           &::before {
             opacity: 1;
           }
-          
+
           .user-icon {
             transform: translateX(2px);
           }
@@ -438,17 +505,19 @@
         margin: 2px 0;
         white-space: nowrap;
         overflow: hidden;
-        
+
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.1), 
-            rgba(255, 255, 255, 0.05));
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.05)
+          );
           border-radius: calc(var(--unit) * 0.8);
           opacity: 0;
           transition: opacity 0.3s ease;
@@ -468,15 +537,14 @@
           background: rgba(255, 255, 255, 0.95);
           color: #d32f2f;
           transform: translateX(6px);
-          box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.15),
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
             0 0 0 1px rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.3);
-          
+
           &::before {
             opacity: 1;
           }
-          
+
           svg {
             opacity: 1;
             transform: translateX(2px);
@@ -517,23 +585,25 @@
           min-height: 40px;
           transform-origin: center center;
           overflow: visible; // Changed for tooltips
-          
+
           // Background overlay
           &::before {
-            content: '';
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, 
-              rgba(255, 255, 255, 0.1), 
-              rgba(255, 255, 255, 0.05));
+            background: linear-gradient(
+              135deg,
+              rgba(255, 255, 255, 0.1),
+              rgba(255, 255, 255, 0.05)
+            );
             border-radius: 50% !important;
             opacity: 0;
             transition: opacity 0.3s ease;
           }
-          
+
           // Tooltip styling - FIXED
           &::after {
             content: attr(data-tooltip);
@@ -573,7 +643,7 @@
             z-index: 1000;
             pointer-events: none;
           }
-          
+
           &:hover {
             transform: none;
             background: rgba(255, 255, 255, 0.95) !important;
@@ -581,18 +651,18 @@
             border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             border-radius: 50% !important;
-            
+
             &::before {
               opacity: 1;
               border-radius: 50% !important;
             }
-            
+
             // Show tooltip on hover
             &::after {
               opacity: 1;
               visibility: visible;
             }
-            
+
             .tooltip-arrow {
               opacity: 1;
               visibility: visible;
@@ -606,7 +676,7 @@
 
         .logout-btn-collapsed {
           color: var(--white);
-          
+
           &:hover {
             color: #d32f2f !important;
           }

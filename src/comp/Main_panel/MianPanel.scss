@@ -35,3 +35,19 @@
     }
   }
 }
+
+
+@media only screen and (max-width:650px) {
+ .mainpanel_parent{
+  .mainpanel{
+    .sidebar_section{
+   
+    }
+    .main_panel_dection{
+      width: calc(100% - 50px);
+      margin-left: 50px;
+    }
+  }
+ }
+
+}
