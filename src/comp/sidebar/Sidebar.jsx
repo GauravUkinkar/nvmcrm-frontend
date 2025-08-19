@@ -63,11 +63,21 @@ const Sidebar = ({ active, setActive }) => {
           path: "/clients",
           icon: <FaUsers />,
         },
-        {
-          name: "Employees",
-          path: "/employees",
-          icon: <IoPeople />,
-        },
+        ...(user.role === "ADMIN"
+          ? [
+              {
+                name: "Employees",
+                path: "/employees",
+                icon: <IoPeople />,
+              },
+              {
+                name: "Manage Users",
+                path: "/manageusers",
+                icon: <IoPeople />,
+              },
+            ]
+          : []),
+
         {
           name: "Brokers",
           path: "/brokers",
@@ -92,11 +102,6 @@ const Sidebar = ({ active, setActive }) => {
           name: "Activity Log",
           path: "/activityLogs",
           icon: <MdHistory />,
-        },
-        {
-          name: "Manage Users",
-          path: "/manageusers",
-          icon: <IoPeople />,
         },
       ],
     },
