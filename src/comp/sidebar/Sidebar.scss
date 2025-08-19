@@ -253,6 +253,7 @@
             text-align: left;
             width: 100%;
             justify-content: flex-start;
+            text-decoration: none;
 
             &.active {
               background: var(--accent);
@@ -710,10 +711,14 @@
 // Responsive enhancements
 @media (max-width: 768px) {
   .sidebar {
+    overflow-y: auto;
+    overflow-x: hidden;
     .sidebar_section_inner {
-      .sidebar_items a .children {
+      .sidebar_items .link .children {
         width: 200px;
-        left: calc(100% + 10px);
+        left: 0;
+        top: -450%;
+
       }
     }
   }

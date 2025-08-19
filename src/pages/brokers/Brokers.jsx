@@ -98,10 +98,11 @@ const edit= (Id) => {
     },
     { title: "Comments", dataIndex: "comments", key: "comments" },
     { title: "Added By", dataIndex: "addedBy", key: "addedBy" },
-    { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
+
     { title: "Added date", dataIndex: "addedDate", key: "addedDate" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
+        { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
   ];
 
   return (

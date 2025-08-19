@@ -30,7 +30,7 @@ import {
 } from "react-icons/fa";
 import { UserContext } from "../../Context";
 
-const Sidebar = ({ active }) => {
+const Sidebar = ({ active,setActive }) => {
   const [activeIndex, setActiveIndex] = useState();
   const location = useLocation();
   const { user } = useContext(UserContext);
@@ -145,7 +145,7 @@ const Sidebar = ({ active }) => {
               <img src={logo} alt="" />
             )}
           </div>
-          <div class="arrow">{active ? <FaArrowRight /> : <FaArrowLeft />}</div>
+          <div class="arrow" onClick={() => setActive(!active)} >{active ? <FaArrowRight /> : <FaArrowLeft />}</div>
           {!active ? (
             <div className="sidebar_items">
               {navlinks &&
@@ -234,7 +234,7 @@ const Sidebar = ({ active }) => {
               <div className="collapsed-footer">
                 <Link
                   className="user-icon-collapsed"
-                  data-tooltip="ashok_dhas"
+                  data-tooltip={user?.empName}
                   to="#"
                 >
                   <IoPersonCircleOutline />
