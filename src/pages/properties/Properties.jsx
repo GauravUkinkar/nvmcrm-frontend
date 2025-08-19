@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { deleteProperty, propertyGetAll } from "../../(api)/Properties";
 import { useNavigate } from "react-router-dom";
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
+import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const Properties = () => {
   const [data, setData] = useState();
@@ -76,7 +77,7 @@ const edit= (Id) => {
     { title: "Project Name", dataIndex: "projectName", key: "projectName" },
     { title: "Phase", dataIndex: "phase", key: "phase" },
     { title: "Plot Size (Sq. Ft)", dataIndex: "plotSize", key: "plotSize" },
-    { title: "Rate per Sq Ft.", dataIndex: "ratePerSqFt", key: "ratePerSqFt" },
+    { title: "Rate per Sq Ft.", dataIndex: "ratePerSqft", key: "ratePerSqft" },
     { title: "Other Costs", dataIndex: "otherCosts", key: "otherCosts" },
     { title: "Total Rate of the plot", dataIndex: "totalRateOfPlot", key: "totalRateOfPlot" },
     { title: "Plot Development Status", dataIndex: "plotDevelopementStatus", key: "plotDevelopementStatus" },
@@ -92,6 +93,7 @@ const edit= (Id) => {
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
     { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
+    { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
     
   ];
 
@@ -109,7 +111,10 @@ const edit= (Id) => {
       )}
     {loading && <Loader />}
     <MainPanel>
-      <div>        
+      <div>     
+          <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"Properties")} >
+            Export Data
+          </button>   
         {data?.length  > 0 && (
           <Table
           data={data}

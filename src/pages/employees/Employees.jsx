@@ -6,6 +6,7 @@ import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
+import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const Employees = () => {
   const [data, setData] = useState();
@@ -97,6 +98,7 @@ const Employees = () => {
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
     { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
+    { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
 
 
@@ -115,6 +117,9 @@ const Employees = () => {
       {loading && <Loader />}
       <MainPanel>
         <div>
+           <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"Employees")} >
+            Export Data
+          </button>
           {data?.length > 0 && (
             <Table
               data={data}

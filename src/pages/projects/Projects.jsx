@@ -12,6 +12,7 @@ import {
 
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 import axios from "axios";
+import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const Projects = () => {
   const [data, setData] = useState();
@@ -182,6 +183,9 @@ const Projects = () => {
               "+ Add Project"
             }
             
+          </button>
+          <button class="btn" onClick={()=>ExportDataToExcel(data,"projects")} >
+            Export Data
           </button>
         </div>
 

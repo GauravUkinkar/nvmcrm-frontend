@@ -4,6 +4,7 @@
   --white: #ffffff;
   --green: #313e35;
   --accent: #253c72;
+  --accent2 : #c40900;
   --accentbg: #b14b341c;
   --matteblack: #202020; 
   --text: rgba(107, 107, 107, 0.781);
@@ -246,6 +247,10 @@ input::-webkit-inner-spin-button {
   border: none;
   color: var(--white);
   cursor: pointer;
+
+  &:hover{
+    background-color: var(--accent2);
+  }
 
 }
 .btn2{

@@ -18,7 +18,7 @@ const Dashboard = () => {
            setLoading(true);
             const response = await loginLogsGetAll();
          if(response.status==="OK"){
-           setData(response.data);
+           setData(response.data.reverse());
          }
          } catch (err) {
            toast.error("Something went wrong");
@@ -30,7 +30,6 @@ const Dashboard = () => {
 
 
   const columns = [
-    { title: "Id", dataIndex: "lid", key: "lid" },
     { title: "User Name", dataIndex: "username", key: "username" },
     { title: "Login Time", dataIndex: "loginTime", key: "loginTime" },
     { title: "Login Date", dataIndex: "loginDate", key: "loginDate" },

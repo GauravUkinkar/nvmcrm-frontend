@@ -4,6 +4,7 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { activityLogsGetAll } from "../../(api)/ActivityLogs";
+import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const ActivityLogs = () => {
   const [data, setData] = useState();
@@ -24,10 +25,8 @@ const ActivityLogs = () => {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
-
     }
   };
-
 
   const columns = [
     { title: "Id", dataIndex: "aid", key: "aid" },
@@ -44,25 +43,24 @@ const ActivityLogs = () => {
     { title: "Activity Type", dataIndex: "activityType", key: "activityType" },
   ];
 
- 
-
   return (
     <>
       {loading && <Loader />}
       <MainPanel>
         <div>
-          {data?.length > 0 && (
-            <Table
-              data={data}
-              columns={columns}
+          <button
+            style={{ marginBottom: "10px" }}
+            class="btn"
+            onClick={() => ExportDataToExcel(data, "ActivityLogs")}
+          >
+            Export Data
+          </button>
 
-            />
+          {data?.length > 0 && (
+            <Table data={data.reverse()} columns={columns} />
           )}
         </div>
       </MainPanel>
-
-
-
     </>
   );
 };

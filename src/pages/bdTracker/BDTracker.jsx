@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { bdTrackerGetAll, deleteBDTracker } from "../../(api)/BdTracker";
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
+import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const BDTracker = () => {
   const [data, setData] = useState();
@@ -130,6 +131,9 @@ const BDTracker = () => {
       {loading && <Loader />}
       <MainPanel>
         <div>
+            <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"BDtracker")} >
+            Export Data
+          </button>
           {data?.length > 0 && (
             <Table
               data={data}
