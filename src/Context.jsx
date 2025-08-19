@@ -4,8 +4,8 @@ import { createContext, useEffect, useState } from "react";
 export const UserContext = createContext();
 
 const ContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-    console.log(user, "user")
+const [user, setUser] = useState(null);
+
   const getUser = async (id, token, role) => {
     try {
       let response;
@@ -30,9 +30,10 @@ const ContextProvider = ({ children }) => {
         );
       }
 
-      setUser(response.data.data);
+      setUser(response.data.data || false);
     } catch (error) {
       console.log(error);
+       setUser(false); 
     }
   };
 
@@ -43,7 +44,9 @@ const ContextProvider = ({ children }) => {
 
     if (token && eid && role) {
       getUser(eid, token, role);
-    }
+    }else {
+    setUser(false); // 👈 if no credentials in localStorage
+  }
   }, []);
 
   return (
