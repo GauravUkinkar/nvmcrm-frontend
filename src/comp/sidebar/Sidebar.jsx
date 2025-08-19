@@ -2,43 +2,43 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.scss";
 import logo from "../../assets/logo-2.webp";
 import small_logo from "../../assets/small_logo.webp";
+import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
-import { 
-  IoPeople, 
-  IoPersonAdd, 
-  IoHome, 
-  IoBarChart, 
+import {
+  IoPeople,
+  IoPersonAdd,
+  IoHome,
+  IoBarChart,
   IoCheckboxOutline,
   IoAddCircleOutline,
   IoPersonCircleOutline,
-  IoLogOutOutline
+  IoLogOutOutline,
 } from "react-icons/io5";
-import { 
-  MdOutlineArrowForward, 
-  MdDashboard, 
+import {
+  MdOutlineArrowForward,
+  MdDashboard,
   MdTrackChanges,
   MdAssignment,
-  MdHistory 
+  MdHistory,
 } from "react-icons/md";
-import { 
-  FaProjectDiagram, 
-  FaUsers, 
-  FaUserTie, 
-  FaBuilding
+import {
+  FaProjectDiagram,
+  FaUsers,
+  FaUserTie,
+  FaBuilding,
 } from "react-icons/fa";
 import { UserContext } from "../../Context";
 
 const Sidebar = ({ active }) => {
   const [activeIndex, setActiveIndex] = useState();
-  const location = useLocation()
-const {user} = useContext(UserContext);
-  const handleLogout = ()=>{
+  const location = useLocation();
+  const { user } = useContext(UserContext);
+  const handleLogout = () => {
     localStorage.clear();
-    window.location.href = "/login"
-  }
+    window.location.href = "/login";
+  };
 
-
-  
   const navlinks = [
     {
       name: "Dashboard",
@@ -49,7 +49,7 @@ const {user} = useContext(UserContext);
       name: "Projects",
       path: "/projects",
       icon: <FaProjectDiagram />,
-    },    
+    },
     {
       name: "Clients",
       path: "/clients",
@@ -130,7 +130,7 @@ const {user} = useContext(UserContext);
     if (active && item.Children) {
       e.preventDefault(); // Prevent navigation for "Add Entries" in collapsed mode
       // You could implement a dropdown or modal here if needed
-      console.log('Add Entries clicked in collapsed mode');
+      console.log("Add Entries clicked in collapsed mode");
     }
   };
 
@@ -145,21 +145,42 @@ const {user} = useContext(UserContext);
               <img src={logo} alt="" />
             )}
           </div>
+          <div class="arrow">{active ? <FaArrowRight /> : <FaArrowLeft />}</div>
           {!active ? (
             <div className="sidebar_items">
               {navlinks &&
                 navlinks.map((item, index) => (
-                  <Link className={location.pathname === item.path ? "active link" : "link"} onMouseEnter={() => setActiveIndex(index)} key={index} to={item.path}>
+                  <Link
+                    className={
+                      location.pathname === item.path ? "active link" : "link"
+                    }
+                    onMouseEnter={() => setActiveIndex(index)}
+                    key={index}
+                    to={item.path}
+                  >
                     <div className="nav-content">
                       <span className="nav-icon">{item.icon}</span>
                       {item.name}
                     </div>
-                    {item?.icon2 && <span className="arrow-icon">{item.icon2}</span>}
-                    {(activeIndex === index && item?.Children) && (
-                      <div className="children" onMouseLeave={() => setActiveIndex(null)}>
+                    {item?.icon2 && (
+                      <span className="arrow-icon">{item.icon2}</span>
+                    )}
+                    {activeIndex === index && item?.Children && (
+                      <div
+                        className="children"
+                        onMouseLeave={() => setActiveIndex(null)}
+                      >
                         {item.Children &&
                           item.Children.map((item2, index2) => (
-                            <Link className={location.pathname === item2.path ? "childLink active" : "childLink"} key={index2} to={item2.path}>
+                            <Link
+                              className={
+                                location.pathname === item2.path
+                                  ? "childLink active"
+                                  : "childLink"
+                              }
+                              key={index2}
+                              to={item2.path}
+                            >
                               <span className="nav-icon">{item2.icon}</span>
                               {item2.name}
                             </Link>
@@ -174,13 +195,17 @@ const {user} = useContext(UserContext);
               {navlinks &&
                 navlinks.map((item, index) => {
                   // For items with children, we'll show a different tooltip
-                  const tooltipText = item.Children ? `${item.name} (Click for options)` : item.name;
-                  
+                  const tooltipText = item.Children
+                    ? `${item.name} (Click for options)`
+                    : item.name;
+
                   return (
-                    <Link 
-                    className={location.pathname === item.path ? "active link" : "link"}
-                      key={index} 
-                      to={item.Children ? "#" : item.path} 
+                    <Link
+                      className={
+                        location.pathname === item.path ? "active link" : "link"
+                      }
+                      key={index}
+                      to={item.Children ? "#" : item.path}
                       data-tooltip={tooltipText}
                       onClick={(e) => handleAddEntriesClick(e, item)}
                       title={tooltipText} // Fallback for accessibility
@@ -207,10 +232,18 @@ const {user} = useContext(UserContext);
               </>
             ) : (
               <div className="collapsed-footer">
-                <Link className="user-icon-collapsed" data-tooltip="ashok_dhas" to="#">
+                <Link
+                  className="user-icon-collapsed"
+                  data-tooltip="ashok_dhas"
+                  to="#"
+                >
                   <IoPersonCircleOutline />
                 </Link>
-                <button className="logout-btn-collapsed" data-tooltip="Logout" onClick={handleLogout}>
+                <button
+                  className="logout-btn-collapsed"
+                  data-tooltip="Logout"
+                  onClick={handleLogout}
+                >
                   <IoLogOutOutline />
                 </button>
               </div>

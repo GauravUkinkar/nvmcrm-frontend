@@ -62,6 +62,20 @@
       }
     }
 
+    .arrow{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      cursor: pointer;
+      
+
+      svg{
+        font-size: 24px;
+        color: var(--white);
+      }
+    }
+
     .sidebar_items,
     .toggle_sidbar_icons {
       width: 100%;
