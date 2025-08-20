@@ -84,8 +84,13 @@ const Sidebar = ({ active, setActive }) => {
         },
         {
           name: "Add BD Tracker",
-          path: "/addBdTracker",
+          path: "/addactionitems",
           icon: <IoBarChart />,
+        },
+        {
+          name: "Add Action Items",
+          path: "/addBdTracker",
+          icon: <IoCheckboxOutline />,
         },
       ],
     },
@@ -117,11 +122,7 @@ const Sidebar = ({ active, setActive }) => {
                 path: "/manageusers",
                 icon: <IoPeople />,
               },
-              {
-                name: "Action Items",
-                path: "/actionItems",
-                icon: <MdAssignment />,
-              },
+             
             ]
           : []),
 
@@ -140,19 +141,24 @@ const Sidebar = ({ active, setActive }) => {
           path: "/bdTracker",
           icon: <MdTrackChanges />,
         },
+         {
+                name: "Action Items",
+                path: "/actionItems",
+                icon: <MdAssignment />,
+              },
       ],
     },
 
-    {
-      name: "Activity Log",
-      path: "/activityLogs",
-      icon: <MdHistory />,
-    },
     ...(user.role === "ADMIN"
       ? [
           {
             name: "Login Logs",
             path: "/loginlogs",
+            icon: <MdHistory />,
+          },
+          {
+            name: "Activity Log",
+            path: "/activityLogs",
             icon: <MdHistory />,
           },
         ]

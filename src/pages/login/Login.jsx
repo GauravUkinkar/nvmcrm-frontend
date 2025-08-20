@@ -57,7 +57,7 @@ const Login = () => {
   return (
     <>
       {loader && <Loader />}
-      <div class="login_parent parent">
+      <div class="login_parent parent bg-img-cover">
         <div class="login_cont cont">
           <form class="login_form" onSubmit={handleSubmit}>
             <h2>Login</h2>

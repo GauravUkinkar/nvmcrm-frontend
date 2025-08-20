@@ -225,10 +225,14 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 20px;
+        border-radius: 5px;
+        background-color: var(--white);
 
        .childLink {
         padding: calc(var(--unit) * 0.8) var(--unit);
-        color: var(--white);
+        color: var(--accent);
         width: 100%;
         text-align: left;
         text-decoration: none;
@@ -243,9 +247,6 @@
         white-space: nowrap;
         overflow: hidden;
         position: relative;
-        border-radius: calc(var(--unit) * 0.8);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
         margin: 2px 0;
         overflow: visible;
         cursor: pointer;
@@ -317,7 +318,7 @@
         &:hover {
           background: rgba(255, 255, 255, 0.95);
           color: var(--accent);
-          transform: translateX(6px);
+          // transform: translateX(6px);
           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
             0 0 0 1px rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.3);
