@@ -1,7 +1,12 @@
 import React, { useRef, useState, useMemo } from "react";
 import { Table as AntTable, Input, Button, Space } from "antd";
-import { SearchOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import "./Table.scss";
 
 const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
   const [searchText, setSearchText] = useState("");
@@ -25,7 +30,12 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
   };
 
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
       <div style={{ padding: 8 }}>
         <Input
           ref={searchInput}
@@ -60,11 +70,16 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
       </div>
     ),
     filterIcon: () => (
-      <SearchOutlined style={{ color: "#fff", fontWeight: "bold", fontSize: "16px" }} />
+      <SearchOutlined
+        style={{ color: "#fff", fontWeight: "bold", fontSize: "16px" }}
+      />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
-        ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
         : false,
     render: (text) =>
       searchedColumn === dataIndex ? (
@@ -130,7 +145,7 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
         title: "Action",
         key: "action",
         align: "center",
-        fixed:"right",
+        fixed: "right",
         width: 140,
         onHeaderCell: () => ({
           style: { whiteSpace: "nowrap" },
@@ -155,18 +170,26 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
 
     return updatedCols;
   }, [columns, data, filteredInfo, searchText, showActions, onEdit, onDelete]);
+return (
+  <div className="table-wrapper">
+    <div className="table-scroll">
+      <AntTable
+        columns={enhancedColumns}
+        dataSource={data}
+        onChange={handleChange}
+        pagination={{
+          pageSizeOptions: ["5", "10", "20", "50", "100"],
+          showSizeChanger: true,
+          defaultPageSize: 10,
+        }}
+        scroll={{
+          x: enhancedColumns.reduce((sum, col) => sum + (col.width || 150), 0),
+        }}
+      />
+    </div>
+  </div>
+);
 
-  return (
-    <AntTable
-      columns={enhancedColumns}
-      dataSource={data}
-      onChange={handleChange}
-      pagination={{ position: ["bottomRight"] }}
-      scroll={{
-        x: enhancedColumns.reduce((sum, col) => sum + (col.width || 150), 0),
-      }}
-    />
-  );
 };
 
 export default Table;

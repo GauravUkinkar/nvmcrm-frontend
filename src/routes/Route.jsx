@@ -13,6 +13,7 @@ const Brokers = lazy(() => import("../pages/brokers/Brokers.jsx"));
 const Employees = lazy(() => import("../pages/employees/Employees.jsx"));
 const Clients= lazy(() => import("../pages/clients/Clients.jsx"));
 const Projects= lazy(() => import("../pages/projects/Projects.jsx"));
+const LoginLog= lazy(() => import("../pages/login_logs/LoginLog.jsx"));
 const addProperties = lazy(() => import("../pages/add_properties/AddProperties.jsx"));
 const addBroker = lazy(() => import("../pages/add_brokers/AddBroker.jsx"));
 const ManageUser = lazy(() => import("../pages/manageusers/ManageUser.jsx"));
@@ -33,6 +34,12 @@ export const routes = [
     exact: true,
     name: "dashboard",
     component: Dashboard,
+  },
+  {
+    path:"/loginlogs",
+    exact:true,
+    name:"loginlogs",
+    component:LoginLog
   },
   {
     path: "/projects",

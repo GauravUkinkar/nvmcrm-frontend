@@ -7,7 +7,7 @@ import { activityLogsGetAll } from "../../(api)/ActivityLogs";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const ActivityLogs = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const ActivityLogs = () => {
       setLoading(true);
       const response = await activityLogsGetAll();
       if (response.status === "OK") {
-        setData(response.data);
+        setData(response.data?.reverse());
       }
     } catch (err) {
       toast.error("Something went wrong");
@@ -57,7 +57,7 @@ const ActivityLogs = () => {
           </button>
 
           
-            <Table data={data.reverse()} columns={columns} />
+            <Table data={data} columns={columns} />
        
         </div>
       </MainPanel>

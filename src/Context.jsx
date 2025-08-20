@@ -6,6 +6,7 @@ export const UserContext = createContext();
 const ContextProvider = ({ children }) => {
 const [user, setUser] = useState(null);
 
+
   const getUser = async (id, token, role) => {
     try {
       let response;

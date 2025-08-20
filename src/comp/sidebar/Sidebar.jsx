@@ -1,7 +1,6 @@
 import React, { Children, useContext, useState } from "react";
 import "./Sidebar.scss";
-import logo from "../../assets/logo-2.webp";
-import small_logo from "../../assets/small_logo.webp";
+
 import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
@@ -42,70 +41,15 @@ const Sidebar = ({ active, setActive }) => {
   };
 
   const navlinks = [
-    {
-      name: "Dashboard",
-      path: "/",
-      icon: <MdDashboard />,
-    },
-    {
-      name: "Entries",
-      path: "#", // Added path for collapsed sidebar tooltip
-      icon: <RiPagesLine />,
-      icon2: <MdOutlineArrowForward />,
-      Children: [
-        {
-          name: "Projects",
-          path: "/projects",
-          icon: <FaProjectDiagram />,
-        },
-        {
-          name: "Clients",
-          path: "/clients",
-          icon: <FaUsers />,
-        },
-        ...(user.role === "ADMIN"
-          ? [
-              {
-                name: "Employees",
-                path: "/employees",
-                icon: <IoPeople />,
-              },
-              {
-                name: "Manage Users",
-                path: "/manageusers",
-                icon: <IoPeople />,
-              },
-            ]
-          : []),
-
-        {
-          name: "Brokers",
-          path: "/brokers",
-          icon: <FaUserTie />,
-        },
-        {
-          name: "Properties",
-          path: "/properties",
-          icon: <FaBuilding />,
-        },
-        {
-          name: "BD Tracker",
-          path: "/bdTracker",
-          icon: <MdTrackChanges />,
-        },
-        {
-          name: "Action Items",
-          path: "/actionItems",
-          icon: <MdAssignment />,
-        },
-        {
-          name: "Activity Log",
-          path: "/activityLogs",
-          icon: <MdHistory />,
-        },
-      ],
-    },
-
+    ...(user.role === "ADMIN"
+      ? [
+          {
+            name: "Dashboard",
+            path: "/",
+            icon: <MdDashboard />,
+          },
+        ]
+      : []),
     {
       name: "Add Entries",
       path: "#", // Added path for collapsed sidebar tooltip
@@ -143,13 +87,76 @@ const Sidebar = ({ active, setActive }) => {
           path: "/addBdTracker",
           icon: <IoBarChart />,
         },
+      ],
+    },
+    {
+      name: "Entries",
+      path: "#", // Added path for collapsed sidebar tooltip
+      icon: <RiPagesLine />,
+      icon2: <MdOutlineArrowForward />,
+      Children: [
         {
-          name: "Add Action Items",
-          path: "/addactionitems",
-          icon: <IoCheckboxOutline />,
+          name: "Projects",
+          path: "/projects",
+          icon: <FaProjectDiagram />,
+        },
+        {
+          name: "Clients",
+          path: "/clients",
+          icon: <FaUsers />,
+        },
+        ...(user.role === "ADMIN"
+          ? [
+              {
+                name: "Employees",
+                path: "/employees",
+                icon: <IoPeople />,
+              },
+              {
+                name: "Manage Users",
+                path: "/manageusers",
+                icon: <IoPeople />,
+              },
+              {
+                name: "Action Items",
+                path: "/actionItems",
+                icon: <MdAssignment />,
+              },
+            ]
+          : []),
+
+        {
+          name: "Brokers",
+          path: "/brokers",
+          icon: <FaUserTie />,
+        },
+        {
+          name: "Properties",
+          path: "/properties",
+          icon: <FaBuilding />,
+        },
+        {
+          name: "BD Tracker",
+          path: "/bdTracker",
+          icon: <MdTrackChanges />,
         },
       ],
     },
+
+    {
+      name: "Activity Log",
+      path: "/activityLogs",
+      icon: <MdHistory />,
+    },
+    ...(user.role === "ADMIN"
+      ? [
+          {
+            name: "Login Logs",
+            path: "/loginlogs",
+            icon: <MdHistory />,
+          },
+        ]
+      : []),
   ];
 
   // Handle click for Add Entries in collapsed mode
@@ -161,62 +168,66 @@ const Sidebar = ({ active, setActive }) => {
     }
   };
 
+  console.log(activeIndex, "activeIndex");
+
   return (
     <>
       <div className="sidebar">
         <div className="sidebar_section_inner">
-          <div className="logo">
-            {active ? (
-              <img src={small_logo} alt="" />
-            ) : (
-              <img src={logo} alt="" />
-            )}
+          <div class="top_bar">
+            <div class="arrow" onClick={() => setActive(!active)}>
+              {active ? <FaArrowRight /> : <FaArrowLeft />}
+            </div>
+            <div className="logo">
+              <div class="img bg-img-contain"></div>
+            </div>
           </div>
-          <div class="arrow" onClick={() => setActive(!active)}>
-            {active ? <FaArrowRight /> : <FaArrowLeft />}
-          </div>
+
           {!active ? (
             <div className="sidebar_items">
               {navlinks &&
                 navlinks.map((item, index) => (
-                  <Link
-                    className={
-                      location.pathname === item.path ? "active link" : "link"
-                    }
-                    onMouseEnter={() => setActiveIndex(index)}
+                  <div
                     key={index}
-                    to={item.path}
+                    className="nav-item-wrapper"
+                    onMouseEnter={() => setActiveIndex(index)}
+                    onMouseLeave={() => setActiveIndex(null)}
                   >
-                    <div className="nav-content">
-                      <span className="nav-icon">{item.icon}</span>
-                      {item.name}
-                    </div>
-                    {item?.icon2 && (
-                      <span className="arrow-icon">{item.icon2}</span>
-                    )}
-                    {activeIndex === index && item?.Children && (
-                      <div
-                        className="children"
-                        onMouseLeave={() => setActiveIndex(null)}
-                      >
-                        {item.Children &&
-                          item.Children.map((item2, index2) => (
-                            <Link
-                              className={
-                                location.pathname === item2.path
-                                  ? "childLink active"
-                                  : "childLink"
-                              }
-                              key={index2}
-                              to={item2.path}
-                            >
-                              <span className="nav-icon">{item2.icon}</span>
-                              {item2.name}
-                            </Link>
-                          ))}
+                    <Link
+                      className={
+                        location.pathname === item.path ? "active link" : "link"
+                      }
+                      to={item.path}
+                    >
+                      <div className="nav-content">
+                        <span className="nav-icon">{item.icon}</span>
+                        {item.name}
+                      </div>
+                      {item?.icon2 && (
+                        <span className="arrow-icon">{item.icon2}</span>
+                      )}
+                    </Link>
+
+                    {/* Children appear directly below parent */}
+                    {activeIndex === index && item.Children && (
+                      <div className="children">
+                        {item.Children.map((item2, index2) => (
+                          <Link
+                            className={
+                              location.pathname === item2.path
+                                ? "childLink active"
+                                : "childLink"
+                            }
+                            key={index2}
+                            to={item2.path}
+                          >
+                            <span className="nav-icon">{item2.icon}</span>
+                            {item2.name}
+                          </Link>
+                        ))}
                       </div>
                     )}
-                  </Link>
+                  </div>
                 ))}
             </div>
           ) : (
@@ -252,7 +263,7 @@ const Sidebar = ({ active, setActive }) => {
               <>
                 <div className="user-info">
                   <IoPersonCircleOutline className="user-icon" />
-                  <span className="username"> {`@ ${user?.empName}`} </span>
+                  <span className="username"> {`${user?.userName}`} </span>
                 </div>
                 <button className="logout-btn" onClick={handleLogout}>
                   <IoLogOutOutline />
@@ -263,7 +274,7 @@ const Sidebar = ({ active, setActive }) => {
               <div className="collapsed-footer">
                 <Link
                   className="user-icon-collapsed"
-                  data-tooltip={`@ ${user?.empName}`}
+                  data-tooltip={`${user?.userName}`}
                   to="#"
                 >
                   <IoPersonCircleOutline />
