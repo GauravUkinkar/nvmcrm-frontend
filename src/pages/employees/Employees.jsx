@@ -11,22 +11,31 @@ import ExportDataToExcel from "../../comp/export_data/ExportData";
 const Employees = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    current: 1, // AntD uses 1-based page index
+    pageSize: 10,
+    total: 0,
+  });
 
   //  navigate----------------
   const navigate = useNavigate()
   useEffect(() => {
-    getAllEmplyoee();
-  }, []);
+    getAllEmplyoee(pagination.current,pagination.pageSize);
+  }, [pagination.current,pagination.pageSize]);
 
   const edit = (Id) => {
     navigate(`/addemployee?eid=${Id}`)
   }
 
-  const getAllEmplyoee = async () => {
+  const getAllEmplyoee = async (page, size) => {
     try {
       setLoading(true);
-      const response = await employeeGetAll();
+      const response = await employeeGetAll(page - 1,size);
       if (response.status === "OK") {
+        setPagination((prev) => ({
+          ...prev,
+          total: response.totalItems, // API must return total records
+        }));
         setData(response.data);
       }
     } catch (err) {
@@ -102,7 +111,13 @@ const Employees = () => {
   ];
 
 
-
+  const handleChange = (paginationConfig) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize,
+    }));
+  };
 
   return (
     <>
@@ -115,7 +130,7 @@ const Employees = () => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel  length={data?.length} text="Employees">
+      <MainPanel  length={pagination?.total} text="Employees">
         <div>
            <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"Employees")} >
             Export Data
@@ -127,6 +142,8 @@ const Employees = () => {
               showActions={true}
               onEdit={(record) => edit(record.eid)}
               onDelete={(record) => deleteDialog(record.eid)}
+              pagination={pagination}
+          handleChange={handleChange}
             />
      
         </div>

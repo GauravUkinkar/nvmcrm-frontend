@@ -13,9 +13,9 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-export const employeeGetAll = async () => {
+export const employeeGetAll = async (page,size) => {
   try {
-    const response = await axiosInstance.get("/admin/getAllEmployee");
+    const response = await axiosInstance.get(`/admin/getAllEmployee?page=${page}&size=${size}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

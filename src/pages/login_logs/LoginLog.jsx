@@ -9,16 +9,27 @@ const LoginLog = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    getAllLogin();
-  }, []);
+  const [pagination, setPagination] = useState({
+    current: 1, // AntD uses 1-based page index
+    pageSize: 10,
+    total: 0,
+  });
 
-  const getAllLogin = async () => {
+  
+ useEffect(() => {
+    getAllLogin(pagination.current, pagination.pageSize);
+  }, [pagination.current, pagination.pageSize]);
+
+  const getAllLogin = async (page,size) => {
     try {
       setLoading(true);
-      const response = await loginLogsGetAll();
+      const response = await loginLogsGetAll(page - 1, size);
       if (response.status === "OK") {
         setData(response.data.reverse());
+        setPagination((prev) => ({
+          ...prev,
+          total: response.totalItems, // API must return total records
+        }));
       }
     } catch (err) {
       console.log(err);
@@ -28,6 +39,14 @@ const LoginLog = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChange = (paginationConfig) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize,
+    }));
   };
 
   const columns = [
@@ -40,7 +59,12 @@ const LoginLog = () => {
     <>
       {loading && <Loader />}
       <MainPanel length={data?.length} text="Login Logs">
-        <Table data={data} columns={columns} />
+        <Table
+          data={data}
+          columns={columns}
+          pagination={pagination}
+          handleChange={handleChange}
+        />
       </MainPanel>
     </>
   );

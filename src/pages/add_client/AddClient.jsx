@@ -243,7 +243,7 @@ const AddClient = () => {
                       {" "}
                       {item?.empName}{" "}
                     </option>
-                  ))}
+                  ))}1
               </SelectInput>
               <Input
                 label="Alternate Mobile Number"

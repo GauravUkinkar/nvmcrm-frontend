@@ -13,9 +13,11 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-export const loginLogsGetAll = async () => {
+export const loginLogsGetAll = async (page, size) => {
   try {
-    const response = await axiosInstance.get("/admin/getAllLoginLogs");
+    const response = await axiosInstance.get(
+      `/admin/getAllLoginLogs?page=${page}&size=${size}`
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

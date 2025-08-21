@@ -10,14 +10,20 @@ const ActivityLogs = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    getAllActivity();
-  }, []);
+  const [pagination, setPagination] = useState({
+    current: 1, // AntD uses 1-based page index
+    pageSize: 10,
+    total: 0,
+  });
 
-  const getAllActivity = async () => {
+  useEffect(() => {
+    getAllActivity(pagination.current, pagination.pageSize);
+  }, [pagination.current, pagination.pageSize]);
+
+  const getAllActivity = async (page, size) => {
     try {
       setLoading(true);
-      const response = await activityLogsGetAll();
+      const response = await activityLogsGetAll(page - 1, size);
       if (response.status === "OK") {
         setData(response.data?.reverse());
       }
@@ -43,10 +49,18 @@ const ActivityLogs = () => {
     { title: "Activity Type", dataIndex: "activityType", key: "activityType" },
   ];
 
+  const handleChange = (paginationConfig) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize,
+    }));
+  };
+
   return (
     <>
       {loading && <Loader />}
-      <MainPanel length={data?.length} text="Activity Logs" >
+      <MainPanel length={data?.length} text="Activity Logs">
         <div>
           <button
             style={{ marginBottom: "10px" }}
@@ -56,9 +70,12 @@ const ActivityLogs = () => {
             Export Data
           </button>
 
-          
-            <Table data={data} columns={columns} />
-       
+          <Table
+            data={data}
+            columns={columns}
+            pagination={pagination}
+            handleChange={handleChange}
+          />
         </div>
       </MainPanel>
     </>

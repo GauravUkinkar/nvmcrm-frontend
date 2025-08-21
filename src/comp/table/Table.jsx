@@ -8,7 +8,15 @@ import {
 import Highlighter from "react-highlight-words";
 import "./Table.scss";
 
-const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
+const Table = ({
+  data,
+  columns,
+  showActions = false,
+  onEdit,
+  onDelete,
+  pagination,
+  handleChange,
+}) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [filteredInfo, setFilteredInfo] = useState({});
@@ -25,7 +33,7 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
     setSearchText("");
   };
 
-  const handleChange = (pagination, filters) => {
+  const handlefilterChange = (pagination, filters) => {
     setFilteredInfo(filters);
   };
 
@@ -170,26 +178,35 @@ const Table = ({ data, columns, showActions = false, onEdit, onDelete }) => {
 
     return updatedCols;
   }, [columns, data, filteredInfo, searchText, showActions, onEdit, onDelete]);
-return (
-  <div className="table-wrapper">
-    <div className="table-scroll">
-      <AntTable
-        columns={enhancedColumns}
-        dataSource={data}
-        onChange={handleChange}
-        pagination={{
-          pageSizeOptions: ["5", "10", "20", "50", "100"],
-          showSizeChanger: true,
-          defaultPageSize: 10,
-        }}
-        scroll={{
-          x: enhancedColumns.reduce((sum, col) => sum + (col.width || 150), 0),
-        }}
-      />
+  return (
+    <div className="table-wrapper">
+      <div className="table-scroll">
+        <AntTable
+          columns={enhancedColumns}
+          dataSource={data}
+          onChange={handleChange ?  handleChange : handlefilterChange} // ✅ fallback no-op if not passed
+          pagination={
+            pagination
+              ? {
+                  current: pagination.current,
+                  pageSize: pagination.pageSize,
+                  total: pagination.total,
+                  pageSizeOptions: ["5", "10", "20", "50", "100"],
+                  showSizeChanger: true,
+                }
+              : true // ✅ use AntD default pagination if not passed
+          }
+          scroll={{
+            x: enhancedColumns.reduce(
+              (sum, col) => sum + (col.width || 150),
+              0
+            ),
+          }}
+          rowKey="id"
+        />
+      </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default Table;

@@ -14,9 +14,9 @@ axiosInstance.interceptors.request.use((config) => {
   });
 
 
-export const activityLogsGetAll = async () => {
+export const activityLogsGetAll = async (page,size) => {
   try {
-    const response = await axiosInstance.get('/admin/getAllActivityLogs');   
+    const response = await axiosInstance.get(`/admin/getAllActivityLogs?page=${page}&size=${size}`);   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

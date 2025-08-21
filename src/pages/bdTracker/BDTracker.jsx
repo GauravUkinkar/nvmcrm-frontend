@@ -11,7 +11,11 @@ import ExportDataToExcel from "../../comp/export_data/ExportData";
 const BDTracker = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [pagination, setPagination] = useState({
+    current: 1, // AntD uses 1-based page index
+    pageSize: 10,
+    total: 0,
+  });
   //navigate----------------------------------------------
   const navigate = useNavigate();
   const edit = (Id) => {
@@ -19,13 +23,13 @@ const BDTracker = () => {
   };
 
   useEffect(() => {
-    getAllBd();
-  }, []);
+    getAllBd(pagination.current, pagination.pageSize);
+  }, [pagination.current, pagination.pageSize]);
 
-  const getAllBd = async () => {
+  const getAllBd = async (page, size) => {
     try {
       setLoading(true);
-      const response = await bdTrackerGetAll();
+      const response = await bdTrackerGetAll(page - 1, size);
       if (response.status === "OK") {
         setData(response.data);
       }
@@ -118,6 +122,14 @@ const BDTracker = () => {
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
 
+  const handleChange = (paginationConfig) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize,
+    }));
+  };
+
   return (
     <>
       {deletePopup && (
@@ -129,20 +141,25 @@ const BDTracker = () => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel   length={data?.length} text="BD Tracker"   >
+      <MainPanel length={data?.length} text="BD Tracker">
         <div>
-            <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"BDtracker")} >
+          <button
+            style={{ marginBottom: "10px" }}
+            class="btn"
+            onClick={() => ExportDataToExcel(data, "BDtracker")}
+          >
             Export Data
           </button>
-         
-            <Table
-              data={data}
-              columns={columns}
-              showActions={true}
-              onEdit={(record) => edit(record.bdId)}
-              onDelete={(record) => deleteDialog(record.bdId)}
-            />
-    
+
+          <Table
+            data={data}
+            columns={columns}
+            pagination={pagination}
+            handleChange={handleChange}
+            showActions={true}
+            onEdit={(record) => edit(record.bdId)}
+            onDelete={(record) => deleteDialog(record.bdId)}
+          />
         </div>
       </MainPanel>
     </>
