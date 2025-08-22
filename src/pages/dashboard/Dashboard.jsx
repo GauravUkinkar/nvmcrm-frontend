@@ -100,11 +100,11 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    employeeGetAll()
+    employeeGetAll(0,10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
-          employees: res.data.length,
+          employees: res.totalItems,
         }));
       })
       .catch((err) => {
@@ -133,33 +133,33 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    bdTrackerGetAll()
+    bdTrackerGetAll(0,10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
-          bdTracker: res.data.length,
+          bdTracker: res.totalItems,
         }));
       })
       .catch((err) => {
         console.log(err);
       });
 
-    actionGetAll()
+    actionGetAll(0,10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
-          actionItems: res.data.length,
+          actionItems: res.totalItems,
         }));
       })
       .catch((err) => {
         console.log(err);
       });
 
-    activityLogsGetAll()
+    activityLogsGetAll(0,10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
-          activityLogs: res.data.length,
+          activityLogs: res.totalItems,
         }));
       })
       .catch((err) => {
