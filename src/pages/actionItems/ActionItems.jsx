@@ -9,88 +9,111 @@ import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
 const ActionItems = () => {
-   const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-
-      //navigate----------------------------------------------
-const navigate=useNavigate()
-const edit= (Id) => {
-  navigate(`/addactionitems?aid=${Id}`)
-    }
-
-  
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    current: 1, // AntD uses 1-based page index
+    pageSize: 10,
+    total: 0,
+  });
+  //navigate----------------------------------------------
+  const navigate = useNavigate();
+  const edit = (Id) => {
+    navigate(`/addactionitems?aid=${Id}`);
+  };
 
   useEffect(() => {
-    getAllAction();
-      }, []);
-    
-      const getAllAction = async () => {
-        try {
-          setLoading(true);
-           const response = await actionGetAll();
-        if(response.status==="OK"){
-          setData(response.data);
-        }
-        } catch (err) {
-          toast.error("Something went wrong");
-        } finally {
-          setLoading(false);
-    
-        }
-      };
+    getAllAction(pagination.current, pagination.pageSize);
+  }, [pagination.current, pagination.pageSize]);
 
-      const deleteId = async (aid) => {
-              try {
-                setLoading(true);
-                const response = await deleteAction(aid);
-                if (response.status === "OK") {
-                  toast.success("Successfully Deleted!!");
-                  getAllAction();
-                }
-              } catch (err) {
-                toast.error("Something went wrong");
-              } finally {
-                setLoading(false);
-                setDeletePopup(false);
-              }
-            };
-          
-            const [deletePopup, setDeletePopup] = useState(false);
-            const [deleteInfo, setDeleteInfo] = useState({
-              title: "",
-              desc: "",
-              bid: "",
-            });
-          
-            const deleteDialog = (id) => {
-              setDeleteInfo({
-                ...deleteInfo,
-                title: "Are you sure?",
-                desc: `You want to delete the item with bid: ${id}`,
-                bid: id,
-              });
-              setDeletePopup(true);
-            };
+  const getAllAction = async (page, size) => {
+    try {
+      setLoading(true);
+      const response = await actionGetAll(page - 1, size);
+      if (response.status === "OK") {
+        setData(response.data);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const deleteId = async (aid) => {
+    try {
+      setLoading(true);
+      const response = await deleteAction(aid);
+      if (response.status === "OK") {
+        toast.success("Successfully Deleted!!");
+        getAllAction();
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+      setDeletePopup(false);
+    }
+  };
 
-      const columns = [
-        { title: "Serial No.", dataIndex: "aid", key: "aid" },
-        { title: "Project Name", dataIndex: "projectName", key: "projectName" },
-        { title: "Project Subtitle", dataIndex: "projectSubtitle", key: "projectSubtitle" },
-        { title: "Action Item Description", dataIndex: "actionItemDescription", key: "actionItemDescription" },
-        { title: "Action Item Status", dataIndex: "actionItemStatus", key: "actionItemStatus" },
-        { title: "Action Owner", dataIndex: "actionOwner", key: "actionOwner" },
-        { title: "Action Completeion Date", dataIndex: "actionCompleteionDate", key: "actionCompleteionDate" },
-        { title: "Comments", dataIndex: "comments", key: "comments" },
-        { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
-        { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
-        { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
-        
-      ];
+  const [deletePopup, setDeletePopup] = useState(false);
+  const [deleteInfo, setDeleteInfo] = useState({
+    title: "",
+    desc: "",
+    bid: "",
+  });
+
+  const deleteDialog = (id) => {
+    setDeleteInfo({
+      ...deleteInfo,
+      title: "Are you sure?",
+      desc: `You want to delete the item with bid: ${id}`,
+      bid: id,
+    });
+    setDeletePopup(true);
+  };
+
+  const columns = [
+    { title: "Serial No.", dataIndex: "aid", key: "aid" },
+    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
+    {
+      title: "Project Subtitle",
+      dataIndex: "projectSubtitle",
+      key: "projectSubtitle",
+    },
+    {
+      title: "Action Item Description",
+      dataIndex: "actionItemDescription",
+      key: "actionItemDescription",
+    },
+    {
+      title: "Action Item Status",
+      dataIndex: "actionItemStatus",
+      key: "actionItemStatus",
+    },
+    { title: "Action Owner", dataIndex: "actionOwner", key: "actionOwner" },
+    {
+      title: "Action Completeion Date",
+      dataIndex: "actionCompleteionDate",
+      key: "actionCompleteionDate",
+    },
+    { title: "Comments", dataIndex: "comments", key: "comments" },
+    { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
+    { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
+    { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
+  ];
+
+  const handleChange = (paginationConfig) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize,
+    }));
+  };
 
   return (
     <>
-    {deletePopup && (
+      {deletePopup && (
         <DeleteConfirmation
           title={deleteInfo.title}
           desc={deleteInfo.desc}
@@ -98,26 +121,27 @@ const edit= (Id) => {
           nofunc={() => setDeletePopup(false)}
         />
       )}
-    {loading && <Loader />}
-    <MainPanel  length={data?.length} text="Action Items" >
-      <div>
-          <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"ActionItems")} >
+      {loading && <Loader />}
+      <MainPanel length={data?.length} text="Action Items">
+        <div>
+          <button
+            style={{ marginBottom: "10px" }}
+            class="btn"
+            onClick={() => ExportDataToExcel(data, "ActionItems")}
+          >
             Export Data
           </button>
-   
+
           <Table
-          data={data}
-          columns={columns}
-          showActions={true}
-          onEdit={(record) => edit(record.aid)}
-          onDelete={(record) => deleteDialog(record.aid)}
-        />
-    
-      </div>
-    </MainPanel>
-    
-    
-    
+            data={data}
+            columns={columns}
+            handleChange={handleChange}
+            showActions={true}
+            onEdit={(record) => edit(record.aid)}
+            onDelete={(record) => deleteDialog(record.aid)}
+          />
+        </div>
+      </MainPanel>
     </>
   );
 };

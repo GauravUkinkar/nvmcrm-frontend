@@ -11,12 +11,14 @@ import SelectInput from "../../comp/SelectInput/SelectInput";
 
 import { projectsGetAll } from "../../(api)/Project";
 import { getAllEmployeeName } from "../../(api)/Employee";
+import { brokerGetAll } from "../../(api)/BrokerApi";
 
 const AddClient = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [projectList, setProjectList] = useState();
   const [employeeName, setEmployeeName] = useState();
+  const [broker, setBroker] = useState();
   const formObj = {
     clientName: "",
     projectName: "",
@@ -151,6 +153,13 @@ const AddClient = () => {
       .catch((err) => {
         console.log(err);
       });
+    brokerGetAll()
+      .then((res) => {
+        setBroker(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -175,13 +184,95 @@ const AddClient = () => {
                 onBlur={handleBlur}
               />
               <Input
-                label="Project Subtitle"
-                name="projectSubtitle"
+                label="Date of Birth"
+                name="dob"
                 onChange={handleChange}
-                value={values.projectSubtitle}
+                onBlur={handleBlur}
+                value={values.dob}
+                type="date"
+              />
+            </div>
+            <div class="form-row">
+              <Input
+                label="Mobile Number"
+                name="phoneNumber"
+                onChange={handleChange}
+                value={values.phoneNumber}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="Alternate Mobile Number"
+                name="alternateMobNo"
+                onChange={handleChange}
+                value={values.alternateMobNo}
                 onBlur={handleBlur}
               />
             </div>
+
+            <div class="form-row">
+              <Input
+                label="Client Email"
+                name="clientEmail"
+                onChange={handleChange}
+                value={values.clientEmail}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="Profession"
+                name="proffession"
+                onChange={handleChange}
+                value={values.proffession}
+                onBlur={handleBlur}
+              />
+            </div>
+
+            <div class="form-row">
+              <Input
+                label="PAN Number"
+                name="panNo"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.panNo}
+              />
+              <Input
+                label="Aadhar Number"
+                name="aadharNo"
+                onChange={handleChange}
+                value={values.aadharNo}
+                onBlur={handleBlur}
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="input-textarea input">
+                <label for="">Address</label>
+                <textarea
+                  placeholder="Address"
+                  name="address"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.address}
+                  id=""
+                ></textarea>
+              </div>
+              <SelectInput
+                value={values.marketingExecutive}
+                name="marketingExecutive"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Marketing Executive"
+              >
+                <option value="">Select Marketing Executive</option>
+                {employeeName &&
+                  employeeName?.map((item, index) => (
+                    <option key={index} value={item?.empName}>
+                      {" "}
+                      {item?.empName}{" "}
+                    </option>
+                  ))}
+              </SelectInput>
+            </div>
+
             <div class="form-row">
               <SelectInput
                 label="Project Name"
@@ -199,92 +290,14 @@ const AddClient = () => {
                   ))}
               </SelectInput>
               <Input
-                label="Date of Birth"
-                name="dob"
+                label="Project Subtitle"
+                name="projectSubtitle"
                 onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.dob}
-                type="date"
-              />
-            </div>
-            <div class="form-row">
-              <div class="input-textarea input">
-                <label for="">Address</label>
-                <textarea
-                  placeholder="Address"
-                  name="address"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.address}
-                  id=""
-                ></textarea>
-              </div>
-              <Input
-                label="Mobile Number"
-                name="phoneNumber"
-                onChange={handleChange}
-                value={values.phoneNumber}
+                value={values.projectSubtitle}
                 onBlur={handleBlur}
               />
             </div>
 
-            <div class="form-row">
-              <SelectInput
-                value={values.marketingExecutive}
-                name="marketingExecutive"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="Marketing Executive"
-              >
-                <option value="">Select Owner</option>
-                {employeeName &&
-                  employeeName?.map((item, index) => (
-                    <option key={index} value={item?.empName}>
-                      {" "}
-                      {item?.empName}{" "}
-                    </option>
-                  ))}1
-              </SelectInput>
-              <Input
-                label="Alternate Mobile Number"
-                name="alternateMobNo"
-                onChange={handleChange}
-                value={values.alternateMobNo}
-                onBlur={handleBlur}
-              />
-            </div>
-            <div class="form-row">
-              <Input
-                label="Client Email"
-                name="clientEmail"
-                onChange={handleChange}
-                value={values.clientEmail}
-                onBlur={handleBlur}
-              />
-              <Input
-                label="Profession"
-                name="proffession"
-                onChange={handleChange}
-                value={values.proffession}
-                onBlur={handleBlur}
-              />
-            </div>
-            <div class="form-row">
-              <Input
-                label="PAN Number"
-                name="panNo"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.panNo}
-              />
-              <Input
-                label="Aadhar Number"
-                name="aadharNo"
-                onChange={handleChange}
-                value={values.aadharNo}
-                onBlur={handleBlur}
-              />
-            </div>
             <div class="form-row">
               <div class="input-textarea input">
                 <label for="">Comments</label>
@@ -297,13 +310,21 @@ const AddClient = () => {
                   id=""
                 ></textarea>
               </div>
-              <Input
+
+              <SelectInput
                 label="Broker Name"
                 name="brokerName"
                 onChange={handleChange}
                 value={values.brokerName}
-                onBlur={handleBlur}
-              />
+              >
+                <option value="">Select Project Name</option>
+                {broker &&
+                  broker?.map((item, index) => (
+                    <option key={index} value={item?.brokerName}>
+                      {item?.brokerName}
+                    </option>
+                  ))}
+              </SelectInput>
             </div>
 
             <div class="form-row">

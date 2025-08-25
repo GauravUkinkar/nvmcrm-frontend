@@ -201,15 +201,6 @@ const AddBdtracker = () => {
                 onBlur={handleBlur}
                 type="date"
               />
-              <Input
-                label="Project Subtitle"
-                name="projectSubtitle"
-                value={values.projectSubtitle}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <div class="form-row">
               <SelectInput
                 label="Project Name"
                 name="projectName"
@@ -225,6 +216,15 @@ const AddBdtracker = () => {
                     </option>
                   ))}
               </SelectInput>
+            </div>
+            <div class="form-row">
+              <Input
+                label="Project Subtitle"
+                name="projectSubtitle"
+                value={values.projectSubtitle}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
               <SelectInput
                 label="Potential Client Name"
                 name="potentialClientName"
@@ -252,7 +252,10 @@ const AddBdtracker = () => {
                 <option value="">Select Status</option>
                 {statusList &&
                   statusList?.map((item, index) => (
-                    <option key={index} value={item?.status}> {item?.status} </option>
+                    <option key={index} value={item?.status}>
+                      {" "}
+                      {item?.status}{" "}
+                    </option>
                   ))}
               </SelectInput>
               <Input

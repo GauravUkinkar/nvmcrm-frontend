@@ -194,7 +194,10 @@ const Table = ({
                   pageSizeOptions: ["5", "10", "20", "50", "100"],
                   showSizeChanger: true,
                 }
-              : true // ✅ use AntD default pagination if not passed
+              : {
+                pageSizeOptions: ["5", "10", "20", "50", "100"],
+                  showSizeChanger: true,
+              } // ✅ use AntD default pagination if not passed
           }
           scroll={{
             x: enhancedColumns.reduce(

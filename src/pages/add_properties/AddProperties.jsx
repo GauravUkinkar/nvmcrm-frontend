@@ -17,7 +17,7 @@ const AddProperties = () => {
   const [searchparams] = useSearchParams();
   const propertyId = searchparams.get("pid");
   const [projectList, setProjectList] = useState();
-  const [ownerList,setOwnerList] = useState()
+  const [ownerList, setOwnerList] = useState();
   const formObj = {
     plotNo: "",
     projectSubtitle: "",
@@ -158,7 +158,7 @@ const AddProperties = () => {
       });
   }, []);
 
-  console.log(ownerList, "ownerList")
+  console.log(ownerList, "ownerList");
 
   return (
     <>
@@ -169,22 +169,6 @@ const AddProperties = () => {
             <h2>Add Properties</h2>
           </div>
           <form action="" onSubmit={handleSubmit}>
-            <div class="form-row">
-              <Input
-                name="plotNo"
-                value={values.plotNo}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="Plot No."
-              />
-              <Input
-                name="projectSubtitle"
-                value={values.projectSubtitle}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="Project Subtitle"
-              />
-            </div>
             <div class="form-row">
               <SelectInput
                 label="Project Name"
@@ -201,6 +185,23 @@ const AddProperties = () => {
                     </option>
                   ))}
               </SelectInput>
+
+              <Input
+                name="projectSubtitle"
+                value={values.projectSubtitle}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Project Subtitle"
+              />
+            </div>
+            <div class="form-row">
+              <Input
+                name="plotNo"
+                value={values.plotNo}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Plot No."
+              />
               <Input
                 name="phase"
                 value={values.phase}
@@ -303,7 +304,7 @@ const AddProperties = () => {
                 label="Plot Owner"
               >
                 <option value="">Select Owner</option>
-               {ownerList &&
+                {ownerList &&
                   ownerList?.map((item, index) => (
                     <option key={index} value={item?.clientName}>
                       {item?.clientName}
@@ -319,7 +320,9 @@ const AddProperties = () => {
               >
                 <option value="">Select Financial Status</option>
                 <option value="Amount Pending">Amount Pending</option>
-                <option value="Complete Amount Paid">Complete Amount Paid</option>
+                <option value="Complete Amount Paid">
+                  Complete Amount Paid
+                </option>
               </SelectInput>
             </div>
             <div class="form-row">

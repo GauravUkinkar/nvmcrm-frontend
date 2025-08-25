@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const actionGetAll = async (page,size) => {
   try {
-    const response = await axiosInstance.get(`/actionItems/getAllActionItems?page=${page}&size=1${size}`);   
+    const response = await axiosInstance.get(`/actionItems/getAllActionItems?page=${page}&size=${size}`);   
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

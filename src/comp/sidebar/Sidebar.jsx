@@ -84,12 +84,12 @@ const Sidebar = ({ active, setActive }) => {
         },
         {
           name: "Add BD Tracker",
-          path: "/addactionitems",
+          path: "/addBdTracker",
           icon: <IoBarChart />,
         },
         {
           name: "Add Action Items",
-          path: "/addBdTracker",
+          path: "/addactionitems",
           icon: <IoCheckboxOutline />,
         },
       ],

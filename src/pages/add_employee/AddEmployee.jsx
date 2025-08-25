@@ -165,7 +165,7 @@ const AddEmployee = () => {
       });
     } catch (error) {
       console.log(error);
-      if(error.response.data.responseMessage === "Employee Already Exists"){
+      if (error.response.data.responseMessage === "Employee Already Exists") {
         toast.error("Employee already exists");
       }
     } finally {
@@ -244,30 +244,6 @@ const AddEmployee = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <Input
-                label="Project Subtitle"
-                value={values.projectSubtitles}
-                name="projectSubtitles"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <div class="form-row">
-              <SelectInput
-                label="Project Nam"
-                value={values.projectName}
-                name="projectName"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              >
-                <option value="">Select Project Name</option>
-                {projectList &&
-                  projectList?.map((item, index) => (
-                    <option key={index} value={item?.projectName}>
-                      {item?.projectName}
-                    </option>
-                  ))}
-              </SelectInput>
               <SelectInput
                 label="Gender"
                 value={values.gender}
@@ -279,6 +255,22 @@ const AddEmployee = () => {
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </SelectInput>
+            </div>
+            <div class="form-row">
+              <Input
+                label="Contact Number"
+                value={values.contactNo}
+                name="contactNo"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="Alternate Contact Number"
+                value={values.alternateConNo}
+                name="alternateConNo"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </div>
             <div class="form-row">
               <Input
@@ -316,22 +308,6 @@ const AddEmployee = () => {
             </div>
             <div class="form-row">
               <Input
-                label="Contact Number"
-                value={values.contactNo}
-                name="contactNo"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <Input
-                label="Alternate Contact Number"
-                value={values.alternateConNo}
-                name="alternateConNo"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <div class="form-row">
-              <Input
                 label="Mail ID"
                 value={values.mailId}
                 name="mailId"
@@ -348,6 +324,40 @@ const AddEmployee = () => {
                 onBlur={handleBlur}
               />
             </div>
+            <div class="form-row">
+              <Input
+                label="Monthly Salary"
+                value={values.monthlySalary}
+                name="monthlySalary"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="CTC"
+                value={values.ctc}
+                name="ctc"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+
+            <div class="form-row">
+              <Input
+                label="AADHAR Number"
+                value={values.aadharCard}
+                name="aadharCard"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <Input
+                label="PAN Number"
+                value={values.panNo}
+                name="panNo"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+
             <div class="form-row">
               <Input
                 label="Bank Name"
@@ -372,22 +382,6 @@ const AddEmployee = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <Input
-                label="AADHAR Number"
-                value={values.aadharCard}
-                name="aadharCard"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <div class="form-row">
-              <Input
-                label="PAN Number"
-                value={values.panNo}
-                name="panNo"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
               <div class="input-textarea input">
                 <label for="">Comments</label>
                 <textarea
@@ -400,21 +394,30 @@ const AddEmployee = () => {
               </div>
             </div>
             <div class="form-row">
-              <Input
-                label="Monthly Salary"
-                value={values.monthlySalary}
-                name="monthlySalary"
+              <SelectInput
+                label="Project Name"
+                value={values.projectName}
+                name="projectName"
                 onChange={handleChange}
                 onBlur={handleBlur}
-              />
+              >
+                <option value="">Select Project Name</option>
+                {projectList &&
+                  projectList?.map((item, index) => (
+                    <option key={index} value={item?.projectName}>
+                      {item?.projectName}
+                    </option>
+                  ))}
+              </SelectInput>
               <Input
-                label="CTC"
-                value={values.ctc}
-                name="ctc"
+                label="Project Subtitle"
+                value={values.projectSubtitles}
+                name="projectSubtitles"
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
             </div>
+
             <div class="form-row">
               <button class="btn"> Add Employee </button>
             </div>

@@ -182,7 +182,7 @@ const Dashboard = () => {
           <h2>Dashboard</h2>
           <div class="grid_panel">
             {gridItems.map((item, index) => (
-              <div key={index} class="grid_item">
+              <Link to={item?.path} key={index} class="grid_item">
                 <div class="top_bar">
                   <p>{item?.title}</p>
                   <Tooltip id="my-tooltip" />
@@ -198,7 +198,7 @@ const Dashboard = () => {
                 <h2>
                   <CountUp end={item?.count} />
                 </h2>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
