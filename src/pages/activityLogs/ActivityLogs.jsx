@@ -5,6 +5,7 @@ import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { activityLogsGetAll } from "../../(api)/ActivityLogs";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
+import { render } from "sass";
 
 const ActivityLogs = () => {
   const [data, setData] = useState([]);
@@ -25,7 +26,20 @@ const ActivityLogs = () => {
       setLoading(true);
       const response = await activityLogsGetAll(page - 1, size);
       if (response.status === "OK") {
-        setData(response.data?.reverse());
+        // const data = response.data?.reverse();
+
+        // const filteredData = data.map((item, index) => ({
+        //   ...item,
+        //   index: index + 1,
+        //   changedBy: item.changedBy,
+        //   changedIn: item.changedIn,
+        //   tableName: item.tableName,
+        //   changedFieldName: item.changedFieldName,
+        //   changedTime: item.changedTime,
+        //   changedDate: item.changedDate,
+        // }));
+
+        setData(response.data);
         setPagination((prev) => ({
           ...prev,
           total: response.totalItems, // API must return total records
@@ -39,7 +53,11 @@ const ActivityLogs = () => {
   };
 
   const columns = [
-    { title: "Id", dataIndex: "aid", key: "aid" },
+    {
+      title: "Id",
+      key: "aid",
+      dataIndex: "aid",
+    },
     { title: "Changed by", dataIndex: "changedBy", key: "changedBy" },
     { title: "Changed in", dataIndex: "changedIn", key: "changedIn" },
     { title: "Database Name", dataIndex: "tableName", key: "tableName" },

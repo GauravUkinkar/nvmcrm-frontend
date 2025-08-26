@@ -174,7 +174,7 @@ const Sidebar = ({ active, setActive }) => {
     }
   };
 
-  console.log(activeIndex, "activeIndex");
+
 
   return (
     <>
