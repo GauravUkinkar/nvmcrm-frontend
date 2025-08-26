@@ -26,6 +26,10 @@ const ActivityLogs = () => {
       const response = await activityLogsGetAll(page - 1, size);
       if (response.status === "OK") {
         setData(response.data?.reverse());
+        setPagination((prev) => ({
+          ...prev,
+          total: response.totalItems, // API must return total records
+        }));
       }
     } catch (err) {
       toast.error("Something went wrong");
