@@ -75,13 +75,14 @@ const BDTracker = () => {
 
   const columns = [
     { title: "Tracker Id", dataIndex: "bdId", key: "bdId" },
+        { title: "Project Name", dataIndex: "projectName", key: "projectName" },
     /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
     {
       title: "Project Subtitle",
       dataIndex: "projectSubtitle",
       key: "projectSubtitle",
     },
-    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
+
     {
       title: "Lead Generation Date",
       dataIndex: "leadGenerationDate",

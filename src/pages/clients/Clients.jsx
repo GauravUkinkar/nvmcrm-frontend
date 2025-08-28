@@ -71,16 +71,8 @@ const Clients = () => {
 
   const columns = [
     { title: "Id", dataIndex: "cid", key: "cid" },
-
-    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
-    {
-      title: "Project Subtitle",
-      dataIndex: "projectSubtitle",
-      key: "pprojectSubtitle",
-    },
     { title: "Client Name", dataIndex: "clientName", key: "clientName" },
     { title: "Date of Birth", dataIndex: "dob", key: "dob" },
-    { title: "Address", dataIndex: "address", key: "address" },
     { title: "Phone Number", dataIndex: "phoneNumber", key: "phoneNumber" },
     {
       title: "Alternate Mobile Number",
@@ -91,13 +83,23 @@ const Clients = () => {
     { title: "Profession", dataIndex: "proffession", key: "proffession" },
     { title: "PAN Number", dataIndex: "panNo", key: "panNo" },
     { title: "Aadhar Number", dataIndex: "aadharNo", key: "aadharNo" },
-    { title: "Comments", dataIndex: "comments", key: "comments" },
-    { title: "Broker Name", dataIndex: "brokerName", key: "brokerName" },
+    { title: "Address", dataIndex: "address", key: "address" },
     {
       title: "Marketing Executive",
       dataIndex: "marketingExecutive",
       key: "marketingExecutive",
     },
+
+    
+    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
+    {
+      title: "Project Subtitle",
+      dataIndex: "projectSubtitle",
+      key: "pprojectSubtitle",
+    },
+
+    { title: "Comments", dataIndex: "comments", key: "comments" },
+    { title: "Broker Name", dataIndex: "brokerName", key: "brokerName" },
 
     { title: "Added by", dataIndex: "addedBy", key: "addedBy" },
 
@@ -127,15 +129,14 @@ const Clients = () => {
           >
             Export Data
           </button>
-         
-            <Table
-              data={data}
-              columns={columns}
-              showActions={true}
-              onEdit={(record) => edit(record.cid)}
-              onDelete={(record) => deleteDialog(record.cid)}
-            />
-       
+
+          <Table
+            data={data}
+            columns={columns}
+            showActions={true}
+            onEdit={(record) => edit(record.cid)}
+            onDelete={(record) => deleteDialog(record.cid)}
+          />
         </div>
       </MainPanel>
     </>

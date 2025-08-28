@@ -18,19 +18,19 @@ const Employees = () => {
   });
 
   //  navigate----------------
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
-    getAllEmplyoee(pagination.current,pagination.pageSize);
-  }, [pagination.current,pagination.pageSize]);
+    getAllEmplyoee(pagination.current, pagination.pageSize);
+  }, [pagination.current, pagination.pageSize]);
 
   const edit = (Id) => {
-    navigate(`/addemployee?eid=${Id}`)
-  }
+    navigate(`/addemployee?eid=${Id}`);
+  };
 
   const getAllEmplyoee = async (page, size) => {
     try {
       setLoading(true);
-      const response = await employeeGetAll(page - 1,size);
+      const response = await employeeGetAll(page - 1, size);
       if (response.status === "OK") {
         setPagination((prev) => ({
           ...prev,
@@ -42,7 +42,6 @@ const Employees = () => {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
-
     }
   };
 
@@ -81,35 +80,63 @@ const Employees = () => {
 
   const columns = [
     { title: "Employee Id", dataIndex: "empId", key: "empId" },
-    { title: "Employee Name", dataIndex: "empName", key: "empName" },
     { title: "User Name", dataIndex: "userName", key: "userName" },
+    { title: "Employee Name", dataIndex: "empName", key: "empName" },
+
     { title: "Role", dataIndex: "role", key: "role" },
-    { title: "Project Subtitles", dataIndex: "projectSubtitles", key: "projectSubtitles" },
-    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
     { title: "Gender", dataIndex: "gender", key: "gender" },
-    { title: "Employee Status", dataIndex: "employeeStatus", key: "employeeStatus" },
-    { title: "Designation", dataIndex: "designation", key: "designation" },
-    { title: "Date Of Joining", dataIndex: "dateOfJoining", key: "dateOfJoining" },
-    { title: "Date Of Leaving", dataIndex: "dateOfLeaving", key: "dateOfLeaving" },
     { title: "Contact Number", dataIndex: "contactNo", key: "contactNo" },
-    { title: "Alternate Contact Number", dataIndex: "alternateConNo", key: "alternateConNo" },
+    {
+      title: "Alternate Contact Number",
+      dataIndex: "alternateConNo",
+      key: "alternateConNo",
+    },
+    {
+      title: "Employee Status",
+      dataIndex: "employeeStatus",
+      key: "employeeStatus",
+    },
+    { title: "Designation", dataIndex: "designation", key: "designation" },
+    {
+      title: "Date Of Joining",
+      dataIndex: "dateOfJoining",
+      key: "dateOfJoining",
+    },
+    {
+      title: "Date Of Leaving",
+      dataIndex: "dateOfLeaving",
+      key: "dateOfLeaving",
+    },
     { title: "Email", dataIndex: "mailId", key: "mailId" },
     { title: "Date of Birth", dataIndex: "dob", key: "dob" },
+    {
+      title: "Monthly Salary",
+      dataIndex: "monthlySalary",
+      key: "monthlySalary",
+    },
+    { title: "CTC", dataIndex: "ctc", key: "ctc" },
+    { title: "Aadhar Card", dataIndex: "aadharCard", key: "aadharCard" },
+    { title: "PAN Number", dataIndex: "panNo", key: "panNo" },
     { title: "Bank Name", dataIndex: "bankName", key: "bankName" },
     { title: "Account Number", dataIndex: "accountNo", key: "accountNo" },
     { title: "IFSC Code", dataIndex: "ifscCode", key: "ifscCode" },
-    { title: "Aadhar Card", dataIndex: "aadharCard", key: "aadharCard" },
-    { title: "PAN Number", dataIndex: "panNo", key: "panNo" },
+
     { title: "Comments", dataIndex: "commennts", key: "commennts" },
-    { title: "Monthly Salary", dataIndex: "monthlySalary", key: "monthlySalary" },
-    { title: "CTC", dataIndex: "ctc", key: "ctc" },
+
+    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
+    {
+      title: "Project Subtitles",
+      dataIndex: "projectSubtitles",
+      key: "projectSubtitles",
+    },
+
     { title: "Added by", dataIndex: "addedBy", key: "addedBy" },
-    { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
+
     { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
+    { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
-
 
   const handleChange = (paginationConfig) => {
     setPagination((prev) => ({
@@ -130,27 +157,27 @@ const Employees = () => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel  length={pagination?.total} text="Employees">
+      <MainPanel length={pagination?.total} text="Employees">
         <div>
-           <button style={{marginBottom:"10px"}} class="btn" onClick={()=>ExportDataToExcel(data,"Employees")} >
+          <button
+            style={{ marginBottom: "10px" }}
+            class="btn"
+            onClick={() => ExportDataToExcel(data, "Employees")}
+          >
             Export Data
           </button>
-       
-            <Table
-              data={data}
-              columns={columns}
-              showActions={true}
-              onEdit={(record) => edit(record.eid)}
-              onDelete={(record) => deleteDialog(record.eid)}
-              pagination={pagination}
-          handleChange={handleChange}
-            />
-     
+
+          <Table
+            data={data}
+            columns={columns}
+            showActions={true}
+            onEdit={(record) => edit(record.eid)}
+            onDelete={(record) => deleteDialog(record.eid)}
+            pagination={pagination}
+            handleChange={handleChange}
+          />
         </div>
       </MainPanel>
-
-
-
     </>
   );
 };
