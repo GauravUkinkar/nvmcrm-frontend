@@ -95,7 +95,7 @@ const Sidebar = ({ active, setActive }) => {
       ],
     },
     {
-      name: "Entries",
+      name: "Existing Entries",
       path: "#", // Added path for collapsed sidebar tooltip
       icon: <RiPagesLine />,
       icon2: <MdOutlineArrowForward />,

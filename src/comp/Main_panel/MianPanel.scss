@@ -56,8 +56,7 @@
       margin-left: 300px;
       transition: var(--trans);
       height: 100%;
-   
-   
+
       background: #fff;
       padding-bottom: 8px; /* leave room for scrollbar */
 
@@ -67,10 +66,23 @@
 
         margin-bottom: 10px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         gap: 10px;
         color: black;
+
+        .backbutton {
+          font-size: 20px;
+          width: 30px;
+          aspect-ratio: 1;
+          background-color: var(--accent);
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: var(--white);
+          cursor: pointer;
+        }
 
         span {
           display: flex;
@@ -87,8 +99,6 @@
         width: calc(100% - 50px);
         margin-left: 50px;
       }
-
-
     }
   }
 }

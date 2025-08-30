@@ -31,6 +31,7 @@ const Table = ({
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
+    window.location.reload()
   };
 
   const handlefilterChange = (pagination, filters) => {
@@ -183,7 +184,7 @@ const Table = ({
       <div className="table-scroll">
         <AntTable
           columns={enhancedColumns}
-          dataSource={data}
+          dataSource={data.reverse()}
           onChange={handleChange ?  handleChange : handlefilterChange} // ✅ fallback no-op if not passed
           pagination={
             pagination
