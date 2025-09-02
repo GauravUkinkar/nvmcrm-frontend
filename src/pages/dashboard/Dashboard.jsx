@@ -40,40 +40,20 @@ const Dashboard = () => {
       path: "/clients",
     },
     {
-      title: "Projects",
-      count: countingData.projects,
-      path: "/projects",
-    },
-    {
-      title: "Employees",
-      count: countingData.employees,
-      path: "/employees",
-    },
-
-    {
       title: "Brokers",
       count: countingData.brokers,
       path: "/brokers",
-    },
-    {
-      title: "Properties",
-      count: countingData.properties,
-      path: "/properties",
     },
     {
       title: "BD Tracker",
       count: countingData.bdTracker,
       path: "/bdTracker",
     },
+
     {
-      title: "Action Items",
-      count: countingData.actionItems,
-      path: "/actionItems",
-    },
-    {
-      title: "Activity Logs",
-      count: countingData.activityLogs,
-      path: "/activityLogs",
+      title: "Projects",
+      count: countingData.projects,
+      path: "/projects",
     },
   ];
 
@@ -100,7 +80,7 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    employeeGetAll(0,10)
+    employeeGetAll(0, 10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
@@ -133,7 +113,7 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    bdTrackerGetAll(0,10)
+    bdTrackerGetAll(0, 10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
@@ -144,7 +124,7 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    actionGetAll(0,10)
+    actionGetAll(0, 10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
@@ -155,7 +135,7 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    activityLogsGetAll(0,10)
+    activityLogsGetAll(0, 10)
       .then((res) => {
         setCountingData((prev) => ({
           ...prev,
@@ -200,6 +180,75 @@ const Dashboard = () => {
                 </h2>
               </Link>
             ))}
+
+            <Link className="grid_item properties_grid">
+              <div class="left">
+                <div class="top_bar">
+                  <h4>Residential</h4>
+                  <h3>
+                    100
+                  </h3>
+                </div>
+                <ul>
+                  <li>
+                    <p>Available</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                  <li>
+                    <p>Expression of Interest</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                  <li>
+                    <p>Booked - Token Amount not paid</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                  <li>
+                    <p>Booked - Token amount paid</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                  <li>
+                    <p> Booked - Partial payment made</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                  <li>
+                    <p> Registry Scheduled</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                  <li>
+                    <p>Registry Completed</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                  <li>
+                    <p>Possession handler Over</p>
+                    <p>
+                      50
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div class="right">
+                <div class="top_bar">
+                  <h4>Commercial</h4>
+                  <h3>
+                    100
+                  </h3>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </MainPanel>

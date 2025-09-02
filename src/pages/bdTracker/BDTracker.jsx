@@ -74,29 +74,26 @@ const BDTracker = () => {
   };
 
   const columns = [
-    { title: "Tracker Id", dataIndex: "bdId", key: "bdId" },
-        { title: "Project Name", dataIndex: "projectName", key: "projectName" },
+  
+        { title: "Plot Number", dataIndex: "projectName", key: "projectName" },
     /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
-    {
-      title: "Project Subtitle",
-      dataIndex: "projectSubtitle",
-      key: "projectSubtitle",
-    },
 
-    {
-      title: "Lead Generation Date",
-      dataIndex: "leadGenerationDate",
-      key: "leadGenerationDate",
-    },
+
+   
     {
       title: "Potential Client Name",
       dataIndex: "potentialClientName",
       key: "potentialClientName",
     },
+     {
+      title: "Lead Generation Date",
+      dataIndex: "leadGenerationDate",
+      key: "leadGenerationDate",
+    },
     { title: "Status", dataIndex: "status", key: "status" },
     { title: "Email", dataIndex: "emailId", key: "emailId" },
     { title: "Phone Number", dataIndex: "phoneNo", key: "phoneNo" },
-    { title: "Reference", dataIndex: "reference", key: "reference" },
+    { title: "Broker Name", dataIndex: "reference", key: "reference" },
     { title: "Comments", dataIndex: "comments", key: "comments" },
     {
       title: "Date of Future Contact",
@@ -108,16 +105,16 @@ const BDTracker = () => {
       dataIndex: "marketingExecutive",
       key: "marketingExecutive",
     },
-    {
-      title: "Date of emailing the Business Proposal to Potential Client",
-      dataIndex: "dateofemailingtheBusinessProposaltoPotentialClient",
-      key: "dateofemailingtheBusinessProposaltoPotentialClient",
-    },
-    {
-      title: "Future date to Proceed on Business Proposal",
-      dataIndex: "futuredatetoproceedonBusinessProposal",
-      key: "futuredatetoproceedonBusinessProposal",
-    },
+    // {
+    //   title: "Date of emailing the Business Proposal to Potential Client",
+    //   dataIndex: "dateofemailingtheBusinessProposaltoPotentialClient",
+    //   key: "dateofemailingtheBusinessProposaltoPotentialClient",
+    // },
+    // {
+    //   title: "Future date to Proceed on Business Proposal",
+    //   dataIndex: "futuredatetoproceedonBusinessProposal",
+    //   key: "futuredatetoproceedonBusinessProposal",
+    // },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },

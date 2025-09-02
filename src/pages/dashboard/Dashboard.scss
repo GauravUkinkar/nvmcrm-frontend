@@ -30,16 +30,86 @@
       text-decoration: none;
       transition: var(--trans);
 
+      &.properties_grid {
+        grid-area: 2/1/2/3;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-      &:hover{
-        transform: translateY(-10px);
+        .left {
+          width: 50%;
+          height: 100%;
+          border-right: 1px solid rgb(202, 202, 202);
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 10px;
+
+          .top_bar {
+            border-bottom: 1px solid rgb(202, 202, 202);
+            color: var(--black);
+            padding-bottom: 5px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          ul{
+            list-style: none;
+            width: 100%;
+            padding: 0;
+
+            li{
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              padding: 5px;
+              background-color: rgb(241, 241, 241);
+              border-radius: 4px;
+
+              p{
+                color: black;
+              }
+
+              &:nth-child(even){
+                background-color: transparent;
+              }
+            }
+          }
+        }
+
+        .right {
+          width: 50%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 10px;
+          gap: 10px;
+
+
+          .top_bar {
+            border-bottom: 1px solid rgb(202, 202, 202);
+            color: var(--black);
+            padding-bottom: 5px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
       }
 
-
-
-
-
-
+      &:hover {
+        transform: translateY(-10px);
+      }
 
       .top_bar {
         width: 100%;
@@ -47,10 +117,9 @@
         justify-content: space-between;
         align-items: center;
 
-        p{
+        p {
           color: var(--black);
           text-decoration: none !important;
-          
         }
 
         a {
@@ -63,7 +132,7 @@
         }
       }
 
-      h2{
+      h2 {
         width: 100%;
         text-align: center;
         color: var(--black);

@@ -271,8 +271,14 @@ const AddProperties = () => {
               >
                 <option value="">Select Plot Sale status</option>
                 <option value="Available">Available</option>
+                 <option value="Expression of Interest">
+                  Expression of Interest
+                </option>
                 <option value="Booked - Token Amount not paid">
                   Booked - Token Amount not paid
+                </option>
+                  <option value="Booked - Token amount paid">
+                  Booked - Token amount paid
                 </option>
                 <option value="Booked - Partial payment made">
                   Booked - Partial payment made
@@ -280,19 +286,12 @@ const AddProperties = () => {
                 <option value="Booked - Total payment made">
                   Booked - Total payment made
                 </option>
-                <option value="Booked - Token amount paid">
-                  Booked - Token amount paid
-                </option>
-                <option value="Expression of Interest">
-                  Expression of Interest
-                </option>
+              
+               
                 <option value="Registry Scheduled">Registry Scheduled</option>
-                <option value="Sold - Not available for resale">
-                  Sold - Not available for resale
-                </option>
-                <option value="Sold - Available for resale">
-                  Sold - Available for resale
-                </option>
+                <option value="Registry Completed">Registry Completed</option>
+                <option value="Possession handler Over">Possession handler Over</option>
+                
               </SelectInput>
             </div>
             <div class="form-row">

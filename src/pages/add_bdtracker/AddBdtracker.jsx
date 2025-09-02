@@ -13,6 +13,7 @@ import { clientGetAll } from "../../(api)/Client";
 import { brokerGetAll } from "../../(api)/BrokerApi";
 import { getAllEmployeeName } from "../../(api)/Employee";
 import { getAllstatus } from "../../(api)/Dashboard";
+import { propertyGetAll } from "../../(api)/Properties";
 const AddBdtracker = () => {
   const [loader, setLoader] = useState(false);
   const [searchparams] = useSearchParams();
@@ -20,6 +21,7 @@ const AddBdtracker = () => {
   const [clientList, setClientList] = useState();
   const [statusList, setStatusList] = useState();
   const [brokerList, setBrokerList] = useState();
+  const [properties, setProperties] = useState();
   const [employeeName, setEmployeeName] = useState();
   const bdId = searchparams.get("bdId");
   const navigate = useNavigate();
@@ -141,6 +143,14 @@ const AddBdtracker = () => {
   }, [bdId]);
 
   useEffect(() => {
+    propertyGetAll()
+      .then((res) => {
+        setProperties(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     projectsGetAll()
       .then((res) => {
         setProjectList(res.data);
@@ -181,7 +191,18 @@ const AddBdtracker = () => {
       });
   }, []);
 
-  console.log(statusList, "statusList");
+  const clientHandleChange = (e) => {
+    const value = e.target.value;
+
+    const finddata = clientList.find((item) => item.clientName === value);
+
+    setValues((values) => ({
+      ...values,
+      potentialClientName: finddata?.clientName,
+      emailId: finddata?.clientEmail,
+      phoneNo: finddata?.phoneNumber,
+    }));
+  };
 
   return (
     <>
@@ -193,6 +214,21 @@ const AddBdtracker = () => {
           </div>
           <form action="" onSubmit={handleSubmit}>
             <div class="form-row">
+              <SelectInput
+                label="Plot No."
+                name="projectName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.projectName}
+              >
+                <option value="">Select Plot</option>
+                {properties &&
+                  properties?.map((item, index) => (
+                    <option key={index} value={item?.plotNo}>
+                      {item?.plotNo}
+                    </option>
+                  ))}
+              </SelectInput>
               <Input
                 label="Lead Generation Date"
                 name="leadGenerationDate"
@@ -201,6 +237,8 @@ const AddBdtracker = () => {
                 onBlur={handleBlur}
                 type="date"
               />
+            </div>
+            <div class="form-row">
               <SelectInput
                 label="Project Name"
                 name="projectName"
@@ -216,8 +254,6 @@ const AddBdtracker = () => {
                     </option>
                   ))}
               </SelectInput>
-            </div>
-            <div class="form-row">
               <Input
                 label="Project Subtitle"
                 name="projectSubtitle"
@@ -225,11 +261,13 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+            </div>
+            <div class="form-row">
               <SelectInput
                 label="Potential Client Name"
                 name="potentialClientName"
                 value={values.potentialClientName}
-                onChange={handleChange}
+                onChange={clientHandleChange}
                 onBlur={handleBlur}
               >
                 <option value="">Select Client</option>
@@ -240,8 +278,6 @@ const AddBdtracker = () => {
                     </option>
                   ))}
               </SelectInput>
-            </div>
-            <div class="form-row">
               <SelectInput
                 label="Status"
                 name="status"
@@ -258,6 +294,8 @@ const AddBdtracker = () => {
                     </option>
                   ))}
               </SelectInput>
+            </div>
+            <div class="form-row">
               <Input
                 label="Email-Id"
                 name="emailId"
@@ -266,8 +304,6 @@ const AddBdtracker = () => {
                 onBlur={handleBlur}
                 type="email"
               />
-            </div>
-            <div class="form-row">
               <Input
                 label="Phone number"
                 name="phoneNo"
@@ -275,8 +311,11 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+            </div>
+
+            <div class="form-row">
               <SelectInput
-                label="Reference (Broker Name)atus"
+                label="Broker Name"
                 name="reference"
                 value={values.reference}
                 onChange={handleChange}
@@ -291,9 +330,6 @@ const AddBdtracker = () => {
                     </option>
                   ))}
               </SelectInput>
-            </div>
-
-            <div class="form-row">
               <div class="input-textarea input">
                 <label for="">Comments</label>
                 <textarea
@@ -305,6 +341,8 @@ const AddBdtracker = () => {
                   id=""
                 ></textarea>
               </div>
+            </div>
+            <div class="form-row">
               <Input
                 name="dateOfFutureContact"
                 value={values.dateOfFutureContact}
@@ -313,8 +351,6 @@ const AddBdtracker = () => {
                 label="Date of Future Contact"
                 type="date"
               />
-            </div>
-            <div class="form-row">
               <SelectInput
                 name="marketingExecutive"
                 value={values.marketingExecutive}
@@ -331,6 +367,8 @@ const AddBdtracker = () => {
                     </option>
                   ))}
               </SelectInput>
+            </div>
+            <div class="form-row">
               <Input
                 label="Date of emailing the Business Proposal to Potential Client"
                 type="date"
@@ -341,8 +379,6 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-            </div>
-            <div class="form-row">
               <Input
                 label="Future date to proceed on Business Proposal"
                 type="date"
