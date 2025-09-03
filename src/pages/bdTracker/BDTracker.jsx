@@ -32,6 +32,10 @@ const BDTracker = () => {
       const response = await bdTrackerGetAll(page - 1, size);
       if (response.status === "OK") {
         setData(response.data);
+            setPagination((prev) => ({
+          ...prev,
+          total: response.totalItems, // API must return total records
+        }));
       }
     } catch (err) {
       toast.error("Something went wrong");
@@ -75,7 +79,7 @@ const BDTracker = () => {
 
   const columns = [
   
-        { title: "Plot Number", dataIndex: "projectName", key: "projectName" },
+        { title: "Plot Number", dataIndex: "plotNumber", key: "plotNumber" },
     /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
 
 

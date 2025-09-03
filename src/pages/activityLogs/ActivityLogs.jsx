@@ -53,19 +53,16 @@ const ActivityLogs = () => {
   };
 
   const columns = [
-    {
-      title: "Id",
-      key: "aid",
-      dataIndex: "aid",
-    },
-    { title: "Changed by", dataIndex: "changedBy", key: "changedBy" },
-    { title: "Changed in", dataIndex: "changedIn", key: "changedIn" },
+
+ 
+    // { title: "Changed in", dataIndex: "changedIn", key: "changedIn" },
     { title: "Database Name", dataIndex: "tableName", key: "tableName" },
     {
       title: "Changed Field Name",
       dataIndex: "changedFieldName",
       key: "changedFieldName",
     },
+       { title: "Changed by", dataIndex: "changedBy", key: "changedBy" },
     { title: "Changed Time", dataIndex: "changedTime", key: "changedTime" },
     { title: "Changed date", dataIndex: "changedDate", key: "changedDate" },
     { title: "Activity Type", dataIndex: "activityType", key: "activityType" },

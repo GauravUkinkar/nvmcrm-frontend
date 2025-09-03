@@ -117,37 +117,39 @@ const Table = ({
     }));
   };
 
-  // 📏 Improved width calculation to fit long headings exactly
   const calculateColumnWidth = (title, dataIndex) => {
     const titleLength = title.toString().length;
-    const titleWidth = titleLength * 12; // More generous space for headers
+    const titleWidth = titleLength * 12;
     const maxDataWidth = Math.max(
       ...data.map((row) =>
         row[dataIndex] ? row[dataIndex].toString().length * 10 : 0
       ),
       0
     );
-    return Math.max(titleWidth + 40, maxDataWidth, 160); // 40px padding, min 160px
+    return Math.max(titleWidth + 40, maxDataWidth, 160);
   };
 
   const enhancedColumns = useMemo(() => {
-    let updatedCols = columns.map((col) => ({
-      ...col,
-      align: "center",
-      width: calculateColumnWidth(col.title, col.dataIndex),
-      ellipsis: false,
-      onHeaderCell: () => ({
-        style: { whiteSpace: "nowrap" }, // 🚫 No wrap for headings
-      }),
-      filters: getColumnValueFilters(col.dataIndex),
-      filteredValue: filteredInfo[col.dataIndex] || null,
-      onFilter: (value, record) =>
-        record[col.dataIndex]
-          ?.toString()
-          .toLowerCase()
-          .includes(value.toString().toLowerCase()),
-      ...getColumnSearchProps(col.dataIndex),
-    }));
+    let updatedCols = columns.map((col) => {
+      const isSearchable = col.searchable ?? true;
+      return {
+        ...col,
+        align: "center",
+        width: calculateColumnWidth(col.title, col.dataIndex),
+        ellipsis: false,
+        onHeaderCell: () => ({
+          style: { whiteSpace: "nowrap" },
+        }),
+        filters: getColumnValueFilters(col.dataIndex),
+        filteredValue: filteredInfo[col.dataIndex] || null,
+        onFilter: (value, record) =>
+          record[col.dataIndex]
+            ?.toString()
+            .toLowerCase()
+            .includes(value.toString().toLowerCase()),
+        ...(isSearchable ? getColumnSearchProps(col.dataIndex) : {}),
+      };
+    });
 
     if (showActions) {
       updatedCols.push({
@@ -179,13 +181,14 @@ const Table = ({
 
     return updatedCols;
   }, [columns, data, filteredInfo, searchText, showActions, onEdit, onDelete]);
+
   return (
     <div className="table-wrapper">
       <div className="table-scroll">
         <AntTable
           columns={enhancedColumns}
           dataSource={data.reverse()}
-          onChange={handleChange ?  handleChange : handlefilterChange} // ✅ fallback no-op if not passed
+          onChange={handleChange ? handleChange : handlefilterChange}
           pagination={
             pagination
               ? {
@@ -196,9 +199,9 @@ const Table = ({
                   showSizeChanger: true,
                 }
               : {
-                pageSizeOptions: ["5", "10", "20", "50", "100"],
+                  pageSizeOptions: ["5", "10", "20", "50", "100"],
                   showSizeChanger: true,
-              } // ✅ use AntD default pagination if not passed
+                }
           }
           scroll={{
             x: enhancedColumns.reduce(

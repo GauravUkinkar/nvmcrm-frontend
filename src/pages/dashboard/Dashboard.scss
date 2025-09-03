@@ -104,6 +104,29 @@
             justify-content: space-between;
             align-items: center;
           }
+
+                ul{
+            list-style: none;
+            width: 100%;
+            padding: 0;
+
+            li{
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              padding: 5px;
+              background-color: rgb(241, 241, 241);
+              border-radius: 4px;
+
+              p{
+                color: black;
+              }
+
+              &:nth-child(even){
+                background-color: transparent;
+              }
+            }
+          }
         }
       }
 

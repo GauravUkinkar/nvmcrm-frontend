@@ -53,7 +53,19 @@ const LoginLog = () => {
     { title: "User Name", dataIndex: "username", key: "username" },
     { title: "Login Time", dataIndex: "loginTime", key: "loginTime" },
     { title: "Login Date", dataIndex: "loginDate", key: "loginDate" },
-    { title: "Logout Time", dataIndex: "logoutTime", key: "logoutTime" },
+  {
+  title: "Logout Time",
+  dataIndex: "logoutTime",
+  key: "logoutTime",
+  render: (_, record) => {
+    // Check if logoutTime exists and contains a dot before splitting
+    const timeValue = record.logoutTime
+      ? record.logoutTime.split(".")[1]
+      : "N/A";
+
+    return <p>{timeValue}</p>;
+  },
+}
   ];
   return (
     <>

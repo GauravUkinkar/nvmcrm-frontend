@@ -29,15 +29,30 @@ import {
   FaBuilding,
 } from "react-icons/fa";
 import { UserContext } from "../../Context";
+import axios from "axios";
 
 const Sidebar = ({ active, setActive }) => {
   const [activeIndex, setActiveIndex] = useState();
   const location = useLocation();
 
   const { user } = useContext(UserContext);
-  const handleLogout = () => {
-    localStorage.clear();
+  const handleLogout = async () => {
+    try {
+
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}auth/logout?username=${user?.userName}`,{},{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });;
+      if(response.status === 200){
+      localStorage.clear();
     window.location.href = "/login";
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+    
   };
 
   const navlinks = [

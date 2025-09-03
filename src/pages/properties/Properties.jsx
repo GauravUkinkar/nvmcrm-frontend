@@ -11,6 +11,7 @@ import ExportDataToExcel from "../../comp/export_data/ExportData";
 const Properties = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [saleStatus, setSaleStatus] = useState();
 
   //navigate----------------------------------------------
   const navigate = useNavigate();
@@ -29,6 +30,14 @@ const Properties = () => {
       if (response.status === "OK") {
         setData(response.data);
       }
+
+      const saleStatus = [
+        ...new Set(
+          response.data && response.data.map((item) => item.plotSaleStatus)
+        ),
+      ].map((item) => ({ text: item, item }));
+
+      setSaleStatus(saleStatus);
     } catch (err) {
       toast.error("Something went wrong");
     } finally {
@@ -71,6 +80,23 @@ const Properties = () => {
 
   const columns = [
     { title: "Id", dataIndex: "pid", key: "pid" },
+    {
+      title: "Property Type",
+      dataIndex: "propertyType",
+      key: "propertyType",
+      filters: [
+        {
+          text: "Residential",
+          value: "Residential",
+        },
+        {
+          text: "Commercial",
+          value: "Commercial",
+        },
+      ],
+      searchable: false,
+      onFilter: (value, record) => record.propertyType === value,
+    },
     { title: "Project Name", dataIndex: "projectName", key: "projectName" },
     {
       title: "Project Subtitle",
@@ -82,6 +108,7 @@ const Properties = () => {
     { title: "Phase", dataIndex: "phase", key: "phase" },
     { title: "Plot Size (Sq. Ft)", dataIndex: "plotSize", key: "plotSize" },
     { title: "Rate per Sq Ft.", dataIndex: "ratePerSqft", key: "ratePerSqft" },
+
     { title: "Other Costs", dataIndex: "otherCosts", key: "otherCosts" },
     {
       title: "Total Rate of the plot",
@@ -97,6 +124,9 @@ const Properties = () => {
       title: "Plot Sale Status",
       dataIndex: "plotSaleStatus",
       key: "plotSaleStatus",
+      filters: saleStatus,
+      onFilter: (value, record) => record.plotSaleStatus === value,
+      searchable: false, // This will disable the search filter for this column
     },
     {
       title: "Plot Owner - Client ID",
@@ -126,9 +156,9 @@ const Properties = () => {
     },
     { title: "Comments", dataIndex: "comments", key: "comments" },
     { title: "Added by", dataIndex: "addedBy", key: "addedBy" },
-     { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
+    { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
-   
+
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];

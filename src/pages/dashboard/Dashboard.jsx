@@ -10,18 +10,19 @@ import { clientGetAll } from "../../(api)/Client";
 import { projectsGetAll } from "../../(api)/Project";
 import { employeeGetAll } from "../../(api)/Employee";
 import { brokerGetAll } from "../../(api)/BrokerApi";
-import { propertyGetAll } from "../../(api)/Properties";
+
 import { bdTrackerGetAll } from "../../(api)/BdTracker";
 import { actionGetAll } from "../../(api)/ActionItems";
 import { activityLogsGetAll } from "../../(api)/ActivityLogs";
 import { UserContext } from "../../Context";
 import CountUp from "react-countup";
+import axios from "axios";
 
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-
+const [properties,setProperties]=useState([])
   const [countingData, setCountingData] = useState({
     clients: 0,
     projects: 0,
@@ -56,6 +57,25 @@ const Dashboard = () => {
       path: "/projects",
     },
   ];
+
+  const getPropertiesCount = async ()=>{
+    try {
+      const token =localStorage.getItem("token")
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}property/allPropertyCounts`,
+        {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      setProperties(response.data)
+
+     
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     clientGetAll()
@@ -102,16 +122,7 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    propertyGetAll()
-      .then((res) => {
-        setCountingData((prev) => ({
-          ...prev,
-          properties: res.data.length,
-        }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
 
     bdTrackerGetAll(0, 10)
       .then((res) => {
@@ -145,7 +156,11 @@ const Dashboard = () => {
       .catch((err) => {
         console.log(err);
       });
+
+      getPropertiesCount()
   }, []);
+
+  console.log(properties, "properties")
 
   useEffect(() => {
     const role = user?.role;
@@ -186,56 +201,62 @@ const Dashboard = () => {
                 <div class="top_bar">
                   <h4>Residential</h4>
                   <h3>
-                    100
+                         {properties?.Residential?.total || 0}
                   </h3>
                 </div>
                 <ul>
                   <li>
                     <p>Available</p>
                     <p>
-                      50
+                     {properties?.Residential?.available || 0}
                     </p>
                   </li>
                   <li>
                     <p>Expression of Interest</p>
                     <p>
-                      50
+                      {properties?.Residential?.expressionofinterest || 0}
                     </p>
                   </li>
                   <li>
                     <p>Booked - Token Amount not paid</p>
                     <p>
-                      50
+                      {properties?.Residential?.bookedtokenamountnotpaid || 0}
                     </p>
                   </li>
                   <li>
                     <p>Booked - Token amount paid</p>
                     <p>
-                      50
+                          {properties?.Residential?.bookedtokenamountpaid || 0}
                     </p>
                   </li>
                   <li>
                     <p> Booked - Partial payment made</p>
                     <p>
-                      50
+                        {properties?.Residential?.bookedpartialpaymentmade || 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p> Booked - Total payment made</p>
+                    <p>
+                        {properties?.Residential?.bookedtotalpaymentmade || 0}
                     </p>
                   </li>
                   <li>
                     <p> Registry Scheduled</p>
                     <p>
-                      50
+                       {properties?.Residential?.registryscheduled ?  properties?.Residential?.registryscheduled : 0}
                     </p>
                   </li>
                   <li>
                     <p>Registry Completed</p>
                     <p>
-                      50
+                       {properties?.Residential?.registrycompleted ?  properties?.Residential?.registrycompleted : 0}
                     </p>
                   </li>
                   <li>
                     <p>Possession handler Over</p>
                     <p>
-                      50
+                      {properties?.Residential?.possessionhandlerover ?  properties?.Residential?.possessionhandlerover : 0}
                     </p>
                   </li>
                 </ul>
@@ -244,9 +265,65 @@ const Dashboard = () => {
                 <div class="top_bar">
                   <h4>Commercial</h4>
                   <h3>
-                    100
+                    {properties?.Commercial?.total || 0}
                   </h3>
                 </div>
+                   <ul>
+                  <li>
+                    <p>Available</p>
+                    <p>
+                     {properties?.Commercial?.available || 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p>Expression of Interest</p>
+                    <p>
+                      {properties?.Commercial?.expressionofinterest || 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p>Booked - Token Amount not paid</p>
+                    <p>
+                      {properties?.Commercial?.bookedtokenamountnotpaid || 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p>Booked - Token amount paid</p>
+                    <p>
+                          {properties?.Commercial?.bookedtokenamountpaid || 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p> Booked - Partial payment made</p>
+                    <p>
+                        {properties?.Commercial?.bookedpartialpaymentmade || 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p> Booked - Total payment made</p>
+                    <p>
+                        {properties?.Commercial?.bookedtotalpaymentmade || 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p> Registry Scheduled</p>
+                    <p>
+                       {properties?.Commercial?.registryscheduled ?  properties?.Commercial?.registryscheduled : 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p>Registry Completed</p>
+                    <p>
+                       {properties?.Commercial?.registrycompleted ?  properties?.Commercial?.registrycompleted : 0}
+                    </p>
+                  </li>
+                  <li>
+                    <p>Possession handler Over</p>
+                    <p>
+                      {properties?.Commercial?.possessionhandlerover ?  properties?.Commercial?.possessionhandlerover : 0}
+                    </p>
+                  </li>
+                </ul>
               </div>
             </Link>
           </div>

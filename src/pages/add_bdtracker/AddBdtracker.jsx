@@ -26,6 +26,7 @@ const AddBdtracker = () => {
   const bdId = searchparams.get("bdId");
   const navigate = useNavigate();
   const formObj = {
+    plotNumber:"",
     leadGenerationDate: "",
     projectSubtitle: "",
     projectName: "",
@@ -113,6 +114,7 @@ const AddBdtracker = () => {
       const data = response.data.data;
 
       setValues({
+        plotNumber:data?.plotNumber,
         leadGenerationDate: data?.leadGenerationDate,
         projectSubtitle: data?.projectSubtitle,
         projectName: data?.projectName,
@@ -216,10 +218,10 @@ const AddBdtracker = () => {
             <div class="form-row">
               <SelectInput
                 label="Plot No."
-                name="projectName"
+                name="plotNumber"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.projectName}
+                value={values.plotNumber}
               >
                 <option value="">Select Plot</option>
                 {properties &&

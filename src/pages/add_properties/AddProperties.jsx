@@ -19,6 +19,7 @@ const AddProperties = () => {
   const [projectList, setProjectList] = useState();
   const [ownerList, setOwnerList] = useState();
   const formObj = {
+    propertyType:"",
     plotNo: "",
     projectSubtitle: "",
     projectName: "",
@@ -127,6 +128,7 @@ const AddProperties = () => {
         actualPossessionDate: data.actualPossessionDate,
         tentativePossessionDate: data.tentativePossessionDate,
         comments: data.comments,
+        propertyType:data.propertyType
       });
     } catch (error) {
       console.log(error);
@@ -158,7 +160,6 @@ const AddProperties = () => {
       });
   }, []);
 
-  console.log(ownerList, "ownerList");
 
   return (
     <>
@@ -262,6 +263,20 @@ const AddProperties = () => {
                 </option>
                 <option value="To be developed">To be developed</option>
               </SelectInput>
+
+              <SelectInput
+                name="propertyType"
+                value={values.propertyType}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Property type"
+              >
+                <option value="">Select Property type</option>
+                <option value="Residential">Residential</option>
+                <option value="Commercial">Commercial</option>
+              </SelectInput>
+            </div>
+            <div class="form-row">
               <SelectInput
                 name="plotSaleStatus"
                 value={values.plotSaleStatus}
@@ -271,13 +286,13 @@ const AddProperties = () => {
               >
                 <option value="">Select Plot Sale status</option>
                 <option value="Available">Available</option>
-                 <option value="Expression of Interest">
+                <option value="Expression of Interest">
                   Expression of Interest
                 </option>
                 <option value="Booked - Token Amount not paid">
                   Booked - Token Amount not paid
                 </option>
-                  <option value="Booked - Token amount paid">
+                <option value="Booked - Token amount paid">
                   Booked - Token amount paid
                 </option>
                 <option value="Booked - Partial payment made">
@@ -286,15 +301,13 @@ const AddProperties = () => {
                 <option value="Booked - Total payment made">
                   Booked - Total payment made
                 </option>
-              
-               
+
                 <option value="Registry Scheduled">Registry Scheduled</option>
                 <option value="Registry Completed">Registry Completed</option>
-                <option value="Possession handler Over">Possession handler Over</option>
-                
+                <option value="Possession handler Over">
+                  Possession handler Over
+                </option>
               </SelectInput>
-            </div>
-            <div class="form-row">
               <SelectInput
                 name="plotOwner"
                 value={values.plotOwner}
@@ -310,6 +323,8 @@ const AddProperties = () => {
                     </option>
                   ))}
               </SelectInput>
+            </div>
+            <div class="form-row">
               <SelectInput
                 name="plotFinancialStatus"
                 value={values.plotFinancialStatus}
@@ -323,8 +338,6 @@ const AddProperties = () => {
                   Complete Amount Paid
                 </option>
               </SelectInput>
-            </div>
-            <div class="form-row">
               <Input
                 name="pendingAmmountValue"
                 value={values.pendingAmmountValue}
@@ -332,6 +345,8 @@ const AddProperties = () => {
                 onBlur={handleBlur}
                 label="Pending Amount Value (INR.)"
               />
+            </div>
+            <div class="form-row">
               <Input
                 name="tentativePossessionDate"
                 value={values.tentativePossessionDate}
@@ -340,8 +355,6 @@ const AddProperties = () => {
                 label="Tentative Possession Date"
                 type="date"
               />
-            </div>
-            <div class="form-row">
               <Input
                 name="registryDate"
                 value={values.registryDate}
@@ -350,6 +363,8 @@ const AddProperties = () => {
                 label="Registry Date"
                 type="date"
               />
+            </div>
+            <div class="form-row">
               <Input
                 name="actualPossessionDate"
                 value={values.actualPossessionDate}
@@ -358,8 +373,6 @@ const AddProperties = () => {
                 label="Actual Possession Date"
                 type="date"
               />
-            </div>
-            <div class="form-row">
               <div class="input-textarea input">
                 <label for="">Comments</label>
                 <textarea
