@@ -1,6 +1,6 @@
 import React, { Children, useContext, useState } from "react";
 import "./Sidebar.scss";
-
+import { RxCross2 } from "react-icons/rx";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
@@ -197,7 +197,7 @@ const Sidebar = ({ active, setActive }) => {
         <div className="sidebar_section_inner">
           <div class="top_bar">
             <div class="arrow" onClick={() => setActive(!active)}>
-              {active ? <FaArrowRight /> : <FaArrowLeft />}
+              {active ? <FaArrowRight /> : <RxCross2 />}
             </div>
             <div className="logo">
               <div class="img bg-img-contain"></div>
