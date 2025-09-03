@@ -196,7 +196,7 @@ const [properties,setProperties]=useState([])
               </Link>
             ))}
 
-            <Link className="grid_item properties_grid">
+            <Link className="grid_item properties_grid" to="/properties">
               <div class="left">
                 <div class="top_bar">
                   <h4>Residential</h4>
