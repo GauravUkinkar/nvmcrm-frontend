@@ -4,7 +4,7 @@ import MainPanel from "../../comp/Main_panel/MainPanel";
 import Loader from "../../comp/loader/Loader";
 import { toast } from "react-toastify";
 import { deleteProperty, propertyGetAll } from "../../(api)/Properties";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 
@@ -12,6 +12,10 @@ const Properties = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saleStatus, setSaleStatus] = useState();
+  const [searchParams] = useSearchParams();
+  const [filteredProperties, setFilteredProperties] = useState([]);
+  const plotType = searchParams.get("type");
+  const plotStatus = searchParams.get("status");
 
   //navigate----------------------------------------------
   const navigate = useNavigate();
@@ -39,6 +43,7 @@ const Properties = () => {
 
       setSaleStatus(saleStatus);
     } catch (err) {
+      console.log(err)
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -54,6 +59,7 @@ const Properties = () => {
         getAllProperty();
       }
     } catch (err) {
+      console.log(err)
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -163,6 +169,23 @@ const Properties = () => {
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
 
+   useEffect(() => {
+    if (plotType && plotStatus) {
+      const filtered = data.filter(
+        (property) =>
+          property.propertyType === plotType &&
+          property.plotSaleStatus === plotStatus
+      );
+      setFilteredProperties(filtered);
+    } else {
+      setFilteredProperties(data);
+    }
+  }, [data, plotType, plotStatus]);
+
+  const navigateToproepr = ()=>{
+    navigate("/properties")
+  }
+
   return (
     <>
       {deletePopup && (
@@ -176,16 +199,24 @@ const Properties = () => {
       {loading && <Loader />}
       <MainPanel length={data?.length} text="Properties">
         <div>
-          <button
+         <div class="btn_list" style={{ display: "flex" , justifyContent:"flex-start", gap:"10px"}} > <button
             style={{ marginBottom: "10px" }}
             class="btn"
             onClick={() => ExportDataToExcel(data, "Properties")}
           >
             Export Data
           </button>
+       { (plotStatus && plotStatus) &&  <button
+            style={{ marginBottom: "10px" }}
+            class="btn"
+            onClick={navigateToproepr}
+          >
+            View All
+          </button>}
+          </div>
 
           <Table
-            data={data}
+            data={filteredProperties}
             columns={columns}
             showActions={true}
             onEdit={(record) => edit(record.pid)}

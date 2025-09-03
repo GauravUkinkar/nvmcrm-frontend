@@ -305,7 +305,7 @@ const AddProperties = () => {
                 <option value="Registry Scheduled">Registry Scheduled</option>
                 <option value="Registry Completed">Registry Completed</option>
                 <option value="Possession handler Over">
-                  Possession handler Over
+                  Possession handed Over
                 </option>
               </SelectInput>
               <SelectInput
