@@ -229,7 +229,7 @@ const AddActionItems = () => {
                     </option>
                   ))}
               </SelectInput>
-              <Input  
+              <Input
                 label="Action Completion Date"
                 type="date"
                 value={values.actionCompleteionDate}
@@ -254,7 +254,9 @@ const AddActionItems = () => {
 
             <div class="form-row">
               <button type="submit" class="btn">
-                Add Action Items
+                {actionId
+                  ? "Save Action Items Modification"
+                  : "Save Action Items"}
               </button>
             </div>
           </form>

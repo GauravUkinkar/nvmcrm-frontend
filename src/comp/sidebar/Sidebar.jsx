@@ -38,21 +38,24 @@ const Sidebar = ({ active, setActive }) => {
   const { user } = useContext(UserContext);
   const handleLogout = async () => {
     try {
-
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}auth/logout?username=${user?.userName}`,{},{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });;
-      if(response.status === 200){
-      localStorage.clear();
-    window.location.href = "/login";
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}auth/logout?username=${
+          user?.userName
+        }`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        localStorage.clear();
+        window.location.href = "/login";
       }
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    
   };
 
   const navlinks = [
@@ -88,7 +91,7 @@ const Sidebar = ({ active, setActive }) => {
           : []),
 
         {
-          name: "Add Properties",
+          name: "Add Plots",
           path: "/addproperties",
           icon: <IoHome />,
         },
@@ -137,7 +140,6 @@ const Sidebar = ({ active, setActive }) => {
                 path: "/manageusers",
                 icon: <IoPeople />,
               },
-             
             ]
           : []),
 
@@ -151,17 +153,17 @@ const Sidebar = ({ active, setActive }) => {
           path: "/properties",
           icon: <FaBuilding />,
         },
-        {
-          name: "BD Tracker",
-          path: "/bdTracker",
-          icon: <MdTrackChanges />,
-        },
-         {
-                name: "Action Items",
-                path: "/actionItems",
-                icon: <MdAssignment />,
-              },
       ],
+    },
+    {
+      name: "BD Tracker",
+      path: "/bdTracker",
+      icon: <MdTrackChanges />,
+    },
+    {
+      name: "Action Items",
+      path: "/actionItems",
+      icon: <MdAssignment />,
     },
 
     ...(user.role === "ADMIN"
@@ -188,8 +190,6 @@ const Sidebar = ({ active, setActive }) => {
       console.log("Add Entries clicked in collapsed mode");
     }
   };
-
-
 
   return (
     <>

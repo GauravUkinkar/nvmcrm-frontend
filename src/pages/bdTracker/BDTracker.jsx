@@ -32,7 +32,7 @@ const BDTracker = () => {
       const response = await bdTrackerGetAll(page - 1, size);
       if (response.status === "OK") {
         setData(response.data);
-            setPagination((prev) => ({
+        setPagination((prev) => ({
           ...prev,
           total: response.totalItems, // API must return total records
         }));
@@ -78,37 +78,38 @@ const BDTracker = () => {
   };
 
   const columns = [
-  
-        { title: "Plot Number", dataIndex: "plotNumber", key: "plotNumber" },
+    { title: "Plot Number", dataIndex: "plotNumber", key: "plotNumber" },
     /*  { title: "Tracker Id", dataIndex: "trackerId", key: "trackerId" }, */
 
-
-   
     {
       title: "Potential Client Name",
       dataIndex: "potentialClientName",
       key: "potentialClientName",
-    },
-     {
-      title: "Lead Generation Date",
-      dataIndex: "leadGenerationDate",
-      key: "leadGenerationDate",
-    },
-    { title: "Status", dataIndex: "status", key: "status" },
-    { title: "Email", dataIndex: "emailId", key: "emailId" },
-    { title: "Phone Number", dataIndex: "phoneNo", key: "phoneNo" },
-    { title: "Broker Name", dataIndex: "reference", key: "reference" },
-    { title: "Comments", dataIndex: "comments", key: "comments" },
-    {
-      title: "Date of Future Contact",
-      dataIndex: "dateOfFutureContact",
-      key: "dateOfFutureContact",
     },
     {
       title: "Marketing Executive",
       dataIndex: "marketingExecutive",
       key: "marketingExecutive",
     },
+    { title: "Status", dataIndex: "status", key: "status" },
+    { title: "Comments", dataIndex: "comments", key: "comments" },
+
+    {
+      title: "Lead Generation Date",
+      dataIndex: "leadGenerationDate",
+      key: "leadGenerationDate",
+    },
+
+    { title: "Email", dataIndex: "emailId", key: "emailId" },
+    { title: "Phone Number", dataIndex: "phoneNo", key: "phoneNo" },
+    { title: "Broker Name", dataIndex: "reference", key: "reference" },
+
+    {
+      title: "Date of Future Contact",
+      dataIndex: "dateOfFutureContact",
+      key: "dateOfFutureContact",
+    },
+
     // {
     //   title: "Date of emailing the Business Proposal to Potential Client",
     //   dataIndex: "dateofemailingtheBusinessProposaltoPotentialClient",

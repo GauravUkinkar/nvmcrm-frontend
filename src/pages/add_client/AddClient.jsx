@@ -317,7 +317,7 @@ const AddClient = () => {
                 onChange={handleChange}
                 value={values.brokerName}
               >
-                <option value="">Select Project Name</option>
+                <option value="">Select Broker Name</option>
                 {broker &&
                   broker?.map((item, index) => (
                     <option key={index} value={item?.brokerName}>
@@ -328,7 +328,9 @@ const AddClient = () => {
             </div>
 
             <div class="form-row">
-              <button class="btn">Add Client</button>
+              <button class="btn">
+                {clientId ? "Save Client Modification" : "Save Client"}
+              </button>
             </div>
           </form>
         </div>

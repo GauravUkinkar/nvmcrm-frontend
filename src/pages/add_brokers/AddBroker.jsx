@@ -246,7 +246,10 @@ const AddBroker = () => {
             </div>
             <div class="form-row">
               <button type="submit" class="btn">
-                Add Broker
+                {
+                  brokerId ? "Save Broker Modification" : "Save Broker"
+                }
+         
               </button>
             </div>
           </form>

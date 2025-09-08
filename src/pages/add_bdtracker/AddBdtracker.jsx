@@ -14,6 +14,8 @@ import { brokerGetAll } from "../../(api)/BrokerApi";
 import { getAllEmployeeName } from "../../(api)/Employee";
 import { getAllstatus } from "../../(api)/Dashboard";
 import { propertyGetAll } from "../../(api)/Properties";
+import { bdTrackerValidate } from "../../validates/BdTracker";
+import dayjs from "dayjs";
 const AddBdtracker = () => {
   const [loader, setLoader] = useState(false);
   const [searchparams] = useSearchParams();
@@ -24,22 +26,23 @@ const AddBdtracker = () => {
   const [properties, setProperties] = useState();
   const [employeeName, setEmployeeName] = useState();
   const bdId = searchparams.get("bdId");
+  const date = new Date()
   const navigate = useNavigate();
   const formObj = {
-    plotNumber:"",
-    leadGenerationDate: "",
+    plotNumber: "",
+    leadGenerationDate: dayjs(date).format("YYYY-MM-DD"),
     projectSubtitle: "",
     projectName: "",
     potentialClientName: "",
-    status: "",
+    status: "Lead Generated",
     emailId: "",
     phoneNo: "",
     reference: "",
     comments: "",
     dateOfFutureContact: "",
     marketingExecutive: "",
-    dateofemailingtheBusinessProposaltoPotentialClient: "",
-    futuredatetoproceedonBusinessProposal: "",
+    // dateofemailingtheBusinessProposaltoPotentialClient: "",
+    // futuredatetoproceedonBusinessProposal: "",
   };
 
   const addbd = async () => {
@@ -87,11 +90,8 @@ const AddBdtracker = () => {
     }
   };
 
-  const { handleChange, handleSubmit, handleBlur, values, setValues } = UseForm(
-    formObj,
-    () => ({}),
-    addbd
-  );
+  const { handleChange, handleSubmit, handleBlur, values, setValues, errors } =
+    UseForm(formObj, bdTrackerValidate, addbd);
 
   // get bd tracker by id
 
@@ -114,7 +114,7 @@ const AddBdtracker = () => {
       const data = response.data.data;
 
       setValues({
-        plotNumber:data?.plotNumber,
+        plotNumber: data?.plotNumber,
         leadGenerationDate: data?.leadGenerationDate,
         projectSubtitle: data?.projectSubtitle,
         projectName: data?.projectName,
@@ -126,10 +126,10 @@ const AddBdtracker = () => {
         comments: data?.comments,
         dateOfFutureContact: data?.dateOfFutureContact,
         marketingExecutive: data?.marketingExecutive,
-        dateofemailingtheBusinessProposaltoPotentialClient:
-          data?.dateofemailingtheBusinessProposaltoPotentialClient,
-        futuredatetoproceedonBusinessProposal:
-          data?.futuredatetoproceedonBusinessProposal,
+        // dateofemailingtheBusinessProposaltoPotentialClient:
+        //   data?.dateofemailingtheBusinessProposaltoPotentialClient,
+        // futuredatetoproceedonBusinessProposal:
+        //   data?.futuredatetoproceedonBusinessProposal,
       });
     } catch (error) {
       console.log(error);
@@ -222,6 +222,7 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.plotNumber}
+                error={errors.plotNumber}
               >
                 <option value="">Select Plot</option>
                 {properties &&
@@ -238,6 +239,7 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 type="date"
+               
               />
             </div>
             <div class="form-row">
@@ -271,6 +273,7 @@ const AddBdtracker = () => {
                 value={values.potentialClientName}
                 onChange={clientHandleChange}
                 onBlur={handleBlur}
+                error={errors.potentialClientName}
               >
                 <option value="">Select Client</option>
                 {clientList &&
@@ -286,6 +289,7 @@ const AddBdtracker = () => {
                 value={values.status}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                error={errors.status}
               >
                 <option value="">Select Status</option>
                 {statusList &&
@@ -305,6 +309,7 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 type="email"
+                disabled={bdId ? true : false}
               />
               <Input
                 label="Phone number"
@@ -312,6 +317,7 @@ const AddBdtracker = () => {
                 value={values.phoneNo}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                 disabled={bdId ? true : false}
               />
             </div>
 
@@ -340,6 +346,7 @@ const AddBdtracker = () => {
                   value={values.comments}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  
                   id=""
                 ></textarea>
               </div>
@@ -352,6 +359,7 @@ const AddBdtracker = () => {
                 onBlur={handleBlur}
                 label="Date of Future Contact"
                 type="date"
+                error={errors.dateOfFutureContact}
               />
               <SelectInput
                 name="marketingExecutive"
@@ -359,6 +367,7 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 label="Marketing Executive"
+                error={errors.marketingExecutive}
               >
                 <option value="">Select Marketing Executive</option>
                 {employeeName &&
@@ -370,7 +379,7 @@ const AddBdtracker = () => {
                   ))}
               </SelectInput>
             </div>
-            <div class="form-row">
+            {/* <div class="form-row">
               <Input
                 label="Date of emailing the Business Proposal to Potential Client"
                 type="date"
@@ -389,9 +398,11 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-            </div>
+            </div> */}
             <div class="form-row">
-              <button class="btn">Add BD Tracker</button>
+              <button class="btn">
+                {bdId ? "Save BD Tracker Modification" : "Save BD Tracker"}
+              </button>
             </div>
           </form>
         </div>

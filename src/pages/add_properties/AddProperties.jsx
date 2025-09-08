@@ -11,6 +11,7 @@ import Loader from "../../comp/loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { projectsGetAll } from "../../(api)/Project";
 import { clientGetAll } from "../../(api)/Client";
+import { plotValidate } from "../../validates/Plot";
 const AddProperties = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const AddProperties = () => {
     otherCosts: "",
     totalRateOfPlot: "",
     plotDevelopementStatus: "",
-    plotSaleStatus: "",
+    plotSaleStatus: "Available No Expression of Interest",
     plotOwner: "",
     plotFinancialStatus: "",
     pendingAmmountValue: "",
@@ -86,9 +87,9 @@ const AddProperties = () => {
     }
   };
 
-  const { handleChange, handleSubmit, handleBlur, values, setValues } = UseForm(
+  const { handleChange, handleSubmit, handleBlur, values, setValues,errors } = UseForm(
     formObj,
-    () => ({}),
+    plotValidate,
     addProperties
   );
 
@@ -167,7 +168,7 @@ const AddProperties = () => {
         {loader && <Loader />}
         <div class="form">
           <div class="topbar">
-            <h2>Add Properties</h2>
+            <h2>Add Plot</h2>
           </div>
           <form action="" onSubmit={handleSubmit}>
             <div class="form-row">
@@ -270,6 +271,7 @@ const AddProperties = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 label="Property type"
+                error={errors.propertyType}
               >
                 <option value="">Select Property type</option>
                 <option value="Residential">Residential</option>
@@ -283,12 +285,16 @@ const AddProperties = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 label="Plot Sale status"
+                error={errors.plotSaleStatus}
+
               >
                 <option value="">Select Plot Sale status</option>
-                <option value="Available">Available</option>
-                <option value="Expression of Interest">
+                {/* <option value="Available">Available</option> */}
+                <option value="Available No Expression of Interest">Available No Expression of Interest</option>
+                <option value="Available Expression of Interest">Available Expression of Interest</option>
+                {/* <option value="Expression of Interest">
                   Expression of Interest
-                </option>
+                </option> */}
                 <option value="Booked - Token Amount not paid">
                   Booked - Token Amount not paid
                 </option>
@@ -388,7 +394,10 @@ const AddProperties = () => {
 
             <div class="form-row">
               <button type="submit" class="btn">
-                Add Properties
+                {
+                  propertyId ? "Save Plot Modification" : "Save Plot"
+                }
+                
               </button>
             </div>
           </form>

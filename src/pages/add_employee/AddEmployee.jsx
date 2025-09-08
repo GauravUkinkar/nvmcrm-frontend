@@ -419,7 +419,12 @@ const AddEmployee = () => {
             </div>
 
             <div class="form-row">
-              <button class="btn"> Add Employee </button>
+              <button class="btn">
+                {
+                  empId ? "Save Employee Modification" : "Save Employee"
+                }
+                
+                 </button>
             </div>
           </form>
         </div>

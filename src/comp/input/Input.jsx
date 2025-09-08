@@ -1,6 +1,6 @@
 import React from "react";
 import "./Input.scss";
-const Input = ({ label, className,value, onChange, onBlur, name, type, error }) => {
+const Input = ({ label, className,value, onChange, onBlur, name, type, error ,disabled}) => {
   return (
     <>
       <div class="input">
@@ -13,6 +13,7 @@ const Input = ({ label, className,value, onChange, onBlur, name, type, error }) 
           value={value}
           onBlur={onBlur}
           className={className ? className : ""}
+          disabled={disabled}
           
         />
         {error && <small className="text-warning ">{error}</small>}

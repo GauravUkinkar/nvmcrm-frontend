@@ -52,11 +52,11 @@ const Dashboard = () => {
       path: "/bdTracker",
     },
 
-    {
-      title: "Projects",
-      count: countingData.projects,
-      path: "/projects",
-    },
+    // {
+    //   title: "Projects",
+    //   count: countingData.projects,
+    //   path: "/projects",
+    // },
   ];
 
   const getPropertiesCount = async () => {
@@ -176,6 +176,8 @@ const Dashboard = () => {
     }
   }, [user, location, navigate]);
 
+  console.log(properties, "properties");
+
   return (
     <>
       <MainPanel>
@@ -204,7 +206,7 @@ const Dashboard = () => {
 
             <Link className="grid_item properties_grid">
               <div class="top">
-                <p>Properties - </p>{" "}
+                <p>Plots - </p>{" "}
                 <p className="count">
                   {" "}
                   <CountUp end={countingData?.properties} />{" "}
@@ -213,62 +215,322 @@ const Dashboard = () => {
               <div class="bottom">
                 <div class="left">
                   <div class="top_bar">
-                    <h4>Residential</h4>
-                    <h3>{properties?.Residential?.total || 0}</h3>
+                    <h4>Commercial</h4>
+                    <div class="top_bar_left">
+                      <h3>{properties?.Residential?.total || 0}</h3>
+                      <h5 className="percentage">
+                        {" "}
+                        {(
+                          (properties?.Residential?.total /
+                            countingData?.properties) *
+                          100
+                        )?.toFixed(2)}{" "}
+                        %{" "}
+                      </h5>
+                    </div>
                   </div>
                   <ul>
                     <li>
-                      <Link to="/properties?type=Residential&status=Available">
-                        <p>Available</p>
-                        <p>{properties?.Residential?.available || 0}</p>
+                      <Link>
+                        <p>Total Available</p>
+                        <div class="topbar_left">
+                          <p>
+                            {(properties?.Residential
+                              ?.availablenoexpressionofinterest || 0) +
+                              (properties?.Residential
+                                ?.availableexpressionofinterest || 0) || 0}
+                          </p>
+                          <h5 className="percentage">
+                            {" "}
+                            {(
+                              (((properties?.Residential
+                                ?.availablenoexpressionofinterest || 0) +
+                                (properties?.Residential
+                                  ?.availableexpressionofinterest || 0)) /
+                                (properties?.Residential?.total || 0)) *
+                              100
+                            )?.toFixed(2)}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
+                      <Link to="/properties?type=Residential&status=Available No Expression of Interest">
+                        <p>Available No Expression of interest</p>
+
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Residential
+                              ?.availablenoexpressionofinterest || 0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const availableEOI =
+                                properties?.Residential
+                                  ?.availableexpressionofinterest || 0;
+                              const availableNoEOI =
+                                properties?.Residential
+                                  ?.availablenoexpressionofinterest || 0;
+                              const total = availableEOI + availableNoEOI;
+
+                              return total > 0
+                                ? ((availableNoEOI / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/properties?type=Residential&status=Available Expression of interest">
+                        <p>Available Expression of interest</p>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Residential
+                              ?.availableexpressionofinterest || 0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const availableEOI =
+                                properties?.Residential
+                                  ?.availableexpressionofinterest || 0;
+                              const availableNoEOI =
+                                properties?.Residential
+                                  ?.availablenoexpressionofinterest || 0;
+                              const total = availableEOI + availableNoEOI;
+
+                              return total > 0
+                                ? ((availableEOI / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
+                      </Link>
+                    </li>
+                    {/* <li>
                       <Link to="/properties?type=Residential&status=Expression of Interest">
                         <p>Expression of Interest</p>
-                        <p>
-                          {properties?.Residential?.expressionofinterest || 0}
-                        </p>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Residential?.expressionofinterest || 0}
+                          </p>
+
+                          <h5>
+                            {" "}
+                            {(
+                              (properties?.Residential?.expressionofinterest /
+                                properties?.Residential?.total) *
+                              100
+                            )?.toFixed(2)} %
+                          </h5>
+                        </div>
+                      </Link>
+                    </li> */}
+                    <li>
+                      <Link>
+                        <p>Total Booked </p>
+                        <div class="topbar_left">
+                          <p>
+                            {(properties?.Residential
+                              ?.bookedtokenamountnotpaid || 0) +
+                              (properties?.Residential?.bookedtokenamountpaid ||
+                                0) +
+                              (properties?.Residential
+                                ?.bookedpartialpaymentmade || 0) +
+                              (properties?.Residential
+                                ?.bookedtotalpaymentmade || 0) || 0}
+                          </p>
+                          <h5>
+                            {(
+                              (((properties?.Residential
+                                ?.bookedtokenamountnotpaid || 0) +
+                                (properties?.Residential
+                                  ?.bookedtokenamountpaid || 0) +
+                                (properties?.Residential
+                                  ?.bookedpartialpaymentmade || 0) +
+                                (properties?.Residential
+                                  ?.bookedtotalpaymentmade || 0)) /
+                                (properties?.Residential?.total || 1)) *
+                              100
+                            ).toFixed(2)}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
-                      <Link   to="/properties?type=Residential&status=Booked - Token Amount not paid">
-                        <p>Booked - Token Amount not paid</p>
-                        <p>
-                          {properties?.Residential?.bookedtokenamountnotpaid ||
-                            0}
-                        </p>
+                      <Link to="/properties?type=Residential&status=Booked - Token Amount not paid">
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>R1.</p>
+                          <p>Booked - Token Amount not paid</p>
+                        </div>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Residential
+                              ?.bookedtokenamountnotpaid || 0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const tokenNotPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const tokenPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountpaid || 0;
+                              const partialPaid =
+                                properties?.Residential
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Residential
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((tokenNotPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
-                      <Link   to="/properties?type=Residential&status=Booked - Token amount paid">
-                        <p>Booked - Token amount paid</p>
-                        <p>
-                          {properties?.Residential?.bookedtokenamountpaid || 0}
-                        </p>
+                      <Link to="/properties?type=Residential&status=Booked - Token amount paid">
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>R2.</p>
+                          <p>Booked - Token Amount paid</p>
+                        </div>
+
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Residential?.bookedtokenamountpaid ||
+                              0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const tokenPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountpaid || 0;
+                              const tokenNotPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const partialPaid =
+                                properties?.Residential
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Residential
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((tokenPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
-                      <Link   to="/properties?type=Residential&status=Booked - Partial payment made">
+                      <Link to="/properties?type=Residential&status=Booked - Partial payment made">
                         {" "}
-                        <p> Booked - Partial payment made</p>
-                        <p>
-                          {properties?.Residential?.bookedpartialpaymentmade ||
-                            0}
-                        </p>
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>R3.</p>
+                          <p>Booked - Partial payment made</p>
+                        </div>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Residential
+                              ?.bookedpartialpaymentmade || 0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const tokenNotPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const tokenPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountpaid || 0;
+                              const partialPaid =
+                                properties?.Residential
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Residential
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((partialPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
-                      <Link  to="/properties?type=Residential&status=Booked - Total payment made">
+                      <Link to="/properties?type=Residential&status=Booked - Total payment made">
                         {" "}
-                        <p> Booked - Total payment made</p>
-                        <p>
-                          {properties?.Residential?.bookedtotalpaymentmade || 0}
-                        </p>
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>R4.</p>
+                          <p>Booked - Total payment made</p>
+                        </div>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Residential?.bookedtotalpaymentmade ||
+                              0}
+                          </p>
+
+                          <h5>
+                            {(() => {
+                              const tokenNotPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const tokenPaid =
+                                properties?.Residential
+                                  ?.bookedtokenamountpaid || 0;
+                              const partialPaid =
+                                properties?.Residential
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Residential
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((totalPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
-                      <Link  to="/properties?type=Residential&status=Registry Scheduled">
+                      <Link to="/properties?type=Residential&status=Registry Scheduled">
                         <p> Registry Scheduled</p>
                         <p>
                           {properties?.Residential?.registryscheduled
@@ -278,7 +540,7 @@ const Dashboard = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link   to="/properties?type=Residential&status=Registry Completed">
+                      <Link to="/properties?type=Residential&status=Registry Completed">
                         <p>Registry Completed</p>
                         <p>
                           {properties?.Residential?.registrycompleted
@@ -288,7 +550,7 @@ const Dashboard = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link   to="/properties?type=Residential&status=Possession handed Over">
+                      <Link to="/properties?type=Residential&status=Possession handed Over">
                         <p>Possession handed Over</p>
                         <p>
                           {properties?.Residential?.possessionhandlerover
@@ -302,60 +564,311 @@ const Dashboard = () => {
                 <div class="right">
                   <div class="top_bar">
                     <h4>Commercial</h4>
-                    <h3>{properties?.Commercial?.total || 0}</h3>
+
+                    <div class="top_bar_left">
+                      <h3>{properties?.Commercial?.total || 0}</h3>
+                      <h5 className="percentage">
+                        {" "}
+                        {(
+                          (properties?.Commercial?.total /
+                            countingData?.properties) *
+                          100
+                        )?.toFixed(2)}{" "}
+                        %{" "}
+                      </h5>
+                    </div>
                   </div>
                   <ul>
                     <li>
-                      <Link  to="/properties?type=Commercial&status=Available">
-                        <p>Available</p>
-                        <p>{properties?.Commercial?.available || 0}</p>
+                      <Link>
+                        <p>Total Available</p>
+
+                        <div class="topbar_left">
+                          <p>
+                            {(properties?.Commercial
+                              ?.availablenoexpressionofinterest || 0) +
+                              (properties?.Commercial
+                                ?.availableexpressionofinterest || 0) || 0}
+                          </p>
+                          <h5 className="percentage">
+                            {" "}
+                            {(
+                              (((properties?.Commercial
+                                ?.availablenoexpressionofinterest || 0) +
+                                (properties?.Commercial
+                                  ?.availableexpressionofinterest || 0)) /
+                                properties?.Residential?.total) *
+                              100
+                            )?.toFixed(2)}{" "}
+                            %
+                          </h5>
+                        </div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/properties?type=Commercial&status=Available No Expression of Interest">
+                        <p>Available No Expression of interest</p>
+
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Commercial
+                              ?.availablenoexpressionofinterest || 0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const availableEOI =
+                                properties?.Commercial
+                                  ?.availableexpressionofinterest || 0;
+                              const availableNoEOI =
+                                properties?.Commercial
+                                  ?.availablenoexpressionofinterest || 0;
+                              const total = availableEOI + availableNoEOI;
+
+                              return total > 0
+                                ? ((availableNoEOI / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/properties?type=Commercial&status=Available Expression of interest">
+                        <p>Available Expression of interest</p>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Commercial
+                              ?.availableexpressionofinterest || 0}
+                          </p>
+
+                          <h5>
+                            {(() => {
+                              const availableEOI =
+                                properties?.Commercial
+                                  ?.availableexpressionofinterest || 0;
+                              const availableNoEOI =
+                                properties?.Commercial
+                                  ?.availablenoexpressionofinterest || 0;
+                              const total = availableEOI + availableNoEOI;
+
+                              return total > 0
+                                ? ((availableEOI / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
 
-                    <li>
-                      <Link  to="/properties?type=Commercial&status=Expression of Interest">
+                    {/* <li>
+                      <Link to="/properties?type=Commercial&status=Expression of Interest">
                         {" "}
                         <p>Expression of Interest</p>
                         <p>
                           {properties?.Commercial?.expressionofinterest || 0}
                         </p>
                       </Link>
+                    </li> */}
+                    <li>
+                      <Link>
+                        <p>Total Booked </p>
+                        <div class="topbar_left">
+                          <p>
+                            {(properties?.Commercial
+                              ?.bookedtokenamountnotpaid || 0) +
+                              (properties?.Commercial?.bookedtokenamountpaid ||
+                                0) +
+                              (properties?.Commercial
+                                ?.bookedpartialpaymentmade || 0) +
+                              (properties?.Commercial?.bookedtotalpaymentmade ||
+                                0) || 0}
+                          </p>
+                          <h5>
+                            {(
+                              (((properties?.Commercial
+                                ?.bookedtokenamountnotpaid || 0) +
+                                (properties?.Commercial
+                                  ?.bookedtokenamountpaid || 0) +
+                                (properties?.Commercial
+                                  ?.bookedpartialpaymentmade || 0) +
+                                (properties?.Commercial
+                                  ?.bookedtotalpaymentmade || 0)) /
+                                (properties?.Commercial?.total || 1)) *
+                              100
+                            ).toFixed(2)}
+                            %
+                          </h5>
+                        </div>
+                      </Link>
                     </li>
                     <li>
                       <Link to="/properties?type=Commercial&status=Booked - Token Amount not paid">
                         {" "}
-                        <p>Booked - Token Amount not paid</p>
-                        <p>
-                          {properties?.Commercial?.bookedtokenamountnotpaid ||
-                            0}
-                        </p>
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>C1.</p>
+                          <p>Booked - Token Amount not paid</p>
+                        </div>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Commercial?.bookedtokenamountnotpaid ||
+                              0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const tokenNotPaid =
+                                properties?.Commercial
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const tokenPaid =
+                                properties?.Commercial?.bookedtokenamountpaid ||
+                                0;
+                              const partialPaid =
+                                properties?.Commercial
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Commercial
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((tokenNotPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
                       <Link to="/properties?type=Commercial&status=Booked - Token amount paid">
                         {" "}
-                        <p>Booked - Token amount paid</p>
-                        <p>
-                          {properties?.Commercial?.bookedtokenamountpaid || 0}
-                        </p>
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>C2.</p>
+                          <p>Booked - Token Amount paid</p>
+                        </div>
+                        <div class="topbar_left">
+                          <p>
+                            {properties?.Commercial?.bookedtokenamountpaid || 0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const tokenPaid =
+                                properties?.Commercial?.bookedtokenamountpaid ||
+                                0;
+                              const tokenNotPaid =
+                                properties?.Commercial
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const partialPaid =
+                                properties?.Commercial
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Commercial
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((tokenPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
                       <Link to="/properties?type=Commercial&status=Booked - Partial payment made">
-                        <p> Booked - Partial payment made</p>
-                        <p>
-                          {properties?.Commercial?.bookedpartialpaymentmade ||
-                            0}
-                        </p>
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>C3.</p>
+                          <p>Booked - Partial payment made</p>
+                        </div>
+                      
+                         <div class="topbar_left">
+                          <p>
+                            {properties?.Commercial
+                              ?.bookedpartialpaymentmade || 0}
+                          </p>
+                          <h5>
+                            {(() => {
+                              const tokenNotPaid =
+                                properties?.Commercial
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const tokenPaid =
+                                properties?.Commercial
+                                  ?.bookedtokenamountpaid || 0;
+                              const partialPaid =
+                                properties?.Commercial
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Commercial
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((partialPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
                       <Link to="/properties?type=Commercial&status=Booked - Total payment made">
                         {" "}
-                        <p> Booked - Total payment made</p>
-                        <p>
-                          {properties?.Commercial?.bookedtotalpaymentmade || 0}
-                        </p>{" "}
+                        <div class="list_right">
+                          <p style={{ color: "red" }}>C4.</p>
+                          <p>Booked - Total payment made</p>
+                        </div>
+                            <div class="topbar_left">
+                          <p>
+                            {properties?.Commercial?.bookedtotalpaymentmade ||
+                              0}
+                          </p>
+
+                          <h5>
+                            {(() => {
+                              const tokenNotPaid =
+                                properties?.Commercial
+                                  ?.bookedtokenamountnotpaid || 0;
+                              const tokenPaid =
+                                properties?.Commercial
+                                  ?.bookedtokenamountpaid || 0;
+                              const partialPaid =
+                                properties?.Commercial
+                                  ?.bookedpartialpaymentmade || 0;
+                              const totalPaid =
+                                properties?.Commercial
+                                  ?.bookedtotalpaymentmade || 0;
+
+                              const total =
+                                tokenNotPaid +
+                                tokenPaid +
+                                partialPaid +
+                                totalPaid;
+
+                              return total > 0
+                                ? ((totalPaid / total) * 100).toFixed(2)
+                                : "0.00";
+                            })()}{" "}
+                            %
+                          </h5>
+                        </div>
                       </Link>
                     </li>
                     <li>
