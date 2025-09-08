@@ -215,7 +215,7 @@ const Dashboard = () => {
               <div class="bottom">
                 <div class="left">
                   <div class="top_bar">
-                    <h4>Commercial</h4>
+                    <h4>Residential</h4>
                     <div class="top_bar_left">
                       <h3>{properties?.Residential?.total || 0}</h3>
                       <h5 className="percentage">
