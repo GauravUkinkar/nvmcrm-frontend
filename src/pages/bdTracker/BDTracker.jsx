@@ -31,7 +31,7 @@ const BDTracker = () => {
       setLoading(true);
       const response = await bdTrackerGetAll(page - 1, size);
       if (response.status === "OK") {
-        setData(response.data);
+        setData(response.data.reverse());
         setPagination((prev) => ({
           ...prev,
           total: response.totalItems, // API must return total records

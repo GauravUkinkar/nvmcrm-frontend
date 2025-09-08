@@ -1,4 +1,4 @@
-import React, { Children, useContext, useState } from "react";
+import React, { Children, useContext, useEffect, useState } from "react";
 import "./Sidebar.scss";
 import { RxCross2 } from "react-icons/rx";
 import { FaArrowRight } from "react-icons/fa6";
@@ -190,6 +190,26 @@ const Sidebar = ({ active, setActive }) => {
       console.log("Add Entries clicked in collapsed mode");
     }
   };
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1326) {
+        setActive(true);
+      } else {
+        setActive(false);
+      }
+    };
+
+    // Run once on mount
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>

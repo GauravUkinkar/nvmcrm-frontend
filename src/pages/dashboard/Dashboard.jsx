@@ -206,11 +206,13 @@ const Dashboard = () => {
 
             <Link className="grid_item properties_grid">
               <div class="top">
-                <p>Plots - </p>{" "}
-                <p className="count">
-                  {" "}
-                  <CountUp end={countingData?.properties} />{" "}
-                </p>{" "}
+                <div class="left">
+                  <p>Plots - </p>{" "}
+                  <p className="count">
+                    {" "}
+                    <CountUp end={countingData?.properties} />{" "}
+                  </p>{" "}
+                </div>
               </div>
               <div class="bottom">
                 <div class="left">
@@ -221,7 +223,7 @@ const Dashboard = () => {
                       <h5 className="percentage">
                         {" "}
                         {(
-                          (properties?.Residential?.total /
+                          ((properties?.Residential?.total || 0) /
                             countingData?.properties) *
                           100
                         )?.toFixed(2)}{" "}
@@ -241,15 +243,22 @@ const Dashboard = () => {
                                 ?.availableexpressionofinterest || 0) || 0}
                           </p>
                           <h5 className="percentage">
-                            {" "}
-                            {(
-                              (((properties?.Residential
-                                ?.availablenoexpressionofinterest || 0) +
-                                (properties?.Residential
-                                  ?.availableexpressionofinterest || 0)) /
-                                (properties?.Residential?.total || 0)) *
-                              100
-                            )?.toFixed(2)}{" "}
+                            {(() => {
+                              const availableEOI =
+                                properties?.Residential
+                                  ?.availableexpressionofinterest || 0;
+                              const availableNoEOI =
+                                properties?.Residential
+                                  ?.availablenoexpressionofinterest || 0;
+                              const total = availableEOI + availableNoEOI;
+
+                              return total > 0
+                                ? (
+                                    (total / properties?.Residential?.total) *
+                                    100
+                                  ).toFixed(2)
+                                : "0.00";
+                            })()}
                             %
                           </h5>
                         </div>
@@ -570,7 +579,7 @@ const Dashboard = () => {
                       <h5 className="percentage">
                         {" "}
                         {(
-                          (properties?.Commercial?.total /
+                          ((properties?.Commercial?.total || 0) /
                             countingData?.properties) *
                           100
                         )?.toFixed(2)}{" "}
@@ -592,14 +601,22 @@ const Dashboard = () => {
                           </p>
                           <h5 className="percentage">
                             {" "}
-                            {(
-                              (((properties?.Commercial
-                                ?.availablenoexpressionofinterest || 0) +
-                                (properties?.Commercial
-                                  ?.availableexpressionofinterest || 0)) /
-                                properties?.Residential?.total) *
-                              100
-                            )?.toFixed(2)}{" "}
+                            {(() => {
+                              const availableEOI =
+                                properties?.Commercial
+                                  ?.availableexpressionofinterest || 0;
+                              const availableNoEOI =
+                                properties?.Commercial
+                                  ?.availablenoexpressionofinterest || 0;
+                              const total = availableEOI + availableNoEOI;
+
+                              return total > 0
+                                ? (
+                                    (total / properties?.Commercial?.total) *
+                                    100
+                                  ).toFixed(2)
+                                : "0.00";
+                            })()}
                             %
                           </h5>
                         </div>
@@ -792,11 +809,11 @@ const Dashboard = () => {
                           <p style={{ color: "red" }}>C3.</p>
                           <p>Booked - Partial payment made</p>
                         </div>
-                      
-                         <div class="topbar_left">
+
+                        <div class="topbar_left">
                           <p>
-                            {properties?.Commercial
-                              ?.bookedpartialpaymentmade || 0}
+                            {properties?.Commercial?.bookedpartialpaymentmade ||
+                              0}
                           </p>
                           <h5>
                             {(() => {
@@ -804,8 +821,8 @@ const Dashboard = () => {
                                 properties?.Commercial
                                   ?.bookedtokenamountnotpaid || 0;
                               const tokenPaid =
-                                properties?.Commercial
-                                  ?.bookedtokenamountpaid || 0;
+                                properties?.Commercial?.bookedtokenamountpaid ||
+                                0;
                               const partialPaid =
                                 properties?.Commercial
                                   ?.bookedpartialpaymentmade || 0;
@@ -835,7 +852,7 @@ const Dashboard = () => {
                           <p style={{ color: "red" }}>C4.</p>
                           <p>Booked - Total payment made</p>
                         </div>
-                            <div class="topbar_left">
+                        <div class="topbar_left">
                           <p>
                             {properties?.Commercial?.bookedtotalpaymentmade ||
                               0}
@@ -847,8 +864,8 @@ const Dashboard = () => {
                                 properties?.Commercial
                                   ?.bookedtokenamountnotpaid || 0;
                               const tokenPaid =
-                                properties?.Commercial
-                                  ?.bookedtokenamountpaid || 0;
+                                properties?.Commercial?.bookedtokenamountpaid ||
+                                0;
                               const partialPaid =
                                 properties?.Commercial
                                   ?.bookedpartialpaymentmade || 0;
