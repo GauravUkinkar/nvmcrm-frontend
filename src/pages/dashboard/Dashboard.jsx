@@ -18,9 +18,12 @@ import { UserContext } from "../../Context";
 import CountUp from "react-countup";
 import axios from "axios";
 import { propertyGetAll } from "../../(api)/Properties";
-import { DatePicker, Space } from "antd";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import SelectInput from "../../comp/SelectInput/SelectInput";
 
 const { RangePicker } = DatePicker;
+
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -37,6 +40,13 @@ const Dashboard = () => {
     actionItems: 0,
     activityLogs: 0,
   });
+  const [date, setDate] = useState({
+    fromDate: "",
+    toDate: "",
+  });
+
+  const [filterStatus, setFilterStatus] = useState("");
+
   const gridItems = [
     {
       title: "Clients",
@@ -64,8 +74,25 @@ const Dashboard = () => {
   const getPropertiesCount = async () => {
     try {
       const token = localStorage.getItem("token");
+      let today = false;
+      let previous = false;
+      if (date?.fromDate && date?.toDate) {
+        // only update UI state if needed
+        if (filterStatus !== "") setFilterStatus("");
+        today = false;
+        previous = false;
+      } else if (filterStatus === "Till Date") {
+        today = true;
+      } else if (filterStatus === "Previous Day") {
+        previous = true;
+      }
+
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}property/allPropertyCounts`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }property/allPropertyCounts?fromDate=${date?.fromDate}&toDate=${
+          date?.toDate
+        }&today=${today}&yesterday=${previous}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -166,9 +193,11 @@ const Dashboard = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    getPropertiesCount();
   }, []);
+
+  useEffect(() => {
+    getPropertiesCount();
+  }, [date, filterStatus]);
 
   useEffect(() => {
     const role = user?.role;
@@ -178,7 +207,13 @@ const Dashboard = () => {
     }
   }, [user, location, navigate]);
 
-  console.log(properties, "properties");
+  const handleDateChange = (dates, dateStrings) => {
+    setFilterStatus("");
+    setDate({
+      fromDate: dateStrings[0],
+      toDate: dateStrings[1],
+    });
+  };
 
   return (
     <>
@@ -191,14 +226,14 @@ const Dashboard = () => {
                 <div class="top_bar">
                   <p>{item?.title}</p>
                   <Tooltip id="my-tooltip" />
-                  <Link
-                    to={item?.path}
+                  <span
+                    // to={item?.path}
                     data-tooltip-place="left"
                     data-tooltip-id="my-tooltip"
                     data-tooltip-content="Details"
                   >
                     <HiOutlineDotsVertical />
-                  </Link>
+                  </span>
                 </div>
                 <h2>
                   <CountUp end={item?.count} />
@@ -206,7 +241,7 @@ const Dashboard = () => {
               </Link>
             ))}
 
-            <Link className="grid_item properties_grid">
+            <div className="grid_item properties_grid">
               <div class="top">
                 <div class="left">
                   <p>Plots - </p>{" "}
@@ -216,7 +251,25 @@ const Dashboard = () => {
                   </p>{" "}
                 </div>
                 <div class="date_picker">
-                  <RangePicker />
+                  <div class="status_input">
+                    <SelectInput
+                      value={filterStatus}
+                      onChange={(e) => setFilterStatus(e.target.value)}
+                    >
+                      <option value="">Select Filter</option>
+                      <option value="Till Date">Till Date</option>
+                      <option value="Previous Day">Previous Day</option>
+                    </SelectInput>
+                  </div>
+                  <RangePicker
+                    value={[
+                      date.fromDate ? dayjs(date.fromDate) : null,
+                      date.toDate ? dayjs(date.toDate) : null,
+                    ]}
+                    onChange={(dates, dateStrings) => {
+                      handleDateChange(dates, dateStrings);
+                    }}
+                  />
                 </div>
               </div>
               <div class="bottom">
@@ -238,7 +291,7 @@ const Dashboard = () => {
                   </div>
                   <ul>
                     <li>
-                      <Link>
+                      <div className="nav">
                         <p>Total Available</p>
                         <div class="topbar_left">
                           <p>
@@ -267,7 +320,7 @@ const Dashboard = () => {
                             %
                           </h5>
                         </div>
-                      </Link>
+                      </div>
                     </li>
                     <li>
                       <Link to="/properties?type=Residential&status=Available No Expression of Interest">
@@ -344,7 +397,7 @@ const Dashboard = () => {
                       </Link>
                     </li> */}
                     <li>
-                      <Link>
+                      <div className="nav">
                         <p>Total Booked </p>
                         <div class="topbar_left">
                           <p>
@@ -373,7 +426,7 @@ const Dashboard = () => {
                             %
                           </h5>
                         </div>
-                      </Link>
+                      </div>
                     </li>
                     <li>
                       <Link to="/properties?type=Residential&status=Booked - Token Amount not paid">
@@ -929,7 +982,7 @@ const Dashboard = () => {
                   </ul>
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </MainPanel>
