@@ -18,7 +18,9 @@ import { UserContext } from "../../Context";
 import CountUp from "react-countup";
 import axios from "axios";
 import { propertyGetAll } from "../../(api)/Properties";
+import { DatePicker, Space } from "antd";
 
+const { RangePicker } = DatePicker;
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -213,6 +215,9 @@ const Dashboard = () => {
                     <CountUp end={countingData?.properties} />{" "}
                   </p>{" "}
                 </div>
+                <div class="date_picker">
+                  <RangePicker />
+                </div>
               </div>
               <div class="bottom">
                 <div class="left">
@@ -266,7 +271,7 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <Link to="/properties?type=Residential&status=Available No Expression of Interest">
-                        <p>Available No Expression of interest</p>
+                        <p>Available - Expression of No interest</p>
 
                         <div class="topbar_left">
                           <p>
@@ -294,7 +299,7 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <Link to="/properties?type=Residential&status=Available Expression of interest">
-                        <p>Available Expression of interest</p>
+                        <p>Available - Expression of interest</p>
                         <div class="topbar_left">
                           <p>
                             {properties?.Residential
@@ -624,7 +629,7 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <Link to="/properties?type=Commercial&status=Available No Expression of Interest">
-                        <p>Available No Expression of interest</p>
+                        <p>Available - Expression of No interest</p>
 
                         <div class="topbar_left">
                           <p>
@@ -652,7 +657,7 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <Link to="/properties?type=Commercial&status=Available Expression of interest">
-                        <p>Available Expression of interest</p>
+                        <p>Available - Expression of interest</p>
                         <div class="topbar_left">
                           <p>
                             {properties?.Commercial
