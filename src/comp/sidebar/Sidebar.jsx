@@ -63,7 +63,7 @@ const Sidebar = ({ active, setActive }) => {
       ? [
           {
             name: "Dashboard",
-            path: "/",
+            path: "/dashboard",
             icon: <MdDashboard />,
           },
         ]
@@ -219,9 +219,9 @@ const Sidebar = ({ active, setActive }) => {
             <div class="arrow" onClick={() => setActive(!active)}>
               {active ? <FaArrowRight /> : <RxCross2 />}
             </div>
-            <div className="logo">
+            <Link to="/" className="logo">
               <div class="img bg-img-contain"></div>
-            </div>
+            </Link>
           </div>
 
           {!active ? (

@@ -8,7 +8,7 @@ const Loader = () => {
     <div className='loader'>
    
 
-// Default values shown
+
 <Ring
   size="40"
   stroke="5"

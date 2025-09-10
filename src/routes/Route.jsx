@@ -19,6 +19,7 @@ const addBroker = lazy(() => import("../pages/add_brokers/AddBroker.jsx"));
 const ManageUser = lazy(() => import("../pages/manageusers/ManageUser.jsx"));
 const addBDtracker = lazy(() => import("../pages/add_bdtracker/AddBdtracker.jsx"));
 const addActionItems = lazy(() => import("../pages/add_actions/AddActionItems.jsx"));
+const Welcome = lazy(() => import("../pages/welcomePage/Welcome.jsx"));
 
 
 export const routes = [
@@ -31,6 +32,12 @@ export const routes = [
   },
   {
     path: "/",
+    exact: true,
+    name: "Welcome",
+    component: Welcome,
+  },
+  {
+    path: "/dashboard",
     exact: true,
     name: "dashboard",
     component: Dashboard,

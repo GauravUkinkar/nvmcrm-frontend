@@ -29,6 +29,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [properties, setProperties] = useState([]);
+  const [loader,setLoader] = useState(false)
   const [countingData, setCountingData] = useState({
     clients: 0,
     projects: 0,
@@ -78,9 +79,12 @@ const Dashboard = () => {
 
   const getPropertiesCount = async () => {
     try {
+
+      setLoader(true)
       const token = localStorage.getItem("token");
       let today = false;
       let previous = false;
+
 
       // Explicit check for month and year
       const hasMonthYear =
@@ -110,7 +114,7 @@ const Dashboard = () => {
 
         today = false;
         previous = false;
-      } else if (filterStatus === "Till Date") {
+      } else if (filterStatus === "Today") {
         // ✅ Till Date selected → clear other filters
         today = true;
         previous = false;
@@ -170,6 +174,8 @@ const Dashboard = () => {
       setProperties(response.data);
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoader(false)
     }
   };
 
@@ -288,6 +294,7 @@ const Dashboard = () => {
 
   return (
     <>
+      {loader && <Loader />}
       <MainPanel>
         <div class="panel">
           <h2>Dashboard</h2>
@@ -369,7 +376,7 @@ const Dashboard = () => {
                       }}
                     >
                       <option value="">Select Filter</option>
-                      <option value="Till Date">Till Date</option>
+                      <option value="Today">Today</option>
                       <option value="Previous Day">Previous Day</option>
                     </SelectInput>
                   </div>
