@@ -45,6 +45,11 @@ const Dashboard = () => {
     toDate: "",
   });
 
+  const [monthWise, SetMonthWise] = useState({
+    year: "",
+    month: "",
+  });
+
   const [filterStatus, setFilterStatus] = useState("");
 
   const gridItems = [
@@ -76,29 +81,91 @@ const Dashboard = () => {
       const token = localStorage.getItem("token");
       let today = false;
       let previous = false;
-      if (date?.fromDate && date?.toDate) {
-        // only update UI state if needed
-        if (filterStatus !== "") setFilterStatus("");
+
+      // Explicit check for month and year
+      const hasMonthYear =
+        monthWise?.month?.trim() !== "" && monthWise?.year?.trim() !== "";
+
+      // --- Filter Selection Priority ---
+      if (hasMonthYear) {
+        // ✅ Month/Year selected → clear other filters only ONCE
+        if (date?.fromDate || date?.toDate) {
+          setDate({ fromDate: "", toDate: "" });
+        }
+        if (filterStatus !== "") {
+          setFilterStatus(""); // clear status only when switching to month/year
+        }
+
+        today = false;
+        previous = false;
+      } else if (date?.fromDate && date?.toDate) {
+        // ✅ Date range selected → clear other filters only ONCE
+        if (filterStatus !== "") {
+          setFilterStatus("");
+        }
+        if (hasMonthYear) {
+          monthWise.month = "";
+          monthWise.year = "";
+        }
+
         today = false;
         previous = false;
       } else if (filterStatus === "Till Date") {
+        // ✅ Till Date selected → clear other filters
         today = true;
-      } else if (filterStatus === "Previous Day") {
-        previous = true;
-      }
+        previous = false;
 
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }property/allPropertyCounts?fromDate=${date?.fromDate}&toDate=${
-          date?.toDate
-        }&today=${today}&yesterday=${previous}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        if (hasMonthYear) {
+          monthWise.month = "";
+          monthWise.year = "";
         }
-      );
+        if (date?.fromDate || date?.toDate) {
+          setDate({ fromDate: "", toDate: "" });
+        }
+      } else if (filterStatus === "Previous Day") {
+        // ✅ Previous Day selected → clear other filters
+        previous = true;
+        today = false;
+
+        if (hasMonthYear) {
+          monthWise.month = "";
+          monthWise.year = "";
+        }
+        if (date?.fromDate || date?.toDate) {
+          setDate({ fromDate: "", toDate: "" });
+        }
+      }
+      // --- API Call ---
+      let response;
+      if (hasMonthYear) {
+        // Month/Year API
+        response = await axios.get(
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }property/allPropertyCounts?month=${monthWise?.year}-${
+            monthWise?.month
+          }`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } else {
+        // Other Filters API
+        response = await axios.get(
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }property/allPropertyCounts?fromDate=${date?.fromDate}&toDate=${
+            date?.toDate
+          }&today=${today}&yesterday=${previous}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
 
       setProperties(response.data);
     } catch (error) {
@@ -197,7 +264,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getPropertiesCount();
-  }, [date, filterStatus]);
+  }, [date, filterStatus, monthWise]);
 
   useEffect(() => {
     const role = user?.role;
@@ -209,6 +276,10 @@ const Dashboard = () => {
 
   const handleDateChange = (dates, dateStrings) => {
     setFilterStatus("");
+    SetMonthWise({
+      year: "",
+      month: "",
+    });
     setDate({
       fromDate: dateStrings[0],
       toDate: dateStrings[1],
@@ -253,8 +324,49 @@ const Dashboard = () => {
                 <div class="date_picker">
                   <div class="status_input">
                     <SelectInput
+                      value={monthWise.year}
+                      onChange={(e) =>
+                        SetMonthWise({ ...monthWise, year: e.target.value })
+                      }
+                    >
+                      <option value="">Select year</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2025</option>
+                    </SelectInput>
+                  </div>
+                  <div class="status_input">
+                    <SelectInput
+                      value={monthWise.month}
+                      onChange={(e) =>
+                        SetMonthWise({ ...monthWise, month: e.target.value })
+                      }
+                    >
+                      <option value="">Select Month</option>
+                      <option value="01">Jan</option>
+                      <option value="02">Feb</option>
+                      <option value="03">Mar</option>
+                      <option value="04">Apr</option>
+                      <option value="05">May</option>
+                      <option value="06">Jun</option>
+                      <option value="07">July</option>
+                      <option value="08">Aug</option>
+                      <option value="09">Sep</option>
+                      <option value="10">Oct</option>
+                      <option value="11">Nov</option>
+                      <option value="12">Dec</option>
+                    </SelectInput>
+                  </div>
+                  <div class="status_input">
+                    <SelectInput
                       value={filterStatus}
-                      onChange={(e) => setFilterStatus(e.target.value)}
+                      onChange={(e) => {
+                        SetMonthWise({ year: "", month: "" });
+                        setDate({
+                          fromDate: "",
+                          toDate: "",
+                        });
+                        setFilterStatus(e.target.value);
+                      }}
                     >
                       <option value="">Select Filter</option>
                       <option value="Till Date">Till Date</option>
