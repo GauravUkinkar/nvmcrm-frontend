@@ -76,15 +76,19 @@
       }
 
       .arrow {
-        width: 100%;
+        width: 30px;
+        height: 30px;
+        background-color:white;
+        border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
 
+
         svg {
           font-size: 24px;
-          color: var(--white);
+          color: var(--accent);
         }
       }
     }
