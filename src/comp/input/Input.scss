@@ -33,6 +33,11 @@
 
     border: 1px solid var(--border);
     border-radius: 5px;
-  }
 
+    &:disabled {
+      background-color: #f0f0f0; /* or any color you prefer */
+      cursor: not-allowed; /* optional, shows it's not editable */
+      opacity: 0.7; /* optional, gives a faded look */
+    }
+  }
 }
