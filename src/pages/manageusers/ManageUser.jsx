@@ -49,9 +49,9 @@ const ManageUser = () => {
         const data = res.data;
 
         setFormData({
-          username: data.userName,
+          username: data.userName || "",
           password: data.password,
-          role: data.role,
+          role: data.role || "",
         });
         setEid(data.eid);
       })
@@ -99,10 +99,11 @@ const ManageUser = () => {
     }));
   };
 
+  console.log(eid)
   return (
     <>
       <MainPanel>
-        <div class="panel">
+        <div class={eid ? "panel active" : "panel"}>
           <div class="table_panel">
             <Table
               onDelete={(record) => deleteEmployee(record.eid)}
@@ -114,44 +115,46 @@ const ManageUser = () => {
             />
           </div>
 
-          <form class="form" onSubmit={changePassword}>
-            <div class="form-row">
-              <Input
-                label="Username"
-                value={formData.username}
-                onChange={(e) =>
-                  setFormData({ ...formData, username: e.target.value })
-                }
-              />
-            </div>
-            <div class="form-row">
-              <Input
-                label="Password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-            </div>
-            <div class="form-row">
-              <SelectInput
-                value={formData.role}
-                onChange={(e) =>
-                  setFormData({ ...formData, role: e.target.value })
-                }
-              >
-                <option value="">Select Role</option>
-                <option value="EMPLOYEE">Employee</option>
-                <option value="ADMIN">Admin</option>
-              </SelectInput>
-            </div>
+          {eid && (
+              <form class="form" onSubmit={changePassword}>
+              <div class="form-row">
+                <Input
+                  label="Username"
+                  value={formData.username}
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
+                />
+              </div>
+              <div class="form-row">
+                <Input
+                  label="Password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                />
+              </div>
+              <div class="form-row">
+                <SelectInput
+                  value={formData.role}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
+                >
+                  <option value="">Select Role</option>
+                  <option value="EMPLOYEE">Employee</option>
+                  <option value="ADMIN">Admin</option>
+                </SelectInput>
+              </div>
 
-            <div class="form-row">
-              <button type="submit" class="btn">
-                Add User
-              </button>
-            </div>
-          </form>
+              <div class="form-row">
+                <button type="submit" class="btn">
+                  Update User
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </MainPanel>
     </>

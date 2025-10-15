@@ -144,7 +144,7 @@ const BDTracker = () => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel length={data?.length} text="BD Tracker">
+      <MainPanel length={pagination?.total} text="BD Tracker">
         <div>
           <button
             style={{ marginBottom: "10px" }}

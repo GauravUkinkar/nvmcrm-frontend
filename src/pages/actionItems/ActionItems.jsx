@@ -32,6 +32,10 @@ const ActionItems = () => {
       const response = await actionGetAll(page - 1, size);
       if (response.status === "OK") {
         setData(response.data);
+             setPagination((prev) => ({
+          ...prev,
+          total: response.totalItems, // API must return total records
+        }));
       }
     } catch (err) {
       toast.error("Something went wrong");
@@ -122,7 +126,7 @@ const ActionItems = () => {
         />
       )}
       {loading && <Loader />}
-      <MainPanel length={data?.length} text="Action Items">
+      <MainPanel length={pagination?.total} text="Action Items">
         <div>
           <button
             style={{ marginBottom: "10px" }}

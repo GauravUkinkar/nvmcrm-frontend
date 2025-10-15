@@ -70,7 +70,7 @@ const LoginLog = () => {
   return (
     <>
       {loading && <Loader />}
-      <MainPanel length={data?.length} text="Login Logs">
+      <MainPanel length={pagination?.total} text="Login Logs">
         <Table
           data={data}
           columns={columns}

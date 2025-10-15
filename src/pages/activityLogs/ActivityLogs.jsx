@@ -79,7 +79,7 @@ const ActivityLogs = () => {
   return (
     <>
       {loading && <Loader />}
-      <MainPanel length={data?.length} text="Activity Logs">
+      <MainPanel length={pagination?.total} text="Activity Logs">
         <div>
           <button
             style={{ marginBottom: "10px" }}
