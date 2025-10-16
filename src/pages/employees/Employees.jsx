@@ -36,7 +36,12 @@ const Employees = () => {
           ...prev,
           total: response.totalItems, // API must return total records
         }));
-        setData(response.data);
+
+        const soreted = response.data.sort((a,b)=>{
+          return Number(a.empId) - Number(b.empId); 
+        })
+        setData(soreted);
+
       }
     } catch (err) {
       toast.error("Something went wrong");
