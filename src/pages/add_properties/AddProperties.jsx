@@ -26,6 +26,7 @@ const AddProperties = () => {
     projectName: "",
     phase: "",
     plotSize: "",
+    plotSizeSqMt:"",
     ratePerSqft: "",
     otherCosts: "",
     totalRateOfPlot: "",
@@ -117,6 +118,7 @@ const AddProperties = () => {
         projectName: data.projectName,
         phase: data.phase,
         plotSize: data.plotSize,
+        plotSizeSqMt:data.plotSizeSqMt,
         ratePerSqft: data.ratePerSqft,
         otherCosts: data.otherCosts,
         totalRateOfPlot: data.totalRateOfPlot,
@@ -219,6 +221,13 @@ const AddProperties = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 label="Plot Size (Sq. Ft)"
+              />
+              <Input
+                name="plotSizeSqMt"
+                value={values.plotSizeSqMt}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Plot Size (Sq. Mt)"
               />
               <Input
                 name="ratePerSqft"
