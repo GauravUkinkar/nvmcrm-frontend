@@ -123,7 +123,7 @@ const edit= (Id) => {
           </button>
         
             <Table
-              data={data}
+              data={data.reverse()}
               columns={columns}
               showActions={true}
               onEdit={(record) => edit(record.bid)}

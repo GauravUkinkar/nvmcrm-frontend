@@ -137,7 +137,7 @@ const ActionItems = () => {
           </button>
 
           <Table
-            data={data}
+            data={data.reverse()}
             columns={columns}
             handleChange={handleChange}
             showActions={true}

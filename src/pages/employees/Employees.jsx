@@ -173,7 +173,7 @@ const Employees = () => {
           </button>
 
           <Table
-            data={data}
+            data={data.reverse()}
             columns={columns}
             showActions={true}
             onEdit={(record) => edit(record.eid)}

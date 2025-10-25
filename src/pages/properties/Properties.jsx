@@ -32,8 +32,18 @@ const Properties = () => {
       setLoading(true);
       const response = await propertyGetAll();
       if (response.status === "OK") {
+        // setData(
+        //   response.data.sort((a, b) => {
+        //     // Extract numbers from plotNo and compare numerically
+        //     const numA = parseInt(a.plotNo.replace(/\D/g, ""), 10) || 0;
+        //     const numB = parseInt(b.plotNo.replace(/\D/g, ""), 10) || 0;
+        //     return numA - numB;
+        //   })
+        // );
         setData(response.data);
       }
+
+
 
       const saleStatus = [
         ...new Set(
@@ -43,7 +53,7 @@ const Properties = () => {
 
       setSaleStatus(saleStatus);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -59,7 +69,7 @@ const Properties = () => {
         getAllProperty();
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -84,8 +94,12 @@ const Properties = () => {
     setDeletePopup(true);
   };
 
+
+
+
+
   const columns = [
-    { title: "Id", dataIndex: "pid", key: "pid" },
+    // { title: "Id", dataIndex: "pid", key: "pid" },
     {
       title: "Property Type",
       dataIndex: "propertyType",
@@ -169,7 +183,7 @@ const Properties = () => {
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
   ];
 
-   useEffect(() => {
+  useEffect(() => {
     if (plotType && plotStatus) {
       const filtered = data.filter(
         (property) =>
@@ -182,9 +196,11 @@ const Properties = () => {
     }
   }, [data, plotType, plotStatus]);
 
-  const navigateToproepr = ()=>{
-    navigate("/properties")
-  }
+  const navigateToproepr = () => {
+    navigate("/properties");
+  };
+
+
 
   return (
     <>
@@ -199,24 +215,35 @@ const Properties = () => {
       {loading && <Loader />}
       <MainPanel length={data?.length} text="Properties">
         <div>
-         <div class="btn_list" style={{ display: "flex" , justifyContent:"flex-start", gap:"10px"}} > <button
-            style={{ marginBottom: "10px" }}
-            class="btn"
-            onClick={() => ExportDataToExcel(data, "Properties")}
+          <div
+            class="btn_list"
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: "10px",
+            }}
           >
-            Export Data
-          </button>
-       { (plotStatus && plotStatus) &&  <button
-            style={{ marginBottom: "10px" }}
-            class="btn"
-            onClick={navigateToproepr}
-          >
-            View All
-          </button>}
+            {" "}
+            <button
+              style={{ marginBottom: "10px" }}
+              class="btn"
+              onClick={() => ExportDataToExcel(data, "Properties")}
+            >
+              Export Data
+            </button>
+            {plotStatus && plotStatus && (
+              <button
+                style={{ marginBottom: "10px" }}
+                class="btn"
+                onClick={navigateToproepr}
+              >
+                View All
+              </button>
+            )}
           </div>
 
           <Table
-            data={filteredProperties}
+            data={filteredProperties.reverse().sort((a, b) => a.plotNo - b.plotNo)}
             columns={columns}
             showActions={true}
             onEdit={(record) => edit(record.pid)}

@@ -187,7 +187,7 @@ const Table = ({
       <div className="table-scroll">
         <AntTable
           columns={enhancedColumns}
-          dataSource={data.reverse()}
+          dataSource={data}
           onChange={handleChange ? handleChange : handlefilterChange}
           pagination={
             pagination

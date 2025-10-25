@@ -205,7 +205,7 @@ const Clients = () => {
           </button>
 
           <Table
-            data={data}
+            data={data.reverse()}
             columns={columns}
             onChange={handleChange}
             showActions={true}
