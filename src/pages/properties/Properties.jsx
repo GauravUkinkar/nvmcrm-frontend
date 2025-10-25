@@ -127,7 +127,7 @@ const Properties = () => {
 
     { title: "Phase", dataIndex: "phase", key: "phase" },
     { title: "Plot Size (Sq. Ft)", dataIndex: "plotSize", key: "plotSize" },
-    { title: "Plot Size (Sq. Mt)", dataIndex: "plotSizeSqMt", key: "plotSizeSqMt" },
+    { title: "Plot Size (Sq. Mt)", dataIndex: "plotSizeInSqMt", key: "plotSizeInSqMt" },
     { title: "Rate per Sq Ft.", dataIndex: "ratePerSqft", key: "ratePerSqft" },
 
     { title: "Other Costs", dataIndex: "otherCosts", key: "otherCosts" },
