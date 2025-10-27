@@ -117,12 +117,12 @@ const Properties = () => {
       searchable: false,
       onFilter: (value, record) => record.propertyType === value,
     },
-    { title: "Project Name", dataIndex: "projectName", key: "projectName" },
-    {
-      title: "Project Subtitle",
-      dataIndex: "projectSubtitle",
-      key: "projectSubtitle",
-    },
+    // { title: "Project Name", dataIndex: "projectName", key: "projectName" },
+    // {
+    //   title: "Project Subtitle",
+    //   dataIndex: "projectSubtitle",
+    //   key: "projectSubtitle",
+    // },
     { title: "Plot No.", dataIndex: "plotNo", key: "plotNo" },
 
     { title: "Phase", dataIndex: "phase", key: "phase" },
@@ -149,16 +149,16 @@ const Properties = () => {
       onFilter: (value, record) => record.plotSaleStatus === value,
       searchable: false, // This will disable the search filter for this column
     },
-    {
-      title: "Plot Owner - Client ID",
-      dataIndex: "plotOwner",
-      key: "plotOwner",
-    },
-    {
-      title: "Plot Financial Status",
-      dataIndex: "plotFinancialStatus",
-      key: "plotFinancialStatus",
-    },
+    // {
+    //   title: "Plot Owner - Client ID",
+    //   dataIndex: "plotOwner",
+    //   key: "plotOwner",
+    // },
+    // {
+    //   title: "Plot Financial Status",
+    //   dataIndex: "plotFinancialStatus",
+    //   key: "plotFinancialStatus",
+    // },
     {
       title: "Pending Amount Value (INR.)",
       dataIndex: "pendingAmmountValue",

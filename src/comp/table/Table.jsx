@@ -31,7 +31,7 @@ const Table = ({
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
-    window.location.reload()
+    window.location.reload();
   };
 
   const handlefilterChange = (pagination, filters) => {
@@ -208,6 +208,7 @@ const Table = ({
               (sum, col) => sum + (col.width || 150),
               0
             ),
+            y: "calc(100vh - 200px)", // for vertical scroll with fixed header
           }}
           rowKey="id"
         />
