@@ -7,7 +7,10 @@ import { deleteProperty, propertyGetAll } from "../../(api)/Properties";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
+import dayjs from "dayjs";
+import { DatePicker, Button, Space } from "antd";
 
+const { RangePicker } = DatePicker;
 const Properties = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -177,7 +180,75 @@ const Properties = () => {
     },
     { title: "Comments", dataIndex: "comments", key: "comments" },
     { title: "Added by", dataIndex: "addedBy", key: "addedBy" },
-    { title: "Added Date", dataIndex: "addedDate", key: "addedDate" },
+   {
+      title: "Added Date",
+      dataIndex: "addedDate",
+      key: "addedDate",
+      searchable: false,
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <RangePicker
+            value={
+              selectedKeys.length
+                ? [dayjs(selectedKeys[0]), dayjs(selectedKeys[1])]
+                : []
+            }
+            onChange={(dates) =>
+              setSelectedKeys(
+                dates
+                  ? [
+                      dates[0].format("YYYY-MM-DD"),
+                      dates[1].format("YYYY-MM-DD"),
+                    ]
+                  : []
+              )
+            }
+            format="YYYY-MM-DD"
+            style={{ marginBottom: 8, display: "block" }}
+          />
+          <Space>
+            <Button
+              type="primary"
+              onClick={() => confirm()}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Apply
+            </Button>
+            <Button
+              onClick={() => {
+                clearFilters();
+                confirm();
+              }}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+          </Space>
+        </div>
+      ),
+      onFilter: (value, record) => {
+        if (!value || value.length === 0) return true;
+        if (!record.addedDate) return false;
+
+        const recordDate = dayjs(record.addedDate, "YYYY-MM-DD");
+        const start = dayjs(value[0], "YYYY-MM-DD");
+        const end = dayjs(value[1], "YYYY-MM-DD");
+
+        return (
+          recordDate.isSame(start, "day") ||
+          recordDate.isSame(end, "day") ||
+          (recordDate.isAfter(start, "day") && recordDate.isBefore(end, "day"))
+        );
+      },
+      render: (date) => (date ? dayjs(date).format("YYYY-MM-DD") : ""),
+    },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
 
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },

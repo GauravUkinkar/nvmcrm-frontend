@@ -131,8 +131,8 @@ const Clients = () => {
               setSelectedKeys(
                 dates
                   ? [
-                      dates[0].format("YYYY-DD-MM"),
-                      dates[1].format("YYYY-DD-MM"),
+                      dates[0].format("YYYY-MM-DD"),
+                      dates[1].format("YYYY-MM-DD"),
                     ]
                   : []
               )
@@ -166,9 +166,9 @@ const Clients = () => {
         if (!value || value.length === 0) return true;
         if (!record.addedDate) return false;
 
-        const recordDate = dayjs(record.addedDate, "YYYY-DD-MM");
-        const start = dayjs(value[0], "YYYY-DD-MM");
-        const end = dayjs(value[1], "YYYY-DD-MM");
+        const recordDate = dayjs(record.addedDate, "YYYY-MM-DD");
+        const start = dayjs(value[0], "YYYY-MM-DD");
+        const end = dayjs(value[1], "YYYY-MM-DD");
 
         return (
           recordDate.isSame(start, "day") ||
@@ -176,8 +176,9 @@ const Clients = () => {
           (recordDate.isAfter(start, "day") && recordDate.isBefore(end, "day"))
         );
       },
-      render: (date) => (date ? dayjs(date).format("YYYY-DD-MM") : ""),
+      render: (date) => (date ? dayjs(date).format("YYYY-MM-DD") : ""),
     },
+
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
     { title: "Updated Date", dataIndex: "updatedDate", key: "updatedDate" },
     { title: "Updated Time", dataIndex: "updatedTime", key: "updatedTime" },
