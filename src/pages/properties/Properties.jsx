@@ -8,6 +8,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import DeleteConfirmation from "../../comp/deleteConfirmation/DeleteConfirmation";
 import ExportDataToExcel from "../../comp/export_data/ExportData";
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+dayjs.extend(isBetween);
+
 import { DatePicker, Button, Space } from "antd";
 
 const { RangePicker } = DatePicker;
@@ -45,8 +48,6 @@ const Properties = () => {
         // );
         setData(response.data);
       }
-
-
 
       const saleStatus = [
         ...new Set(
@@ -97,10 +98,6 @@ const Properties = () => {
     setDeletePopup(true);
   };
 
-
-
-
-
   const columns = [
     // { title: "Id", dataIndex: "pid", key: "pid" },
     {
@@ -130,7 +127,11 @@ const Properties = () => {
 
     { title: "Phase", dataIndex: "phase", key: "phase" },
     { title: "Plot Size (Sq. Ft)", dataIndex: "plotSize", key: "plotSize" },
-    { title: "Plot Size (Sq. Mt)", dataIndex: "plotSizeInSqMt", key: "plotSizeInSqMt" },
+    {
+      title: "Plot Size (Sq. Mt)",
+      dataIndex: "plotSizeInSqMt",
+      key: "plotSizeInSqMt",
+    },
     { title: "Rate per Sq Ft.", dataIndex: "ratePerSqft", key: "ratePerSqft" },
 
     { title: "Other Costs", dataIndex: "otherCosts", key: "otherCosts" },
@@ -180,7 +181,7 @@ const Properties = () => {
     },
     { title: "Comments", dataIndex: "comments", key: "comments" },
     { title: "Added by", dataIndex: "addedBy", key: "addedBy" },
-   {
+    {
       title: "Added Date",
       dataIndex: "addedDate",
       key: "addedDate",
@@ -195,59 +196,73 @@ const Properties = () => {
           <RangePicker
             value={
               selectedKeys.length
-                ? [dayjs(selectedKeys[0]), dayjs(selectedKeys[1])]
+                ? [
+                    dayjs(selectedKeys[0].split(",")[0]),
+                    dayjs(selectedKeys[0].split(",")[1]),
+                  ]
                 : []
             }
-            onChange={(dates) =>
-              setSelectedKeys(
-                dates
-                  ? [
-                      dates[0].format("YYYY-MM-DD"),
-                      dates[1].format("YYYY-MM-DD"),
-                    ]
-                  : []
-              )
-            }
-            format="YYYY-MM-DD"
+            onChange={(dates) => {
+              if (dates) {
+                // ✅ store the two dates as a single comma-separated string
+                setSelectedKeys([
+                  `${dates[0].format("YYYY-MM-DD")},${dates[1].format(
+                    "YYYY-MM-DD"
+                  )}`,
+                ]);
+              } else {
+                setSelectedKeys([]);
+              }
+            }}
             style={{ marginBottom: 8, display: "block" }}
           />
-          <Space>
-            <Button
-              type="primary"
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <button
               onClick={() => confirm()}
-              size="small"
-              style={{ width: 90 }}
+              style={{
+                background: "#1677ff",
+                color: "#fff",
+                border: "none",
+                padding: "4px 8px",
+                borderRadius: 4,
+              }}
             >
               Apply
-            </Button>
-            <Button
+            </button>
+            <button
               onClick={() => {
-                clearFilters();
-                confirm();
+                if (clearFilters) clearFilters();
+                window.location.reload();
+                confirm({ closeDropdown: true }); // ✅ reapply table with all data
               }}
-              size="small"
-              style={{ width: 90 }}
+              style={{
+                background: "#fff",
+                border: "1px solid #d9d9d9",
+                padding: "4px 8px",
+                borderRadius: 4,
+              }}
             >
               Reset
-            </Button>
-          </Space>
+            </button>
+          </div>
         </div>
       ),
       onFilter: (value, record) => {
-        if (!value || value.length === 0) return true;
-        if (!record.addedDate) return false;
-
-        const recordDate = dayjs(record.addedDate, "YYYY-MM-DD");
-        const start = dayjs(value[0], "YYYY-MM-DD");
-        const end = dayjs(value[1], "YYYY-MM-DD");
+        if (!value) return true;
+        const [start, end] = value.split(",");
+        const recordDate = dayjs(record.addedDate);
+        const startDate = dayjs(start);
+        const endDate = dayjs(end);
 
         return (
-          recordDate.isSame(start, "day") ||
-          recordDate.isSame(end, "day") ||
-          (recordDate.isAfter(start, "day") && recordDate.isBefore(end, "day"))
+          recordDate.isSame(startDate, "day") ||
+          recordDate.isSame(endDate, "day") ||
+          (recordDate.isAfter(startDate, "day") &&
+            recordDate.isBefore(endDate, "day"))
         );
       },
-      render: (date) => (date ? dayjs(date).format("YYYY-MM-DD") : ""),
+
+      render: (text) => (text ? dayjs(text).format("YYYY-MM-DD") : ""),
     },
     { title: "Updated by", dataIndex: "updatedBy", key: "updatedBy" },
 
@@ -271,8 +286,6 @@ const Properties = () => {
   const navigateToproepr = () => {
     navigate("/properties");
   };
-
-
 
   return (
     <>
@@ -315,7 +328,9 @@ const Properties = () => {
           </div>
 
           <Table
-            data={filteredProperties.reverse().sort((a, b) => a.plotNo - b.plotNo)}
+            data={filteredProperties
+              .reverse()
+              .sort((a, b) => a.plotNo - b.plotNo)}
             columns={columns}
             showActions={true}
             onEdit={(record) => edit(record.pid)}

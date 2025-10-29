@@ -142,11 +142,14 @@ const Table = ({
         }),
         filters: getColumnValueFilters(col.dataIndex),
         filteredValue: filteredInfo[col.dataIndex] || null,
-        onFilter: (value, record) =>
-          record[col.dataIndex]
-            ?.toString()
-            .toLowerCase()
-            .includes(value.toString().toLowerCase()),
+        onFilter:
+          col.onFilter ||
+          ((value, record) =>
+            record[col.dataIndex]
+              ?.toString()
+              .toLowerCase()
+              .includes(value.toString().toLowerCase())),
+        filterDropdown: col.filterDropdown || undefined,
         ...(isSearchable ? getColumnSearchProps(col.dataIndex) : {}),
       };
     });
