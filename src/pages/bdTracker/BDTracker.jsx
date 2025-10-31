@@ -11,6 +11,7 @@ import ExportDataToExcel from "../../comp/export_data/ExportData";
 const BDTracker = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [pagination, setPagination] = useState({
     current: 1, // AntD uses 1-based page index
     pageSize: 10,
@@ -133,6 +134,26 @@ const BDTracker = () => {
     }));
   };
 
+
+    const formattedData = data.map((item, index) => ({
+      Id: index + 1,
+      Plot_Number: item?.plotNumber,
+      Marketing_Executive: item?.marketingExecutive,
+      Status: item?.status,
+      Comments: item?.comments,
+      Lead_Generation_Date: item?.leadGenerationDate,
+      Email: item?.emailId,
+      Phone_Number : item?.phoneNo,
+      Broker_Name : item?.reference,
+      Date_of_Future_Contact : item?.dateOfFutureContact,
+      Updated_by : item?.updatedBy,
+      Updated_Date : item?.updatedDate,
+      Updated_Time : item?.updatedTime
+    }));
+
+    
+
+
   return (
     <>
       {deletePopup && (
@@ -149,7 +170,7 @@ const BDTracker = () => {
           <button
             style={{ marginBottom: "10px" }}
             class="btn"
-            onClick={() => ExportDataToExcel(data, "BDtracker")}
+            onClick={() => ExportDataToExcel(formattedData, "BDtracker")}
           >
             Export Data
           </button>
