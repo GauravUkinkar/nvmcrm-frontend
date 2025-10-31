@@ -26,7 +26,7 @@ const AddBdtracker = () => {
   const [properties, setProperties] = useState();
   const [employeeName, setEmployeeName] = useState();
   const bdId = searchparams.get("bdId");
-  const date = new Date()
+  const date = new Date();
   const navigate = useNavigate();
   const formObj = {
     plotNumber: "",
@@ -239,7 +239,6 @@ const AddBdtracker = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 type="date"
-               
               />
             </div>
             <div class="form-row">
@@ -277,11 +276,13 @@ const AddBdtracker = () => {
               >
                 <option value="">Select Client</option>
                 {clientList &&
-                  clientList?.map((item, index) => (
-                    <option key={index} value={item?.clientName}>
-                      {item?.clientName}
-                    </option>
-                  ))}
+                  clientList
+                    .sort((a, b) => a.clientName.localeCompare(b.clientName))
+                    ?.map((item, index) => (
+                      <option key={index} value={item?.clientName}>
+                        {item?.clientName}
+                      </option>
+                    ))}
               </SelectInput>
               <SelectInput
                 label="Status"
@@ -317,7 +318,7 @@ const AddBdtracker = () => {
                 value={values.phoneNo}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                 disabled={bdId ? true : false}
+                disabled={bdId ? true : false}
               />
             </div>
 
@@ -346,7 +347,6 @@ const AddBdtracker = () => {
                   value={values.comments}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  
                   id=""
                 ></textarea>
               </div>
