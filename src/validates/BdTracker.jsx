@@ -1,9 +1,9 @@
 export const bdTrackerValidate = (values) => {
   let error = {};
 
-  if (!values.plotNumber) {
-    error.plotNumber = "Plot Number is required";
-  }
+  // if (!values.plotNumber) {
+  //   error.plotNumber = "Plot Number is required";
+  // }
   if (!values.potentialClientName) {
     error.potentialClientName = "Client Name is required";
   }

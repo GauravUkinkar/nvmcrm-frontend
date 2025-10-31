@@ -198,11 +198,11 @@ const Table = ({
                   current: pagination.current,
                   pageSize: pagination.pageSize,
                   total: pagination.total,
-                  pageSizeOptions: ["5", "10", "20", "50", "100"],
+                  pageSizeOptions: ["5", "10", "20", "50", "100","250","500","5000","10000"],
                   showSizeChanger: true,
                 }
               : {
-                  pageSizeOptions: ["5", "10", "20", "50", "100"],
+                  pageSizeOptions: ["5", "10", "20", "50", "100","250","500","5000","10000"],
                   showSizeChanger: true,
                 }
           }
