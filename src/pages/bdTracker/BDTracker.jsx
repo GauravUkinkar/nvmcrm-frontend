@@ -138,6 +138,7 @@ const BDTracker = () => {
     const formattedData = data.map((item, index) => ({
       Id: index + 1,
       Plot_Number: item?.plotNumber,
+      Potential_Client_Name : item?.potentialClientName,
       Marketing_Executive: item?.marketingExecutive,
       Status: item?.status,
       Comments: item?.comments,

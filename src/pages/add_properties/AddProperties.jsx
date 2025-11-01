@@ -285,6 +285,7 @@ const AddProperties = () => {
                 <option value="">Select Property type</option>
                 <option value="Residential">Residential</option>
                 <option value="Commercial">Commercial</option>
+                  <option value="Reserved For IT">Reserved For IT</option>
               </SelectInput>
             </div>
             <div class="form-row">
